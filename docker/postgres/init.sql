@@ -1,18 +1,18 @@
--- Phase 0: فقط اسکلت دیتابیس
 CREATE TABLE IF NOT EXISTS users (
-  id SERIAL PRIMARY KEY,
+  id BIGSERIAL PRIMARY KEY,
   username TEXT UNIQUE NOT NULL,
-  password_hash TEXT NOT NULL,
-  created_at TIMESTAMP NOT NULL DEFAULT NOW()
+  pass_hash TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE TABLE IF NOT EXISTS transfers (
-  id SERIAL PRIMARY KEY,
-  transfer_id TEXT UNIQUE NOT NULL,
-  sender TEXT NOT NULL,
-  receiver TEXT NOT NULL,
-  filename TEXT NOT NULL,
-  total_bytes BIGINT NOT NULL DEFAULT 0,
-  status TEXT NOT NULL DEFAULT 'CREATED',
-  created_at TIMESTAMP NOT NULL DEFAULT NOW()
+CREATE TABLE IF NOT EXISTS sessions (
+  id BIGSERIAL PRIMARY KEY,
+  user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  token TEXT UNIQUE NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  expires_at TIMESTAMPTZ NOT NULL,
+  last_seen_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+CREATE INDEX IF NOT EXISTS idx_sessions_user_id ON sessions(user_id);
+CREATE INDEX IF NOT EXISTS idx_sessions_token ON sessions(token);
