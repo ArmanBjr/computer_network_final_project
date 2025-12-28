@@ -10,7 +10,8 @@ Phase 0: project skeleton (C++ core + C++ client + FastAPI gateway + Docker comp
 
 ## Run (Docker)
 From repo root:
-```bash
+
+```
 docker compose -f docker/compose.yml up --build
 Gateway: http://localhost:8000
 Core: TCP 9000 (echo test)
@@ -39,5 +40,4 @@ python -m venv .venv && source .venv/bin/activate
 pip install -e .
 uvicorn app.main:app --host 0.0.0.0 --port 8000
 yaml
-Copy code
-```"# computer_network_final_project" 
+```
