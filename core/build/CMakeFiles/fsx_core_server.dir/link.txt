@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/fsx_core_server.dir/src/main.cpp.o CMakeFiles/fsx_core_server.dir/src/net/tcp_server.cpp.o CMakeFiles/fsx_core_server.dir/src/net/tcp_session.cpp.o CMakeFiles/fsx_core_server.dir/src/log/logger.cpp.o -o fsx_core_server  /usr/lib/x86_64-linux-gnu/libboost_system.so.1.83.0 -lpthread 

@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/fsx_core.dir/src/main.cpp.o CMakeFiles/fsx_core.dir/src/net/tcp_server.cpp.o CMakeFiles/fsx_core.dir/src/net/tcp_session.cpp.o -o fsx_core  -lpthread 

@@ -1,0 +1,3 @@
+/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/client/build/CMakeFiles/fsx_client.dir
+/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/client/build/CMakeFiles/edit_cache.dir
+/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/client/build/CMakeFiles/rebuild_cache.dir

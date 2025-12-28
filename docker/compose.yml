@@ -1,0 +1,54 @@
+services:
+  db:
+    image: postgres:16
+    container_name: fsx_db
+    environment:
+      POSTGRES_USER: fsx
+      POSTGRES_PASSWORD: fsxpass
+      POSTGRES_DB: fsx
+    ports:
+      - "5432:5432"
+    volumes:
+      - fsx_pgdata:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+  core:
+    build:
+      context: ..
+      dockerfile: docker/core.Dockerfile
+    container_name: fsx_core
+    depends_on:
+      - db
+    environment:
+      FSX_TCP_PORT: "9000"
+      FSX_ADMIN_PORT: "9100"
+      FSX_DB_HOST: "db"
+      FSX_DB_PORT: "5432"
+      FSX_DB_USER: "fsx"
+      FSX_DB_PASSWORD: "fsxpass"
+      FSX_DB_NAME: "fsx"
+      FSX_LOG_PATH: "/var/log/fsx/report.log"
+    ports:
+      - "9000:9000"
+      - "9100:9100"
+    volumes:
+      - fsx_logs:/var/log/fsx
+
+  gateway:
+    build:
+      context: ..
+      dockerfile: docker/gateway.Dockerfile
+    container_name: fsx_gateway
+    depends_on:
+      - core
+    environment:
+      FSX_GATEWAY_HOST: "0.0.0.0"
+      FSX_GATEWAY_PORT: "8000"
+      FSX_CORE_ADMIN_HOST: "core"
+      FSX_CORE_ADMIN_PORT: "9100"
+    ports:
+      - "8000:8000"
+
+volumes:
+  fsx_pgdata:
+  fsx_logs:

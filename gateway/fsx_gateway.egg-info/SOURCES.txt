@@ -1,0 +1,13 @@
+pyproject.toml
+app/core_client.py
+app/main.py
+app/settings.py
+app/api/routes_admin.py
+app/api/ws_dashboard.py
+app/services/auth_admin.py
+app/services/dashboard_state.py
+fsx_gateway.egg-info/PKG-INFO
+fsx_gateway.egg-info/SOURCES.txt
+fsx_gateway.egg-info/dependency_links.txt
+fsx_gateway.egg-info/requires.txt
+fsx_gateway.egg-info/top_level.txt

@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block content %}
+  <section class="card">
+    <h2>Gateway Status</h2>
+    <div id="status">Connecting...</div>
+    <div class="hint">WebSocket: <code>/ws</code></div>
+  </section>
+
+  <section class="card">
+    <h2>Next (Phase 1)</h2>
+    <ul>
+      <li>Connect gateway to core admin port (9100)</li>
+      <li>Show online users, transfers, logs</li>
+      <li>Buttons: throttle / pause / resume</li>
+    </ul>
+  </section>
+{% endblock %}
