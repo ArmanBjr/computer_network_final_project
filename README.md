@@ -148,7 +148,8 @@ docker compose -f docker/compose.yml down
 
 ## Run (Docker)
 From repo root:
-```bash
+
+```
 docker compose -f docker/compose.yml up --build
 ```
 
@@ -181,5 +182,4 @@ python -m venv .venv && source .venv/bin/activate
 pip install -e .
 uvicorn app.main:app --host 0.0.0.0 --port 8000
 yaml
-Copy code
-```"# computer_network_final_project" 
+```
