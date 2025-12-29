@@ -14,7 +14,18 @@ static constexpr size_t   HEADER_SIZE = 12;
 enum class MsgType : uint8_t {
   HELLO = 1,
   PING  = 2,
-  PONG  = 3
+  PONG  = 3,
+  // Auth messages
+  REGISTER_REQ  = 10,
+  REGISTER_RESP = 11,
+  LOGIN_REQ     = 12,
+  LOGIN_RESP    = 13,
+  // Online list
+  ONLINE_LIST_REQ  = 20,
+  ONLINE_LIST_RESP = 21,
+  // Admin messages (port 9100)
+  ADMIN_ONLINE_LIST_REQ  = 100,
+  ADMIN_ONLINE_LIST_RESP = 101
 };
 
 #pragma pack(push, 1)

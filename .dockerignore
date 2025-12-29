@@ -1,0 +1,62 @@
+# Build artifacts
+**/build/
+**/cmake-build-*/
+**/*.o
+**/*.a
+**/*.so
+**/*.dylib
+**/*.exe
+**/*.dll
+**/*.pdb
+
+# CMake
+**/CMakeFiles/
+**/CMakeCache.txt
+**/cmake_install.cmake
+**/Makefile
+**/.cmake/
+
+# IDE
+**/.vscode/
+**/.idea/
+**/*.swp
+**/*.swo
+**/*~
+
+# Git
+.git/
+.gitignore
+
+# Python
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+**/.Python
+**/venv/
+**/env/
+**/.venv
+**/*.egg-info/
+
+# Logs
+**/*.log
+**/logs/
+
+# OS
+**/.DS_Store
+**/Thumbs.db
+
+# Docker
+docker/compose.yml
+docker/*.Dockerfile
+
+# Docs (optional - include if needed)
+# docs/
+
+# Scripts (optional)
+# scripts/
+
+# Test files
+**/*.pcap
+**/test_files/
+

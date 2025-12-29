@@ -1,43 +1,82 @@
-#include <boost/asio.hpp>
-#include <iostream>
+#include "fsx/db/db.h"
+#include "fsx/db/user_repository.h"
+#include "fsx/db/session_repository.h"
 #include "fsx/net/tcp_server.h"
-#include "fsx/storage/db_client.h"
+#include "fsx/net/auth_handler.h"
+#include <boost/asio.hpp>
+#include <cstdlib>
+#include <iostream>
 
-static void db_smoke_test() {
-  fsx::DbConfig cfg = fsx::load_db_config_from_env();
-
-  fsx::DbClient db;
-  db.connect(cfg);
-
-  {
-    PGresult* r = db.exec("SELECT 1;");
-    fsx::DbClient::expect(r, PGRES_TUPLES_OK, "SELECT 1");
-    PQclear(r);
+// Make stdout unbuffered for Docker logs
+static struct UnbufferedStdout {
+  UnbufferedStdout() {
+    std::cout.setf(std::ios::unitbuf);
+    std::cerr.setf(std::ios::unitbuf);
   }
+} unbuffered_stdout;
 
-  {
-    PGresult* r = db.exec("SELECT COUNT(*) FROM users;");
-    fsx::DbClient::expect(r, PGRES_TUPLES_OK, "COUNT users");
-    PQclear(r);
+static std::string env_or(const char* k, const char* defv) {
+  const char* v = std::getenv(k);
+  return v ? std::string(v) : std::string(defv);
+}
+
+static int env_int_or(const char* k, int defv) {
+  const char* v = std::getenv(k);
+  if (!v || strlen(v) == 0) return defv;
+  try {
+    return std::stoi(v);
+  } catch (...) {
+    return defv;
   }
-
-  std::cout << "[db] connected + schema OK (users table exists)\n";
 }
 
 int main(int argc, char** argv) {
   try {
-    db_smoke_test();
+    // Connect to database
+    fsx::db::DbConfig cfg;
+    cfg.host = env_or("FSX_DB_HOST", "localhost");
+    cfg.port = env_int_or("FSX_DB_PORT", 5432);
+    cfg.user = env_or("FSX_DB_USER", "fsx");
+    cfg.password = env_or("FSX_DB_PASSWORD", "fsxpass");
+    cfg.name = env_or("FSX_DB_NAME", "fsx");
+
+    fsx::db::Db db(cfg);
+    db.connect();
+    std::cout << "[DB] connected\n";
+    std::cout.flush();
+
+    // Create repositories
+    fsx::db::UserRepository users(db);
+    fsx::db::SessionRepository sessions(db);
+
+    // Create auth handler
+    fsx::net::AuthHandler auth_handler(users, sessions);
+
+    // Start TCP server
+    uint16_t port = 9000;
+    if (argc >= 2) {
+      try {
+        port = static_cast<uint16_t>(std::stoi(argv[1]));
+      } catch (...) {
+        std::cerr << "Warning: invalid port argument, using default 9000\n";
+      }
+    }
+    // Also check environment variable
+    int env_port = env_int_or("FSX_TCP_PORT", 0);
+    if (env_port > 0 && env_port <= 65535) {
+      port = static_cast<uint16_t>(env_port);
+    }
+
+    boost::asio::io_context io;
+    fsx::net::TcpServer server(io, port, auth_handler);
+    server.start();
+
+    std::cout << "[core] server started on port " << port << ", running...\n";
+    std::cout.flush();
+    io.run();
+    return 0;
   } catch (const std::exception& e) {
-    std::cerr << "[db] FATAL: " << e.what() << "\n";
+    std::cerr << "fatal: " << e.what() << "\n";
     return 1;
   }
-  uint16_t port = 9000;
-  if (argc >= 2) port = (uint16_t)std::stoi(argv[1]);
-
-  boost::asio::io_context io;
-  fsx::net::TcpServer server(io, port);
-  server.start();
-
-  io.run();
-  return 0;
 }

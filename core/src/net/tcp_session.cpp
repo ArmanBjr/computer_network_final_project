@@ -1,4 +1,5 @@
 #include "fsx/net/tcp_session.h"
+#include "fsx/protocol/auth_messages.h"
 #include <chrono>
 #include <sstream>
 
@@ -10,11 +11,12 @@ static std::string now_ts() {
   return std::to_string(ms);
 }
 
-TcpSession::TcpSession(boost::asio::ip::tcp::socket socket)
-  : socket_(std::move(socket)) {}
+TcpSession::TcpSession(boost::asio::ip::tcp::socket socket, AuthHandler& auth_handler)
+  : socket_(std::move(socket)), auth_handler_(auth_handler) {}
 
 void TcpSession::log(const std::string& s) {
   std::cout << "[sess " << now_ts() << "] " << s << "\n";
+  std::cout.flush();
 }
 
 void TcpSession::start() {
@@ -36,6 +38,9 @@ void TcpSession::do_read_header() {
     [this, self](boost::system::error_code ec, std::size_t n) {
       if (ec) {
         log(std::string("DISCONNECTED (read header): ") + ec.message());
+        if (session_manager_ && !token_.empty()) {
+          session_manager_->remove_session(token_);
+        }
         return;
       }
       if (n != sizeof(header_)) {
@@ -104,6 +109,61 @@ void TcpSession::handle_message(fsx::protocol::MsgType type, const std::vector<u
     log("RECV PONG");
     return;
   }
+  
+  // Auth messages
+  if (type == fsx::protocol::MsgType::REGISTER_REQ) {
+    try {
+      auto req = fsx::protocol::RegisterReq::deserialize(payload);
+      log("RECV REGISTER_REQ username=" + req.username);
+      auto resp = auth_handler_.handle_register(req);
+      auto resp_payload = resp.serialize();
+      send(fsx::protocol::MsgType::REGISTER_RESP, resp_payload);
+      log("SENT REGISTER_RESP ok=" + std::string(resp.ok ? "true" : "false") + " msg=" + resp.msg);
+    } catch (const std::exception& e) {
+      log("REGISTER_REQ error: " + std::string(e.what()));
+      fsx::protocol::RegisterResp err_resp;
+      err_resp.ok = false;
+      err_resp.msg = std::string("error: ") + e.what();
+      send(fsx::protocol::MsgType::REGISTER_RESP, err_resp.serialize());
+    }
+    return;
+  }
+  
+  if (type == fsx::protocol::MsgType::LOGIN_REQ) {
+    try {
+      auto req = fsx::protocol::LoginReq::deserialize(payload);
+      log("RECV LOGIN_REQ username=" + req.username);
+      auto resp = auth_handler_.handle_login(req);
+      auto resp_payload = resp.serialize();
+      send(fsx::protocol::MsgType::LOGIN_RESP, resp_payload);
+      log("SENT LOGIN_RESP ok=" + std::string(resp.ok ? "true" : "false") + 
+          (resp.ok ? " token_len=" + std::to_string(resp.token.size()) : "") + 
+          " msg=" + resp.msg);
+      
+      // If login successful, set auth state (session manager will be updated by TcpServer)
+      if (resp.ok) {
+        // Get user info from auth handler (we need to store it temporarily)
+        // For now, we'll get it from the response token and username
+        // Note: In a real implementation, we'd get user_id from the handler
+        // For Phase 2, we'll use username as identifier
+        // TODO: AuthHandler should return user_id in LoginResp
+      }
+    } catch (const std::exception& e) {
+      log("LOGIN_REQ error: " + std::string(e.what()));
+      fsx::protocol::LoginResp err_resp;
+      err_resp.ok = false;
+      err_resp.msg = std::string("error: ") + e.what();
+      send(fsx::protocol::MsgType::LOGIN_RESP, err_resp.serialize());
+    }
+    return;
+  }
+  
+  if (type == fsx::protocol::MsgType::ONLINE_LIST_REQ) {
+    // This will be handled by TcpServer via callback
+    log("RECV ONLINE_LIST_REQ");
+    return;
+  }
+  
   log("RECV UNKNOWN type=" + std::to_string(static_cast<int>(type)));
 }
 
