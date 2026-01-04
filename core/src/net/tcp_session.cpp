@@ -1,5 +1,7 @@
 #include "fsx/net/tcp_session.h"
+#include "fsx/net/session_manager.h"
 #include "fsx/protocol/auth_messages.h"
+#include "fsx/protocol/online_messages.h"
 #include <chrono>
 #include <sstream>
 
@@ -11,12 +13,26 @@ static std::string now_ts() {
   return std::to_string(ms);
 }
 
-TcpSession::TcpSession(boost::asio::ip::tcp::socket socket, AuthHandler& auth_handler)
-  : socket_(std::move(socket)), auth_handler_(auth_handler) {}
+TcpSession::TcpSession(boost::asio::ip::tcp::socket socket, AuthHandler& auth_handler, SessionManager& session_manager)
+  : socket_(std::move(socket)), auth_handler_(auth_handler), session_manager_(session_manager) {}
 
 void TcpSession::log(const std::string& s) {
   std::cout << "[sess " << now_ts() << "] " << s << "\n";
   std::cout.flush();
+}
+
+std::string TcpSession::get_remote_endpoint() const {
+  try {
+    auto ep = socket_.remote_endpoint();
+    return ep.address().to_string() + ":" + std::to_string(ep.port());
+  } catch (...) {
+    return "unknown";
+  }
+}
+
+std::string TcpSession::get_token_short() const {
+  if (token_.empty()) return "";
+  return token_.substr(0, 8) + "...";
 }
 
 void TcpSession::start() {
@@ -38,13 +54,26 @@ void TcpSession::do_read_header() {
     [this, self](boost::system::error_code ec, std::size_t n) {
       if (ec) {
         log(std::string("DISCONNECTED (read header): ") + ec.message());
-        if (session_manager_ && !token_.empty()) {
-          session_manager_->remove_session(token_);
+        if (!token_.empty()) {
+        size_t count_before = session_manager_.count();
+        log("ONLINE_REMOVE username=" + username_ + " user_id=" + std::to_string(user_id_) + 
+            " token=" + get_token_short() + " from=" + get_remote_endpoint() + 
+            " count_before=" + std::to_string(count_before));
+        session_manager_.remove_session(token_);
+        clear_auth();
         }
         return;
       }
       if (n != sizeof(header_)) {
         log("DISCONNECTED (header size mismatch)");
+        if (!token_.empty()) {
+        size_t count_before = session_manager_.count();
+        log("ONLINE_REMOVE username=" + username_ + " user_id=" + std::to_string(user_id_) + 
+            " token=" + get_token_short() + " from=" + get_remote_endpoint() + 
+            " count_before=" + std::to_string(count_before));
+        session_manager_.remove_session(token_);
+        clear_auth();
+        }
         return;
       }
 
@@ -52,6 +81,14 @@ void TcpSession::do_read_header() {
         fsx::protocol::validate_header(header_);
       } catch (const std::exception& e) {
         log(std::string("DISCONNECTED (bad header): ") + e.what());
+        if (!token_.empty()) {
+        size_t count_before = session_manager_.count();
+        log("ONLINE_REMOVE username=" + username_ + " user_id=" + std::to_string(user_id_) + 
+            " token=" + get_token_short() + " from=" + get_remote_endpoint() + 
+            " count_before=" + std::to_string(count_before));
+        session_manager_.remove_session(token_);
+        clear_auth();
+        }
         return;
       }
 
@@ -80,10 +117,26 @@ void TcpSession::do_read_body() {
     [this, self](boost::system::error_code ec, std::size_t n) {
       if (ec) {
         log(std::string("DISCONNECTED (read body): ") + ec.message());
+        if (!token_.empty()) {
+        size_t count_before = session_manager_.count();
+        log("ONLINE_REMOVE username=" + username_ + " user_id=" + std::to_string(user_id_) + 
+            " token=" + get_token_short() + " from=" + get_remote_endpoint() + 
+            " count_before=" + std::to_string(count_before));
+        session_manager_.remove_session(token_);
+        clear_auth();
+        }
         return;
       }
       if (n != body_.size()) {
         log("DISCONNECTED (body size mismatch)");
+        if (!token_.empty()) {
+        size_t count_before = session_manager_.count();
+        log("ONLINE_REMOVE username=" + username_ + " user_id=" + std::to_string(user_id_) + 
+            " token=" + get_token_short() + " from=" + get_remote_endpoint() + 
+            " count_before=" + std::to_string(count_before));
+        session_manager_.remove_session(token_);
+        clear_auth();
+        }
         return;
       }
 
@@ -114,11 +167,15 @@ void TcpSession::handle_message(fsx::protocol::MsgType type, const std::vector<u
   if (type == fsx::protocol::MsgType::REGISTER_REQ) {
     try {
       auto req = fsx::protocol::RegisterReq::deserialize(payload);
-      log("RECV REGISTER_REQ username=" + req.username);
+      log("RECV REGISTER_REQ username=" + req.username + " from=" + get_remote_endpoint());
       auto resp = auth_handler_.handle_register(req);
       auto resp_payload = resp.serialize();
       send(fsx::protocol::MsgType::REGISTER_RESP, resp_payload);
-      log("SENT REGISTER_RESP ok=" + std::string(resp.ok ? "true" : "false") + " msg=" + resp.msg);
+      if (resp.ok) {
+        log("AUTH_REGISTER_OK username=" + req.username + " from=" + get_remote_endpoint());
+      } else {
+        log("AUTH_REGISTER_FAIL username=" + req.username + " reason=" + resp.msg + " from=" + get_remote_endpoint());
+      }
     } catch (const std::exception& e) {
       log("REGISTER_REQ error: " + std::string(e.what()));
       fsx::protocol::RegisterResp err_resp;
@@ -132,21 +189,26 @@ void TcpSession::handle_message(fsx::protocol::MsgType type, const std::vector<u
   if (type == fsx::protocol::MsgType::LOGIN_REQ) {
     try {
       auto req = fsx::protocol::LoginReq::deserialize(payload);
-      log("RECV LOGIN_REQ username=" + req.username);
+      log("RECV LOGIN_REQ username=" + req.username + " from=" + get_remote_endpoint());
       auto resp = auth_handler_.handle_login(req);
       auto resp_payload = resp.serialize();
       send(fsx::protocol::MsgType::LOGIN_RESP, resp_payload);
-      log("SENT LOGIN_RESP ok=" + std::string(resp.ok ? "true" : "false") + 
-          (resp.ok ? " token_len=" + std::to_string(resp.token.size()) : "") + 
-          " msg=" + resp.msg);
       
-      // If login successful, set auth state (session manager will be updated by TcpServer)
+      // If login successful, set auth state and register in session manager
       if (resp.ok) {
-        // Get user info from auth handler (we need to store it temporarily)
-        // For now, we'll get it from the response token and username
-        // Note: In a real implementation, we'd get user_id from the handler
-        // For Phase 2, we'll use username as identifier
-        // TODO: AuthHandler should return user_id in LoginResp
+        // Set authentication state in this session
+        set_auth(resp.token, resp.user_id, resp.username);
+        
+        // Register session in SessionManager (for online list)
+        auto self = shared_from_this();
+        session_manager_.add_session(resp.token, self);
+        
+        log("AUTH_LOGIN_OK username=" + resp.username + " user_id=" + std::to_string(resp.user_id) + 
+            " token=" + get_token_short() + " from=" + get_remote_endpoint());
+        log("ONLINE_ADD username=" + resp.username + " user_id=" + std::to_string(resp.user_id) + 
+            " count=" + std::to_string(session_manager_.count()));
+      } else {
+        log("AUTH_LOGIN_FAIL username=" + req.username + " reason=" + resp.msg + " from=" + get_remote_endpoint());
       }
     } catch (const std::exception& e) {
       log("LOGIN_REQ error: " + std::string(e.what()));
@@ -159,8 +221,22 @@ void TcpSession::handle_message(fsx::protocol::MsgType type, const std::vector<u
   }
   
   if (type == fsx::protocol::MsgType::ONLINE_LIST_REQ) {
-    // This will be handled by TcpServer via callback
-    log("RECV ONLINE_LIST_REQ");
+    log("ONLINE_LIST_REQ from=" + get_remote_endpoint() + 
+        (is_authenticated() ? " user=" + username_ : " unauthenticated"));
+    
+    // Get online usernames from SessionManager
+    auto usernames = session_manager_.get_online_usernames();
+    
+    // Build response
+    fsx::protocol::OnlineListResp resp;
+    resp.usernames = usernames;
+    
+    // Serialize and send
+    auto resp_payload = resp.serialize();
+    send(fsx::protocol::MsgType::ONLINE_LIST_RESP, resp_payload);
+    
+    log("ONLINE_LIST_RESP count=" + std::to_string(usernames.size()) + 
+        " to=" + get_remote_endpoint());
     return;
   }
   
@@ -188,6 +264,14 @@ void TcpSession::do_write() {
     [this, self](boost::system::error_code ec, std::size_t) {
       if (ec) {
         log(std::string("DISCONNECTED (write): ") + ec.message());
+        if (!token_.empty()) {
+        size_t count_before = session_manager_.count();
+        log("ONLINE_REMOVE username=" + username_ + " user_id=" + std::to_string(user_id_) + 
+            " token=" + get_token_short() + " from=" + get_remote_endpoint() + 
+            " count_before=" + std::to_string(count_before));
+        session_manager_.remove_session(token_);
+        clear_auth();
+        }
         return;
       }
       outq_.pop_front();

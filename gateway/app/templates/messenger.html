@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>FileShareX - Messenger</title>
+  <link rel="stylesheet" href="/static/css/messenger.css"/>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+  <div class="messenger-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h2>FileShareX</h2>
+        <div class="user-info">
+          <span id="current-username">User</span>
+          <button onclick="handleLogout()" class="logout-btn">
+            <i class='bx bx-log-out'></i> Logout
+          </button>
+        </div>
+      </div>
+      
+      <div class="sidebar-content">
+        <div class="section">
+          <h3>Online Users</h3>
+          <div id="online-users-list" class="users-list">
+            <div class="empty-state">Loading...</div>
+          </div>
+        </div>
+        
+        <div class="section">
+          <h3>File Transfers</h3>
+          <div id="transfers-list" class="transfers-list">
+            <div class="empty-state">No active transfers</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="content-header">
+        <h1>Welcome to FileShareX</h1>
+        <p>Select a user to start chatting or sharing files</p>
+      </div>
+      
+      <div class="content-body">
+        <div class="welcome-message">
+          <i class='bx bx-message-rounded-dots' style="font-size: 4rem; color: #4EA685; margin-bottom: 1rem;"></i>
+          <h2>Get Started</h2>
+          <p>Choose a user from the sidebar to start a conversation</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/js/messenger.js"></script>
+</body>
+</html>
+

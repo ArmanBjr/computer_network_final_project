@@ -129,6 +129,32 @@ fsx_client/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_client.dir/build.make CMakeFiles/fsx_client.dir/build
 .PHONY : fsx_client/fast
 
+#=============================================================================
+# Target rules for targets named test_auth
+
+# Build rule for target.
+test_auth: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_auth
+.PHONY : test_auth
+
+# fast build rule for target.
+test_auth/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_auth.dir/build.make CMakeFiles/test_auth.dir/build
+.PHONY : test_auth/fast
+
+#=============================================================================
+# Target rules for targets named test_persistent
+
+# Build rule for target.
+test_persistent: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_persistent
+.PHONY : test_persistent
+
+# fast build rule for target.
+test_persistent/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_persistent.dir/build.make CMakeFiles/test_persistent.dir/build
+.PHONY : test_persistent/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -153,6 +179,54 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_client.dir/build.make CMakeFiles/fsx_client.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/test_auth.o: src/test_auth.cpp.o
+.PHONY : src/test_auth.o
+
+# target to build an object file
+src/test_auth.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_auth.dir/build.make CMakeFiles/test_auth.dir/src/test_auth.cpp.o
+.PHONY : src/test_auth.cpp.o
+
+src/test_auth.i: src/test_auth.cpp.i
+.PHONY : src/test_auth.i
+
+# target to preprocess a source file
+src/test_auth.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_auth.dir/build.make CMakeFiles/test_auth.dir/src/test_auth.cpp.i
+.PHONY : src/test_auth.cpp.i
+
+src/test_auth.s: src/test_auth.cpp.s
+.PHONY : src/test_auth.s
+
+# target to generate assembly for a file
+src/test_auth.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_auth.dir/build.make CMakeFiles/test_auth.dir/src/test_auth.cpp.s
+.PHONY : src/test_auth.cpp.s
+
+src/test_persistent.o: src/test_persistent.cpp.o
+.PHONY : src/test_persistent.o
+
+# target to build an object file
+src/test_persistent.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_persistent.dir/build.make CMakeFiles/test_persistent.dir/src/test_persistent.cpp.o
+.PHONY : src/test_persistent.cpp.o
+
+src/test_persistent.i: src/test_persistent.cpp.i
+.PHONY : src/test_persistent.i
+
+# target to preprocess a source file
+src/test_persistent.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_persistent.dir/build.make CMakeFiles/test_persistent.dir/src/test_persistent.cpp.i
+.PHONY : src/test_persistent.cpp.i
+
+src/test_persistent.s: src/test_persistent.cpp.s
+.PHONY : src/test_persistent.s
+
+# target to generate assembly for a file
+src/test_persistent.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_persistent.dir/build.make CMakeFiles/test_persistent.dir/src/test_persistent.cpp.s
+.PHONY : src/test_persistent.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -162,9 +236,17 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... fsx_client"
+	@echo "... test_auth"
+	@echo "... test_persistent"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/test_auth.o"
+	@echo "... src/test_auth.i"
+	@echo "... src/test_auth.s"
+	@echo "... src/test_persistent.o"
+	@echo "... src/test_persistent.i"
+	@echo "... src/test_persistent.s"
 .PHONY : help
 
 

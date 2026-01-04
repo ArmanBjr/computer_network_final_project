@@ -41,11 +41,24 @@ services:
     container_name: fsx_gateway
     depends_on:
       - core
+      - db
     environment:
       FSX_GATEWAY_HOST: "0.0.0.0"
       FSX_GATEWAY_PORT: "8000"
       FSX_CORE_ADMIN_HOST: "core"
       FSX_CORE_ADMIN_PORT: "9100"
+      FSX_DB_HOST: "db"
+      FSX_DB_PORT: "5432"
+      FSX_DB_USER: "fsx"
+      FSX_DB_PASSWORD: "fsxpass"
+      FSX_DB_NAME: "fsx"
+      # Email settings (optional - set these to enable email sending)
+      FSX_SMTP_HOST: ${FSX_SMTP_HOST:-smtp.gmail.com}
+      FSX_SMTP_PORT: ${FSX_SMTP_PORT:-587}
+      FSX_SMTP_USER: ${FSX_SMTP_USER:-}
+      FSX_SMTP_PASSWORD: ${FSX_SMTP_PASSWORD:-}
+      FSX_SMTP_FROM: ${FSX_SMTP_FROM:-${FSX_SMTP_USER}}
+      FSX_RESET_BASE_URL: ${FSX_RESET_BASE_URL:-http://localhost:8000}
     ports:
       - "8000:8000"
 

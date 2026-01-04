@@ -9,9 +9,11 @@
 
 namespace fsx::net {
 
+class SessionManager;
+
 class TcpSession : public std::enable_shared_from_this<TcpSession> {
 public:
-  TcpSession(boost::asio::ip::tcp::socket socket, AuthHandler& auth_handler);
+  TcpSession(boost::asio::ip::tcp::socket socket, AuthHandler& auth_handler, SessionManager& session_manager);
   void start();
 
   // Auth state
@@ -34,6 +36,8 @@ public:
 
 private:
   void log(const std::string& s);
+  std::string get_remote_endpoint() const;
+  std::string get_token_short() const;
 
   void do_read_header();
   void do_read_body();
@@ -45,6 +49,7 @@ private:
 
   boost::asio::ip::tcp::socket socket_;
   AuthHandler& auth_handler_;
+  SessionManager& session_manager_;
 
   // Auth state
   std::string token_;

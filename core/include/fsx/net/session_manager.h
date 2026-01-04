@@ -20,7 +20,7 @@ class SessionManager {
 
  private:
   mutable std::mutex mutex_;
-  std::unordered_map<std::string, std::weak_ptr<TcpSession>> sessions_; // token -> session
+  mutable std::unordered_map<std::string, std::weak_ptr<TcpSession>> sessions_; // token -> session
 };
 
 } // namespace fsx::net

@@ -1,0 +1,15 @@
+# Example: Add these environment variables to docker/compose.yml
+# Copy this to docker/compose.yml and fill in your credentials
+
+gateway:
+  environment:
+    # ... existing vars ...
+    
+    # Email settings (Gmail example)
+    FSX_SMTP_HOST: smtp.gmail.com
+    FSX_SMTP_PORT: 587
+    FSX_SMTP_USER: your-email@gmail.com
+    FSX_SMTP_PASSWORD: xxxx xxxx xxxx xxxx  # App Password (16 chars)
+    FSX_SMTP_FROM: your-email@gmail.com
+    FSX_RESET_BASE_URL: http://172.24.30.74:8000  # Your WSL IP
+

@@ -11,33 +11,46 @@ namespace fsx::protocol {
 // REGISTER_REQ payload format:
 // u16 username_len (network order)
 // bytes username
+// u16 email_len (network order)
+// bytes email
 // u16 password_len (network order)
 // bytes password
 
 struct RegisterReq {
   std::string username;
+  std::string email;
   std::string password;
 
   static RegisterReq deserialize(const std::vector<uint8_t>& payload) {
-    if (payload.size() < 4) throw std::runtime_error("REGISTER_REQ: payload too short");
+    if (payload.size() < 6) throw std::runtime_error("REGISTER_REQ: payload too short");
     
     size_t pos = 0;
+    
+    // Username
     uint16_t username_len = ntohs(*reinterpret_cast<const uint16_t*>(payload.data() + pos));
     pos += 2;
-    
     if (pos + username_len > payload.size()) throw std::runtime_error("REGISTER_REQ: invalid username_len");
     std::string username(reinterpret_cast<const char*>(payload.data() + pos), username_len);
     pos += username_len;
     
+    // Email
+    if (pos + 2 > payload.size()) throw std::runtime_error("REGISTER_REQ: missing email_len");
+    uint16_t email_len = ntohs(*reinterpret_cast<const uint16_t*>(payload.data() + pos));
+    pos += 2;
+    if (pos + email_len > payload.size()) throw std::runtime_error("REGISTER_REQ: invalid email_len");
+    std::string email(reinterpret_cast<const char*>(payload.data() + pos), email_len);
+    pos += email_len;
+    
+    // Password
     if (pos + 2 > payload.size()) throw std::runtime_error("REGISTER_REQ: missing password_len");
     uint16_t password_len = ntohs(*reinterpret_cast<const uint16_t*>(payload.data() + pos));
     pos += 2;
-    
     if (pos + password_len > payload.size()) throw std::runtime_error("REGISTER_REQ: invalid password_len");
     std::string password(reinterpret_cast<const char*>(payload.data() + pos), password_len);
     
     RegisterReq req;
     req.username = std::move(username);
+    req.email = std::move(email);
     req.password = std::move(password);
     return req;
   }

@@ -26,10 +26,17 @@ fsx::protocol::RegisterResp AuthHandler::handle_register(const fsx::protocol::Re
     return resp;
   }
 
+  // Validate email
+  if (req.email.empty() || req.email.size() > 255) {
+    resp.ok = false;
+    resp.msg = "email must be 1-255 characters";
+    return resp;
+  }
+
   // Hash password and create user
   try {
     std::string pass_hash = fsx::auth::hash_password_pbkdf2(req.password);
-    long long user_id = users_.create_user(req.username, pass_hash);
+    long long user_id = users_.create_user(req.username, req.email, pass_hash);
     
     resp.ok = true;
     resp.msg = "user created successfully";

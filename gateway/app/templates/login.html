@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>FileShareX - Login</title>
+  <link rel="stylesheet" href="/static/css/login.css"/>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+  <div id="container" class="container">
+    <!-- FORM SECTION -->
+    <div class="row">
+      <!-- SIGN UP -->
+      <div class="col align-items-center flex-col sign-up">
+        <div class="form-wrapper align-items-center">
+          <div class="form sign-up">
+            <div id="signup-error" class="error-message" style="display: none;"></div>
+            <div class="input-group">
+              <i class='bx bxs-user'></i>
+              <input type="text" id="signup-username" placeholder="Username" required>
+            </div>
+            <div class="input-group">
+              <i class='bx bx-mail-send'></i>
+              <input type="email" id="signup-email" placeholder="Email" required>
+            </div>
+            <div class="input-group">
+              <i class='bx bxs-lock-alt'></i>
+              <input type="password" id="signup-password" placeholder="Password" required>
+            </div>
+            <div class="input-group">
+              <i class='bx bxs-lock-alt'></i>
+              <input type="password" id="signup-confirm" placeholder="Confirm password" required>
+            </div>
+            <button id="signup-btn" onclick="handleSignup()">
+              Sign up
+            </button>
+            <p>
+              <span>
+                Already have an account?
+              </span>
+              <b onclick="toggle()" class="pointer">
+                Sign in here
+              </b>
+            </p>
+          </div>
+        </div>
+      </div>
+      <!-- END SIGN UP -->
+
+      <!-- SIGN IN -->
+      <div class="col align-items-center flex-col sign-in">
+        <div class="form-wrapper align-items-center">
+          <div class="form sign-in">
+            <div id="signin-error" class="error-message" style="display: none;"></div>
+            <div class="input-group">
+              <i class='bx bxs-user'></i>
+              <input type="text" id="signin-username" placeholder="Username" required>
+            </div>
+            <div class="input-group">
+              <i class='bx bxs-lock-alt'></i>
+              <input type="password" id="signin-password" placeholder="Password" required>
+            </div>
+            <button id="signin-btn" onclick="handleSignin()">
+              Sign in
+            </button>
+            <p>
+              <b onclick="showForgotPassword()" class="pointer">
+                Forgot password?
+              </b>
+            </p>
+            <p>
+              <span>
+                Don't have an account?
+              </span>
+              <b onclick="toggle()" class="pointer">
+                Sign up here
+              </b>
+            </p>
+          </div>
+        </div>
+      </div>
+      <!-- END SIGN IN -->
+    </div>
+    <!-- END FORM SECTION -->
+
+    <!-- CONTENT SECTION -->
+    <div class="row content-row">
+      <!-- SIGN IN CONTENT -->
+      <div class="col align-items-center flex-col">
+        <div class="text sign-in">
+          <h2>
+            Welcome
+          </h2>
+          <p>
+            FileShareX - Secure File Sharing Platform
+          </p>
+        </div>
+        <div class="img sign-in">
+        </div>
+      </div>
+      <!-- END SIGN IN CONTENT -->
+
+      <!-- SIGN UP CONTENT -->
+      <div class="col align-items-center flex-col">
+        <div class="img sign-up">
+        </div>
+        <div class="text sign-up">
+          <h2>
+            Join with us
+          </h2>
+          <p>
+            Create your account and start sharing files securely
+          </p>
+        </div>
+      </div>
+      <!-- END SIGN UP CONTENT -->
+    </div>
+    <!-- END CONTENT SECTION -->
+
+    <!-- FORGOT PASSWORD MODAL -->
+    <div id="forgot-password-modal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close" onclick="closeForgotPassword()">&times;</span>
+        <h2>Forgot Password</h2>
+        <div id="forgot-error" class="error-message" style="display: none;"></div>
+        <div class="input-group">
+          <i class='bx bx-mail-send'></i>
+          <input type="email" id="forgot-email" placeholder="Email address" required>
+        </div>
+        <button onclick="handleForgotPassword()">Send Reset Link</button>
+        <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--gray-2);">
+          We'll send you a password reset link if the email exists in our system.
+        </p>
+      </div>
+    </div>
+    <!-- END FORGOT PASSWORD MODAL -->
+  </div>
+
+  <script src="/static/js/login.js"></script>
+</body>
+</html>
+

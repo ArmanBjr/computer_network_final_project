@@ -6,3 +6,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(fsx_client src/main.cpp)
 target_link_libraries(fsx_client PRIVATE pthread)
+
+# Test executables
+find_package(Boost REQUIRED COMPONENTS system)
+
+add_executable(test_auth src/test_auth.cpp)
+target_link_libraries(test_auth PRIVATE Boost::system pthread)
+
+add_executable(test_persistent src/test_persistent.cpp)
+target_link_libraries(test_persistent PRIVATE Boost::system pthread)

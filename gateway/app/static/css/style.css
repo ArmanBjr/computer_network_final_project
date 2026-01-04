@@ -26,6 +26,71 @@ body {
     margin-bottom: 16px;
   }
   
+  .card h2 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .badge {
+    background: #1e40af;
+    color: #e0e7ff;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+  }
+  
   code { background: #111827; padding: 2px 6px; border-radius: 6px; }
-  .hint { margin-top: 8px; opacity: 0.85; }
+  .hint { margin-top: 8px; opacity: 0.85; font-size: 0.9em; }
+  
+  .error-message {
+    background: #7f1d1d;
+    color: #fecaca;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    border: 1px solid #991b1b;
+  }
+  
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+  }
+  
+  .data-table thead {
+    background: #111827;
+  }
+  
+  .data-table th {
+    text-align: left;
+    padding: 10px 12px;
+    font-weight: 600;
+    font-size: 0.9em;
+    color: #9ca3af;
+    border-bottom: 1px solid #1f2937;
+  }
+  
+  .data-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #1f2937;
+  }
+  
+  .data-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .data-table tbody tr:hover {
+    background: #111827;
+  }
+  
+  .empty-state {
+    text-align: center;
+    color: #6b7280;
+    font-style: italic;
+    padding: 20px !important;
+  }
   

@@ -23,5 +23,20 @@ async def dashboard(request: Request):
     return templates.TemplateResponse("dashboard.html", {"request": request})
 
 
+@app.get("/login", response_class=HTMLResponse)
+async def login_page(request: Request):
+    return templates.TemplateResponse("login.html", {"request": request})
+
+
+@app.get("/messenger", response_class=HTMLResponse)
+async def messenger_page(request: Request):
+    return templates.TemplateResponse("messenger.html", {"request": request})
+
+
+@app.get("/reset-password", response_class=HTMLResponse)
+async def reset_password_page(request: Request):
+    return templates.TemplateResponse("reset_password.html", {"request": request})
+
+
 app.include_router(admin_router, prefix="/api")
 app.include_router(ws_router)

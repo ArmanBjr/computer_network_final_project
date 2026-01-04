@@ -7,11 +7,18 @@
   </section>
 
   <section class="card">
-    <h2>Next (Phase 1)</h2>
-    <ul>
-      <li>Connect gateway to core admin port (9100)</li>
-      <li>Show online users, transfers, logs</li>
-      <li>Buttons: throttle / pause / resume</li>
-    </ul>
+    <h2>Online Users <span id="online-count" class="badge">-</span></h2>
+    <div id="online-error" class="error-message" style="display: none;"></div>
+    <table id="online-table" class="data-table">
+      <thead>
+        <tr>
+          <th>Username</th>
+        </tr>
+      </thead>
+      <tbody id="online-tbody">
+        <tr><td colspan="1" class="empty-state">Loading...</td></tr>
+      </tbody>
+    </table>
+    <div class="hint">Auto-refresh every 2 seconds</div>
   </section>
 {% endblock %}
