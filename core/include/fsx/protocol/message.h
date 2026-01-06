@@ -23,6 +23,14 @@ enum class MsgType : uint8_t {
   // Online list
   ONLINE_LIST_REQ  = 20,
   ONLINE_LIST_RESP = 21,
+  // File transfer messages (Phase 3)
+  FILE_OFFER_REQ   = 30,
+  FILE_OFFER_RESP  = 31,
+  FILE_ACCEPT_REQ  = 32,
+  FILE_ACCEPT_RESP = 33,
+  FILE_CHUNK       = 34,
+  FILE_DONE        = 35,
+  FILE_RESULT      = 36,
   // Admin messages (port 9100)
   ADMIN_ONLINE_LIST_REQ  = 100,
   ADMIN_ONLINE_LIST_RESP = 101

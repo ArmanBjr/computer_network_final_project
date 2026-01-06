@@ -155,6 +155,19 @@ test_persistent/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_persistent.dir/build.make CMakeFiles/test_persistent.dir/build
 .PHONY : test_persistent/fast
 
+#=============================================================================
+# Target rules for targets named test_file_transfer
+
+# Build rule for target.
+test_file_transfer: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_file_transfer
+.PHONY : test_file_transfer
+
+# fast build rule for target.
+test_file_transfer/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_file_transfer.dir/build.make CMakeFiles/test_file_transfer.dir/build
+.PHONY : test_file_transfer/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -203,6 +216,30 @@ src/test_auth.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_auth.dir/build.make CMakeFiles/test_auth.dir/src/test_auth.cpp.s
 .PHONY : src/test_auth.cpp.s
 
+src/test_file_transfer.o: src/test_file_transfer.cpp.o
+.PHONY : src/test_file_transfer.o
+
+# target to build an object file
+src/test_file_transfer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_file_transfer.dir/build.make CMakeFiles/test_file_transfer.dir/src/test_file_transfer.cpp.o
+.PHONY : src/test_file_transfer.cpp.o
+
+src/test_file_transfer.i: src/test_file_transfer.cpp.i
+.PHONY : src/test_file_transfer.i
+
+# target to preprocess a source file
+src/test_file_transfer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_file_transfer.dir/build.make CMakeFiles/test_file_transfer.dir/src/test_file_transfer.cpp.i
+.PHONY : src/test_file_transfer.cpp.i
+
+src/test_file_transfer.s: src/test_file_transfer.cpp.s
+.PHONY : src/test_file_transfer.s
+
+# target to generate assembly for a file
+src/test_file_transfer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_file_transfer.dir/build.make CMakeFiles/test_file_transfer.dir/src/test_file_transfer.cpp.s
+.PHONY : src/test_file_transfer.cpp.s
+
 src/test_persistent.o: src/test_persistent.cpp.o
 .PHONY : src/test_persistent.o
 
@@ -237,6 +274,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... fsx_client"
 	@echo "... test_auth"
+	@echo "... test_file_transfer"
 	@echo "... test_persistent"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
@@ -244,6 +282,9 @@ help:
 	@echo "... src/test_auth.o"
 	@echo "... src/test_auth.i"
 	@echo "... src/test_auth.s"
+	@echo "... src/test_file_transfer.o"
+	@echo "... src/test_file_transfer.i"
+	@echo "... src/test_file_transfer.s"
 	@echo "... src/test_persistent.o"
 	@echo "... src/test_persistent.i"
 	@echo "... src/test_persistent.s"

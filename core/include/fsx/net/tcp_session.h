@@ -8,12 +8,31 @@
 #include "fsx/net/auth_handler.h"
 
 namespace fsx::net {
-
 class SessionManager;
+}
+
+namespace fsx::transfer {
+class TransferManager;
+}
+
+namespace fsx::storage {
+class FileStore;
+}
+
+namespace fsx::db {
+class UserRepository;
+}
+
+namespace fsx::net {
 
 class TcpSession : public std::enable_shared_from_this<TcpSession> {
 public:
-  TcpSession(boost::asio::ip::tcp::socket socket, AuthHandler& auth_handler, SessionManager& session_manager);
+  TcpSession(boost::asio::ip::tcp::socket socket, 
+             AuthHandler& auth_handler, 
+             SessionManager& session_manager,
+             fsx::transfer::TransferManager& transfer_manager,
+             fsx::storage::FileStore& file_store,
+             fsx::db::UserRepository& user_repository);
   void start();
 
   // Auth state
@@ -46,10 +65,19 @@ private:
   void do_write();
 
   void handle_message(fsx::protocol::MsgType type, const std::vector<uint8_t>& payload);
+  
+  // File transfer handlers (Phase 3)
+  void handle_file_offer_req(const std::vector<uint8_t>& payload);
+  void handle_file_accept_req(const std::vector<uint8_t>& payload);
+  void handle_file_chunk(const std::vector<uint8_t>& payload);
+  void handle_file_done(const std::vector<uint8_t>& payload);
 
   boost::asio::ip::tcp::socket socket_;
   AuthHandler& auth_handler_;
   SessionManager& session_manager_;
+  fsx::transfer::TransferManager& transfer_manager_;
+  fsx::storage::FileStore& file_store_;
+  fsx::db::UserRepository& user_repository_;
 
   // Auth state
   std::string token_;

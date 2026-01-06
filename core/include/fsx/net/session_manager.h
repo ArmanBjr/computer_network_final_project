@@ -17,6 +17,9 @@ class SessionManager {
 
   std::vector<std::string> get_online_usernames() const;
   size_t count() const;
+  
+  // Get session by token (returns nullptr if not found or expired)
+  std::shared_ptr<TcpSession> get_session(const std::string& token) const;
 
  private:
   mutable std::mutex mutex_;

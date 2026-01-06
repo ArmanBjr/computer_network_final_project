@@ -66,6 +66,7 @@ CMAKE_BINARY_DIR = /mnt/e/University/University_Subjects/5th/Computer_Networks/P
 all: CMakeFiles/fsx_client.dir/all
 all: CMakeFiles/test_auth.dir/all
 all: CMakeFiles/test_persistent.dir/all
+all: CMakeFiles/test_file_transfer.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -76,6 +77,7 @@ preinstall:
 clean: CMakeFiles/fsx_client.dir/clean
 clean: CMakeFiles/test_auth.dir/clean
 clean: CMakeFiles/test_persistent.dir/clean
+clean: CMakeFiles/test_file_transfer.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -137,7 +139,7 @@ CMakeFiles/test_auth.dir/clean:
 CMakeFiles/test_persistent.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_persistent.dir/build.make CMakeFiles/test_persistent.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_persistent.dir/build.make CMakeFiles/test_persistent.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/client/build/CMakeFiles --progress-num=5,6 "Built target test_persistent"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/client/build/CMakeFiles --progress-num=7,8 "Built target test_persistent"
 .PHONY : CMakeFiles/test_persistent.dir/all
 
 # Build rule for subdir invocation for target.
@@ -155,6 +157,32 @@ test_persistent: CMakeFiles/test_persistent.dir/rule
 CMakeFiles/test_persistent.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_persistent.dir/build.make CMakeFiles/test_persistent.dir/clean
 .PHONY : CMakeFiles/test_persistent.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/test_file_transfer.dir
+
+# All Build rule for target.
+CMakeFiles/test_file_transfer.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_file_transfer.dir/build.make CMakeFiles/test_file_transfer.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_file_transfer.dir/build.make CMakeFiles/test_file_transfer.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/client/build/CMakeFiles --progress-num=5,6 "Built target test_file_transfer"
+.PHONY : CMakeFiles/test_file_transfer.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/test_file_transfer.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/client/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_file_transfer.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/client/build/CMakeFiles 0
+.PHONY : CMakeFiles/test_file_transfer.dir/rule
+
+# Convenience name for target.
+test_file_transfer: CMakeFiles/test_file_transfer.dir/rule
+.PHONY : test_file_transfer
+
+# clean rule for target.
+CMakeFiles/test_file_transfer.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_file_transfer.dir/build.make CMakeFiles/test_file_transfer.dir/clean
+.PHONY : CMakeFiles/test_file_transfer.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

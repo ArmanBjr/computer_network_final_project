@@ -9,7 +9,7 @@ async def ws_endpoint(ws: WebSocket):
     await ws.accept()
     try:
         while True:
-            # Phase 0: فقط heartbeat دمو
+            # Phase 0: heartbeat demo only
             payload = {"ts": time.time(), "status": "gateway_ok"}
             await ws.send_text(json.dumps(payload))
             await asyncio_sleep(1)
@@ -17,6 +17,6 @@ async def ws_endpoint(ws: WebSocket):
         pass
 
 async def asyncio_sleep(sec: float):
-    # بدون import asyncio مستقیم در top-level (ساده و واضح)
+    # Import asyncio inside function to avoid top-level import (simpler)
     import asyncio
     await asyncio.sleep(sec)

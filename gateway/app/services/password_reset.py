@@ -3,7 +3,7 @@ Password Reset Service - Manages reset tokens in database
 """
 import secrets
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 import psycopg2
 from psycopg2.extras import RealDictCursor
@@ -53,7 +53,7 @@ def create_reset_token(email: str) -> Optional[str]:
         token = secrets.token_urlsafe(32)
         
         # Expires in 1 hour
-        expires_at = datetime.utcnow() + timedelta(hours=1)
+        expires_at = datetime.now(timezone.utc) + timedelta(hours=1)
         
         # Insert reset token
         cur.execute("""
@@ -102,8 +102,19 @@ def validate_reset_token(token: str) -> Optional[dict]:
             return None
         
         # Check if expired
-        if datetime.utcnow() > row['expires_at']:
-            logger.warning(f"RESET_TOKEN_EXPIRED token={token[:8]}...")
+        expires_at = row['expires_at']
+        # Ensure timezone-aware comparison
+        # psycopg2 returns TIMESTAMPTZ as timezone-aware datetime
+        if expires_at.tzinfo is None:
+            # If somehow naive, assume UTC
+            expires_at = expires_at.replace(tzinfo=timezone.utc)
+        else:
+            # Convert to UTC for consistent comparison
+            expires_at = expires_at.astimezone(timezone.utc)
+        now = datetime.now(timezone.utc)
+        # Compare timezone-aware datetimes
+        if now > expires_at:
+            logger.warning(f"RESET_TOKEN_EXPIRED token={token[:8]}... now={now.isoformat()} expires_at={expires_at.isoformat()}")
             return None
         
         # Check if already used

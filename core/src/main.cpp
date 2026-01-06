@@ -4,6 +4,8 @@
 #include "fsx/net/tcp_server.h"
 #include "fsx/net/auth_handler.h"
 #include "fsx/net/session_manager.h"
+#include "fsx/transfer/transfer_manager.h"
+#include "fsx/storage/file_store.h"
 #include <boost/asio.hpp>
 #include <cstdlib>
 #include <iostream>
@@ -56,6 +58,16 @@ int main(int argc, char** argv) {
     // Create session manager
     fsx::net::SessionManager session_manager;
 
+    // Create transfer manager and file store (Phase 3)
+    fsx::transfer::TransferManager transfer_manager;
+    fsx::storage::FileStore file_store("./storage/transfers");
+    if (!file_store.initialize()) {
+      std::cerr << "fatal: failed to initialize file store\n";
+      return 1;
+    }
+    std::cout << "[storage] initialized\n";
+    std::cout.flush();
+
     // Start TCP server
     uint16_t port = 9000;
     if (argc >= 2) {
@@ -72,7 +84,7 @@ int main(int argc, char** argv) {
     }
 
     boost::asio::io_context io;
-    fsx::net::TcpServer server(io, port, auth_handler, session_manager);
+    fsx::net::TcpServer server(io, port, auth_handler, session_manager, transfer_manager, file_store, users);
     server.start();
 
     std::cout << "[core] server started on port " << port << ", running...\n";

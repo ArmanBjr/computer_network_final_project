@@ -2,8 +2,13 @@
 #include "fsx/net/session_manager.h"
 #include "fsx/protocol/auth_messages.h"
 #include "fsx/protocol/online_messages.h"
+#include "fsx/protocol/file_messages.h"
+#include "fsx/transfer/transfer_manager.h"
+#include "fsx/storage/file_store.h"
+#include "fsx/db/user_repository.h"
 #include <chrono>
 #include <sstream>
+#include <cstdio>
 
 namespace fsx::net {
 
@@ -13,8 +18,18 @@ static std::string now_ts() {
   return std::to_string(ms);
 }
 
-TcpSession::TcpSession(boost::asio::ip::tcp::socket socket, AuthHandler& auth_handler, SessionManager& session_manager)
-  : socket_(std::move(socket)), auth_handler_(auth_handler), session_manager_(session_manager) {}
+TcpSession::TcpSession(boost::asio::ip::tcp::socket socket, 
+                       AuthHandler& auth_handler, 
+                       SessionManager& session_manager,
+                       transfer::TransferManager& transfer_manager,
+                       storage::FileStore& file_store,
+                       db::UserRepository& user_repository)
+  : socket_(std::move(socket)), 
+    auth_handler_(auth_handler), 
+    session_manager_(session_manager),
+    transfer_manager_(transfer_manager),
+    file_store_(file_store),
+    user_repository_(user_repository) {}
 
 void TcpSession::log(const std::string& s) {
   std::cout << "[sess " << now_ts() << "] " << s << "\n";
@@ -240,6 +255,28 @@ void TcpSession::handle_message(fsx::protocol::MsgType type, const std::vector<u
     return;
   }
   
+  // File transfer handlers (Phase 3)
+  if (type == fsx::protocol::MsgType::FILE_OFFER_REQ) {
+    log("RECV FILE_OFFER_REQ (type=30) from=" + get_remote_endpoint());
+    handle_file_offer_req(payload);
+    return;
+  }
+  
+  if (type == fsx::protocol::MsgType::FILE_ACCEPT_REQ) {
+    handle_file_accept_req(payload);
+    return;
+  }
+  
+  if (type == fsx::protocol::MsgType::FILE_CHUNK) {
+    handle_file_chunk(payload);
+    return;
+  }
+  
+  if (type == fsx::protocol::MsgType::FILE_DONE) {
+    handle_file_done(payload);
+    return;
+  }
+  
   log("RECV UNKNOWN type=" + std::to_string(static_cast<int>(type)));
 }
 
@@ -278,6 +315,304 @@ void TcpSession::do_write() {
       if (!outq_.empty()) do_write();
     }
   );
+}
+
+// File transfer handlers (Phase 3)
+void TcpSession::handle_file_offer_req(const std::vector<uint8_t>& payload) {
+  if (!is_authenticated()) {
+    log("FILE_OFFER_REQ rejected: not authenticated from=" + get_remote_endpoint());
+    fsx::protocol::FileOfferResp resp;
+    resp.ok = false;
+    resp.transfer_id = 0;
+    resp.reason = "Not authenticated";
+    send(fsx::protocol::MsgType::FILE_OFFER_RESP, resp.serialize());
+    return;
+  }
+  
+  try {
+    fsx::protocol::FileOfferReq req = fsx::protocol::FileOfferReq::deserialize(payload);
+    
+    log("FILE_OFFER_REQ from=" + get_remote_endpoint() + 
+        " sender=" + username_ + 
+        " receiver=" + req.receiver_username + 
+        " filename=" + req.filename + 
+        " size=" + std::to_string(req.file_size) + 
+        " chunk_size=" + std::to_string(req.chunk_size));
+    
+    // Find receiver user
+    auto receiver_user = user_repository_.get_user_by_username(req.receiver_username);
+    if (!receiver_user) {
+      log("FILE_OFFER_REQ FAIL: receiver not found username=" + req.receiver_username);
+      fsx::protocol::FileOfferResp resp;
+      resp.ok = false;
+      resp.transfer_id = 0;
+      resp.reason = "Receiver not found";
+      send(fsx::protocol::MsgType::FILE_OFFER_RESP, resp.serialize());
+      return;
+    }
+    
+    // Validate chunk size (min 1KB, max 1MB)
+    uint32_t chunk_size = req.chunk_size;
+    if (chunk_size < 1024) chunk_size = 64 * 1024;  // Default 64KB
+    if (chunk_size > 1024 * 1024) chunk_size = 256 * 1024;  // Max 256KB
+    
+    // Create transfer
+    log("FILE_OFFER: creating transfer sender_token=" + (token_.empty() ? "EMPTY" : token_.substr(0, 8) + "..."));
+    uint64_t transfer_id = transfer_manager_.create_transfer(
+      user_id_,
+      username_,
+      token_,  // sender_token for notifying sender when receiver accepts
+      receiver_user->id,
+      receiver_user->username,
+      req.filename,
+      req.file_size,
+      chunk_size
+    );
+    
+    if (transfer_id == 0) {
+      log("FILE_OFFER_REQ FAIL: failed to create transfer");
+      fsx::protocol::FileOfferResp resp;
+      resp.ok = false;
+      resp.transfer_id = 0;
+      resp.reason = "Failed to create transfer";
+      send(fsx::protocol::MsgType::FILE_OFFER_RESP, resp.serialize());
+      return;
+    }
+    
+    // Get transfer session to set file paths
+    auto session = transfer_manager_.get_transfer(transfer_id);
+    if (session) {
+      session->temp_file_path = file_store_.get_temp_path(transfer_id, req.filename);
+      session->final_file_path = file_store_.get_file_path(transfer_id, req.filename);
+    }
+    
+    log("FILE_OFFER_OK transfer_id=" + std::to_string(transfer_id) + 
+        " sender=" + username_ + 
+        " receiver=" + req.receiver_username);
+    
+    fsx::protocol::FileOfferResp resp;
+    resp.ok = true;
+    resp.transfer_id = transfer_id;
+    send(fsx::protocol::MsgType::FILE_OFFER_RESP, resp.serialize());
+    
+  } catch (const std::exception& e) {
+    log("FILE_OFFER_REQ error: " + std::string(e.what()));
+    fsx::protocol::FileOfferResp resp;
+    resp.ok = false;
+    resp.transfer_id = 0;
+    resp.reason = std::string("error: ") + e.what();
+    send(fsx::protocol::MsgType::FILE_OFFER_RESP, resp.serialize());
+  }
+}
+
+void TcpSession::handle_file_accept_req(const std::vector<uint8_t>& payload) {
+  if (!is_authenticated()) {
+    log("FILE_ACCEPT_REQ rejected: not authenticated");
+    fsx::protocol::FileAcceptResp resp;
+    resp.ok = false;
+    resp.reason = "Not authenticated";
+    send(fsx::protocol::MsgType::FILE_ACCEPT_RESP, resp.serialize());
+    return;
+  }
+  
+  try {
+    fsx::protocol::FileAcceptReq req = fsx::protocol::FileAcceptReq::deserialize(payload);
+    
+    auto session = transfer_manager_.get_transfer(req.transfer_id);
+    if (!session) {
+      log("FILE_ACCEPT_REQ FAIL: transfer not found transfer_id=" + std::to_string(req.transfer_id));
+      fsx::protocol::FileAcceptResp resp;
+      resp.ok = false;
+      resp.reason = "Transfer not found";
+      send(fsx::protocol::MsgType::FILE_ACCEPT_RESP, resp.serialize());
+      return;
+    }
+    
+    // Check if user is the receiver
+    if (session->receiver_user_id != user_id_) {
+      log("FILE_ACCEPT_REQ FAIL: not the receiver transfer_id=" + std::to_string(req.transfer_id) + 
+          " user_id=" + std::to_string(user_id_));
+      fsx::protocol::FileAcceptResp resp;
+      resp.ok = false;
+      resp.reason = "Not the receiver";
+      send(fsx::protocol::MsgType::FILE_ACCEPT_RESP, resp.serialize());
+      return;
+    }
+    
+    if (req.accept) {
+      // Open file for writing
+      void* file_handle = file_store_.open_for_write(req.transfer_id, session->filename);
+      if (!file_handle) {
+        log("FILE_ACCEPT_REQ FAIL: failed to open file transfer_id=" + std::to_string(req.transfer_id));
+        transfer_manager_.update_state(req.transfer_id, fsx::transfer::TransferState::FAILED);
+        fsx::protocol::FileAcceptResp resp;
+        resp.ok = false;
+        resp.reason = "Failed to open file";
+        send(fsx::protocol::MsgType::FILE_ACCEPT_RESP, resp.serialize());
+        return;
+      }
+      
+      session->file_handle = file_handle;
+      transfer_manager_.update_state(req.transfer_id, fsx::transfer::TransferState::ACCEPTED);
+      
+      log("FILE_ACCEPT_OK transfer_id=" + std::to_string(req.transfer_id) + 
+          " receiver=" + username_);
+      
+      // Notify sender that receiver accepted
+      if (!session->sender_token.empty()) {
+        log("FILE_ACCEPT: looking for sender session token=" + session->sender_token.substr(0, 8) + "... transfer_id=" + std::to_string(req.transfer_id) + " sender_user_id=" + std::to_string(session->sender_user_id));
+        auto sender_session = session_manager_.get_session(session->sender_token);
+        if (sender_session) {
+          log("FILE_ACCEPT: sender session found, sending FILE_ACCEPT_RESP transfer_id=" + std::to_string(req.transfer_id));
+          fsx::protocol::FileAcceptResp sender_resp;
+          sender_resp.ok = true;
+          sender_session->send(fsx::protocol::MsgType::FILE_ACCEPT_RESP, sender_resp.serialize());
+          log("FILE_ACCEPT_RESP sent to sender transfer_id=" + std::to_string(req.transfer_id));
+        } else {
+          log("FILE_ACCEPT: sender session not found token=" + session->sender_token.substr(0, 8) + "... transfer_id=" + std::to_string(req.transfer_id) + " (sender may have disconnected)");
+        }
+      } else {
+        log("FILE_ACCEPT: sender_token is empty transfer_id=" + std::to_string(req.transfer_id));
+      }
+    } else {
+      transfer_manager_.update_state(req.transfer_id, fsx::transfer::TransferState::FAILED);
+      log("FILE_ACCEPT_REJECT transfer_id=" + std::to_string(req.transfer_id) + 
+          " receiver=" + username_);
+      
+      // Notify sender that receiver rejected
+      if (!session->sender_token.empty()) {
+        auto sender_session = session_manager_.get_session(session->sender_token);
+        if (sender_session) {
+          fsx::protocol::FileAcceptResp sender_resp;
+          sender_resp.ok = false;
+          sender_resp.reason = "Receiver rejected";
+          sender_session->send(fsx::protocol::MsgType::FILE_ACCEPT_RESP, sender_resp.serialize());
+        }
+      }
+    }
+    
+    fsx::protocol::FileAcceptResp resp;
+    resp.ok = true;
+    send(fsx::protocol::MsgType::FILE_ACCEPT_RESP, resp.serialize());
+    
+  } catch (const std::exception& e) {
+    log("FILE_ACCEPT_REQ error: " + std::string(e.what()));
+    fsx::protocol::FileAcceptResp resp;
+    resp.ok = false;
+    resp.reason = std::string("error: ") + e.what();
+    send(fsx::protocol::MsgType::FILE_ACCEPT_RESP, resp.serialize());
+  }
+}
+
+void TcpSession::handle_file_chunk(const std::vector<uint8_t>& payload) {
+  log("FILE_CHUNK received (payload_size=" + std::to_string(payload.size()) + ")");
+  
+  if (!is_authenticated()) {
+    log("FILE_CHUNK rejected: not authenticated");
+    return;
+  }
+  
+  try {
+    fsx::protocol::FileChunk chunk = fsx::protocol::FileChunk::deserialize(payload);
+    log("FILE_CHUNK deserialized: transfer_id=" + std::to_string(chunk.transfer_id) + 
+        " chunk_index=" + std::to_string(chunk.chunk_index) + 
+        " data_size=" + std::to_string(chunk.data.size()));
+    
+    auto session = transfer_manager_.get_transfer(chunk.transfer_id);
+    if (!session) {
+      log("FILE_CHUNK FAIL: transfer not found transfer_id=" + std::to_string(chunk.transfer_id));
+      return;
+    }
+    
+    // Check if sender is correct
+    if (session->sender_user_id != user_id_) {
+      log("FILE_CHUNK FAIL: not the sender transfer_id=" + std::to_string(chunk.transfer_id));
+      return;
+    }
+    
+    // Check state
+    if (session->state != fsx::transfer::TransferState::ACCEPTED && 
+        session->state != fsx::transfer::TransferState::RECEIVING) {
+      log("FILE_CHUNK FAIL: invalid state transfer_id=" + std::to_string(chunk.transfer_id) + 
+          " state=" + std::to_string(static_cast<int>(session->state)));
+      return;
+    }
+    
+    // Write chunk to file
+    int64_t written = file_store_.write_chunk(session->file_handle, chunk.data.data(), chunk.data.size());
+    if (written < 0) {
+      log("FILE_CHUNK FAIL: write error transfer_id=" + std::to_string(chunk.transfer_id) + 
+          " chunk_index=" + std::to_string(chunk.chunk_index));
+      transfer_manager_.update_state(chunk.transfer_id, fsx::transfer::TransferState::FAILED);
+      return;
+    }
+    
+    // Mark chunk as received
+    transfer_manager_.mark_chunk_received(chunk.transfer_id, chunk.chunk_index, chunk.data.size());
+    
+    log("FILE_CHUNK_RX transfer_id=" + std::to_string(chunk.transfer_id) + 
+        " chunk_index=" + std::to_string(chunk.chunk_index) + 
+        " bytes=" + std::to_string(chunk.data.size()) + 
+        " total_received=" + std::to_string(session->bytes_received) + 
+        "/" + std::to_string(session->file_size));
+    
+  } catch (const std::exception& e) {
+    log("FILE_CHUNK error: " + std::string(e.what()));
+  }
+}
+
+void TcpSession::handle_file_done(const std::vector<uint8_t>& payload) {
+  if (!is_authenticated()) {
+    log("FILE_DONE rejected: not authenticated");
+    return;
+  }
+  
+  try {
+    fsx::protocol::FileDone done = fsx::protocol::FileDone::deserialize(payload);
+    
+    auto session = transfer_manager_.get_transfer(done.transfer_id);
+    if (!session) {
+      log("FILE_DONE FAIL: transfer not found transfer_id=" + std::to_string(done.transfer_id));
+      return;
+    }
+    
+    // Check if sender is correct
+    if (session->sender_user_id != user_id_) {
+      log("FILE_DONE FAIL: not the sender transfer_id=" + std::to_string(done.transfer_id));
+      return;
+    }
+    
+    // Finalize file
+    bool success = file_store_.finalize_file(done.transfer_id, session->filename, session->file_handle);
+    if (!success) {
+      log("FILE_DONE FAIL: failed to finalize file transfer_id=" + std::to_string(done.transfer_id));
+      transfer_manager_.update_state(done.transfer_id, fsx::transfer::TransferState::FAILED);
+      
+      fsx::protocol::FileResult result;
+      result.transfer_id = done.transfer_id;
+      result.ok = false;
+      result.path_or_reason = "Failed to finalize file";
+      send(fsx::protocol::MsgType::FILE_RESULT, result.serialize());
+      return;
+    }
+    
+      transfer_manager_.update_state(done.transfer_id, fsx::transfer::TransferState::COMPLETED);
+    
+    log("FILE_DONE_OK transfer_id=" + std::to_string(done.transfer_id) + 
+        " filename=" + session->filename + 
+        " total_chunks=" + std::to_string(done.total_chunks) + 
+        " file_size=" + std::to_string(done.file_size) + 
+        " saved_path=" + session->final_file_path);
+    
+    fsx::protocol::FileResult result;
+    result.transfer_id = done.transfer_id;
+    result.ok = true;
+    result.path_or_reason = session->final_file_path;
+    send(fsx::protocol::MsgType::FILE_RESULT, result.serialize());
+    
+  } catch (const std::exception& e) {
+    log("FILE_DONE error: " + std::string(e.what()));
+  }
 }
 
 } // namespace fsx::net

@@ -2,33 +2,52 @@
 const urlParams = new URLSearchParams(window.location.search);
 const resetToken = urlParams.get('token');
 
-if (!resetToken) {
-    document.getElementById('reset-error').textContent = 'Invalid reset link. Missing token.';
-    document.getElementById('reset-error').style.display = 'block';
-}
-
 function showError(message) {
     const errorEl = document.getElementById('reset-error');
-    errorEl.textContent = message;
-    errorEl.style.display = 'block';
-    document.getElementById('reset-success').style.display = 'none';
+    if (errorEl) {
+        errorEl.textContent = message;
+        errorEl.style.display = 'block';
+    }
+    const successEl = document.getElementById('reset-success');
+    if (successEl) {
+        successEl.style.display = 'none';
+    }
 }
 
 function showSuccess(message) {
     const successEl = document.getElementById('reset-success');
-    successEl.textContent = message;
-    successEl.style.display = 'block';
-    document.getElementById('reset-error').style.display = 'none';
+    if (successEl) {
+        successEl.textContent = message;
+        successEl.style.display = 'block';
+    }
+    const errorEl = document.getElementById('reset-error');
+    if (errorEl) {
+        errorEl.style.display = 'none';
+    }
 }
 
 async function handleResetPassword() {
-    const newPassword = document.getElementById('new-password').value;
-    const confirmPassword = document.getElementById('confirm-password').value;
+    const newPasswordEl = document.getElementById('new-password');
+    const confirmPasswordEl = document.getElementById('confirm-password');
     const btn = document.getElementById('reset-btn');
+    
+    if (!newPasswordEl || !confirmPasswordEl || !btn) {
+        showError('Form elements not found');
+        return;
+    }
+    
+    const newPassword = newPasswordEl.value;
+    const confirmPassword = confirmPasswordEl.value;
 
     // Clear previous messages
-    document.getElementById('reset-error').style.display = 'none';
-    document.getElementById('reset-success').style.display = 'none';
+    const errorEl = document.getElementById('reset-error');
+    const successEl = document.getElementById('reset-success');
+    if (errorEl) {
+        errorEl.style.display = 'none';
+    }
+    if (successEl) {
+        successEl.style.display = 'none';
+    }
 
     // Validation
     if (!newPassword || !confirmPassword) {
@@ -86,12 +105,35 @@ async function handleResetPassword() {
     }
 }
 
-// Allow Enter key to submit
+// Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('confirm-password').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            handleResetPassword();
+    // Check token and show error if missing
+    if (!resetToken) {
+        const errorEl = document.getElementById('reset-error');
+        if (errorEl) {
+            errorEl.textContent = 'Invalid reset link. Missing token.';
+            errorEl.style.display = 'block';
         }
-    });
+    }
+    
+    // Allow Enter key to submit
+    const confirmPasswordInput = document.getElementById('confirm-password');
+    const newPasswordInput = document.getElementById('new-password');
+    
+    if (confirmPasswordInput) {
+        confirmPasswordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleResetPassword();
+            }
+        });
+    }
+    
+    if (newPasswordInput) {
+        newPasswordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleResetPassword();
+            }
+        });
+    }
 });
 

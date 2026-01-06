@@ -52,13 +52,15 @@ services:
       FSX_DB_USER: "fsx"
       FSX_DB_PASSWORD: "fsxpass"
       FSX_DB_NAME: "fsx"
-      # Email settings (optional - set these to enable email sending)
-      FSX_SMTP_HOST: ${FSX_SMTP_HOST:-smtp.gmail.com}
-      FSX_SMTP_PORT: ${FSX_SMTP_PORT:-587}
-      FSX_SMTP_USER: ${FSX_SMTP_USER:-}
-      FSX_SMTP_PASSWORD: ${FSX_SMTP_PASSWORD:-}
-      FSX_SMTP_FROM: ${FSX_SMTP_FROM:-${FSX_SMTP_USER}}
-      FSX_RESET_BASE_URL: ${FSX_RESET_BASE_URL:-http://localhost:8000}
+      # Email settings
+      FSX_SMTP_HOST: smtp.gmail.com
+      FSX_SMTP_PORT: 587
+      FSX_SMTP_USER: filesharex.network.project@gmail.com
+      FSX_SMTP_PASSWORD: govcnwdhechbztcm
+      FSX_SMTP_FROM: filesharex.network.project@gmail.com
+      # Update this to your domain name after setting up hosts file
+      # Options: http://filesharex.local:8000 (local) or http://yourdomain.com:8000 (public)
+      FSX_RESET_BASE_URL: http://filesharex.local:8000
     ports:
       - "8000:8000"
 

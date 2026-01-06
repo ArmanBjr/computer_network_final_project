@@ -15,3 +15,6 @@ target_link_libraries(test_auth PRIVATE Boost::system pthread)
 
 add_executable(test_persistent src/test_persistent.cpp)
 target_link_libraries(test_persistent PRIVATE Boost::system pthread)
+
+add_executable(test_file_transfer src/test_file_transfer.cpp)
+target_link_libraries(test_file_transfer PRIVATE Boost::system pthread)

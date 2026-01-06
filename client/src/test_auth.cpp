@@ -36,15 +36,23 @@ static std::vector<uint8_t> make_frame(uint8_t type, const std::vector<uint8_t>&
   return out;
 }
 
-static std::vector<uint8_t> make_register_req(const std::string& username, const std::string& password) {
+static std::vector<uint8_t> make_register_req(const std::string& username, const std::string& email, const std::string& password) {
   std::vector<uint8_t> payload;
-  payload.reserve(4 + username.size() + password.size());
+  payload.reserve(6 + username.size() + email.size() + password.size());
   
+  // Username
   uint16_t u_len = htons(static_cast<uint16_t>(username.size()));
   payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&u_len), 
                  reinterpret_cast<const uint8_t*>(&u_len) + 2);
   payload.insert(payload.end(), username.begin(), username.end());
   
+  // Email
+  uint16_t e_len = htons(static_cast<uint16_t>(email.size()));
+  payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&e_len), 
+                 reinterpret_cast<const uint8_t*>(&e_len) + 2);
+  payload.insert(payload.end(), email.begin(), email.end());
+  
+  // Password
   uint16_t p_len = htons(static_cast<uint16_t>(password.size()));
   payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&p_len), 
                  reinterpret_cast<const uint8_t*>(&p_len) + 2);
@@ -144,6 +152,7 @@ int main(int argc, char** argv) {
   uint16_t port = 9000;
   std::string cmd = "register";
   std::string username = "testuser";
+  std::string email = "testuser@example.com";
   std::string password = "testpass123";
 
   if (argc >= 2) cmd = argv[1];
@@ -151,6 +160,13 @@ int main(int argc, char** argv) {
   if (argc >= 4) password = argv[3];
   if (argc >= 5) host = argv[4];
   if (argc >= 6) port = static_cast<uint16_t>(std::stoi(argv[5]));
+  
+  // For register, email can be provided as 4th arg, or default
+  if (cmd == "register" && argc >= 5) {
+    email = argv[4];
+    if (argc >= 6) host = argv[5];
+    if (argc >= 7) port = static_cast<uint16_t>(std::stoi(argv[6]));
+  }
 
   try {
     boost::asio::io_context io;
@@ -162,8 +178,8 @@ int main(int argc, char** argv) {
     std::cout << "Connected to " << host << ":" << port << "\n";
 
     if (cmd == "register") {
-      std::cout << "Sending REGISTER_REQ: username=" << username << "\n";
-      auto frame = make_register_req(username, password);
+      std::cout << "Sending REGISTER_REQ: username=" << username << " email=" << email << "\n";
+      auto frame = make_register_req(username, email, password);
       boost::asio::write(sock, boost::asio::buffer(frame));
       read_response(sock, 11); // REGISTER_RESP
     } else if (cmd == "login") {

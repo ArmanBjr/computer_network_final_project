@@ -29,6 +29,9 @@ add_executable(fsx_core
   src/db/user_repository.cpp
   src/db/session_repository.cpp
   src/auth/password_hash.cpp
+  # Phase 3: File transfer
+  src/transfer/transfer_manager.cpp
+  src/storage/file_store.cpp
 )
 
 target_include_directories(fsx_core PRIVATE

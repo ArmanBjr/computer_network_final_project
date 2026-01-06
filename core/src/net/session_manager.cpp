@@ -62,5 +62,14 @@ size_t SessionManager::count() const {
   return cnt;
 }
 
+std::shared_ptr<TcpSession> SessionManager::get_session(const std::string& token) const {
+  std::lock_guard<std::mutex> lock(mutex_);
+  auto it = sessions_.find(token);
+  if (it != sessions_.end()) {
+    return it->second.lock();  // Returns nullptr if expired
+  }
+  return nullptr;
+}
+
 } // namespace fsx::net
 
