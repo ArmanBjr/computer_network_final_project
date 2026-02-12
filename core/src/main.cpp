@@ -4,8 +4,12 @@
 #include "fsx/net/tcp_server.h"
 #include "fsx/net/auth_handler.h"
 #include "fsx/net/session_manager.h"
+#include "fsx/net/udp_voice_server.h"
 #include "fsx/transfer/transfer_manager.h"
 #include "fsx/storage/file_store.h"
+#include "fsx/storage/resume_store.h"
+#include "fsx/crypto/rsa.h"
+#include "fsx/voice/voice_manager.h"
 #include <boost/asio.hpp>
 #include <cstdlib>
 #include <iostream>
@@ -67,6 +71,18 @@ int main(int argc, char** argv) {
     }
     std::cout << "[storage] initialized\n";
     std::cout.flush();
+    
+    // Phase 5: Create resume store and ensure transfer_resume table exists
+    fsx::storage::ResumeStore resume_store(db);
+    resume_store.ensure_table();
+    std::cout << "[resume] store initialized\n";
+    std::cout.flush();
+
+    // Phase 8: RSA key pair for key exchange (server sends pubkey, client sends encrypted session key)
+    fsx::crypto::RsaKeyPair rsa_keypair;
+    rsa_keypair.generate();
+    std::cout << "[core] RSA key pair generated (key exchange)\n";
+    std::cout.flush();
 
     // Start TCP server
     uint16_t port = 9000;
@@ -83,9 +99,23 @@ int main(int argc, char** argv) {
       port = static_cast<uint16_t>(env_port);
     }
 
+    // Phase 10: Voice manager and UDP voice port
+    auto voice_manager = std::make_shared<fsx::voice::VoiceManager>();
+    uint16_t udp_port = static_cast<uint16_t>(env_int_or("FSX_UDP_PORT", 9001));
+
     boost::asio::io_context io;
-    fsx::net::TcpServer server(io, port, auth_handler, session_manager, transfer_manager, file_store, users);
+
+    // TCP server (passes voice_manager to each TcpSession for signaling)
+    fsx::net::TcpServer server(io, port, auth_handler, session_manager, transfer_manager,
+                               file_store, resume_store, users, rsa_keypair,
+                               voice_manager, udp_port);
     server.start();
+
+    // Phase 10: UDP voice relay server
+    fsx::net::UdpVoiceServer udp_voice(io, udp_port, voice_manager);
+    udp_voice.start();
+    std::cout << "[core] voice UDP relay on port " << udp_port << "\n";
+    std::cout.flush();
 
     std::cout << "[core] server started on port " << port << ", running...\n";
     std::cout.flush();

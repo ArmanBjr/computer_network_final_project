@@ -21,6 +21,9 @@ class SessionManager {
   // Get session by token (returns nullptr if not found or expired)
   std::shared_ptr<TcpSession> get_session(const std::string& token) const;
 
+  // Get session by username (returns nullptr if not found/expired)
+  std::shared_ptr<TcpSession> get_session_by_username(const std::string& username) const;
+
  private:
   mutable std::mutex mutex_;
   mutable std::unordered_map<std::string, std::weak_ptr<TcpSession>> sessions_; // token -> session

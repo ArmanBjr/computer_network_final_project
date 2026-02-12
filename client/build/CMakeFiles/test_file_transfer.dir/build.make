@@ -83,18 +83,84 @@ CMakeFiles/test_file_transfer.dir/src/test_file_transfer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/test_file_transfer.dir/src/test_file_transfer.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/client/src/test_file_transfer.cpp -o CMakeFiles/test_file_transfer.dir/src/test_file_transfer.cpp.s
 
+CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.o: CMakeFiles/test_file_transfer.dir/flags.make
+CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.o: /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp
+CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.o: CMakeFiles/test_file_transfer.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.o -MF CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.o.d -o CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.o -c /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp
+
+CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp > CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.i
+
+CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp -o CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.s
+
+CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.o: CMakeFiles/test_file_transfer.dir/flags.make
+CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.o: /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp
+CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.o: CMakeFiles/test_file_transfer.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.o -MF CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.o.d -o CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.o -c /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp
+
+CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp > CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.i
+
+CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp -o CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.s
+
+CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.o: CMakeFiles/test_file_transfer.dir/flags.make
+CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.o: /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp
+CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.o: CMakeFiles/test_file_transfer.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.o -MF CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.o.d -o CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.o -c /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp
+
+CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp > CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.i
+
+CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp -o CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.s
+
+CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.o: CMakeFiles/test_file_transfer.dir/flags.make
+CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.o: /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp
+CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.o: CMakeFiles/test_file_transfer.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.o -MF CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.o.d -o CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.o -c /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp
+
+CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp > CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.i
+
+CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp -o CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.s
+
 # Object files for target test_file_transfer
 test_file_transfer_OBJECTS = \
-"CMakeFiles/test_file_transfer.dir/src/test_file_transfer.cpp.o"
+"CMakeFiles/test_file_transfer.dir/src/test_file_transfer.cpp.o" \
+"CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.o" \
+"CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.o" \
+"CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.o" \
+"CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.o"
 
 # External object files for target test_file_transfer
 test_file_transfer_EXTERNAL_OBJECTS =
 
 test_file_transfer: CMakeFiles/test_file_transfer.dir/src/test_file_transfer.cpp.o
+test_file_transfer: CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.o
+test_file_transfer: CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.o
+test_file_transfer: CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.o
+test_file_transfer: CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.o
 test_file_transfer: CMakeFiles/test_file_transfer.dir/build.make
 test_file_transfer: /usr/lib/x86_64-linux-gnu/libboost_system.so.1.83.0
+test_file_transfer: /usr/lib/x86_64-linux-gnu/libz.so
+test_file_transfer: /usr/lib/x86_64-linux-gnu/libcrypto.so
 test_file_transfer: CMakeFiles/test_file_transfer.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable test_file_transfer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable test_file_transfer"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_file_transfer.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

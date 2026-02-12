@@ -88,7 +88,7 @@ def _parse_online_list_resp(payload: bytes) -> List[str]:
     return usernames
 
 
-def get_online_users(timeout: float = 2.0) -> List[str]:
+def get_online_users(timeout: float = 5.0) -> List[str]:
     """
     Connect to Core server, send ONLINE_LIST_REQ, and return list of online usernames.
     
@@ -108,6 +108,8 @@ def get_online_users(timeout: float = 2.0) -> List[str]:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.settimeout(timeout)
         sock.connect((CORE_TCP_HOST, CORE_TCP_PORT))
+
+        _consume_key_exchange_pubkey(sock)
         
         # Send ONLINE_LIST_REQ (empty payload)
         header = _make_header(MSG_TYPE_ONLINE_LIST_REQ, 0)
@@ -256,7 +258,7 @@ def _parse_login_resp(payload: bytes) -> dict:
     }
 
 
-def register_user(username: str, email: str, password: str, timeout: float = 2.0) -> dict:
+def register_user(username: str, email: str, password: str, timeout: float = 8.0) -> dict:
     """
     Register a new user.
     
@@ -268,6 +270,8 @@ def register_user(username: str, email: str, password: str, timeout: float = 2.0
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.settimeout(timeout)
         sock.connect((CORE_TCP_HOST, CORE_TCP_PORT))
+
+        _consume_key_exchange_pubkey(sock)
         
         # Send REGISTER_REQ
         payload = _make_auth_payload(username, password, email)
@@ -301,7 +305,243 @@ def register_user(username: str, email: str, password: str, timeout: float = 2.0
             sock.close()
 
 
-def login_user(username: str, password: str, timeout: float = 2.0) -> dict:
+def _recv_full(sock, length: int) -> bytes:
+    """Receive exactly `length` bytes."""
+    data = b""
+    while len(data) < length:
+        chunk = sock.recv(length - len(data))
+        if not chunk:
+            raise CoreProtocolError("Connection closed while reading")
+        data += chunk
+    return data
+
+
+def _consume_key_exchange_pubkey(sock) -> None:
+    """Read and discard the KEY_EXCHANGE_PUBKEY (type 60) the server sends on connect."""
+    header_data = _recv_full(sock, HEADER_SIZE)
+    msg_type, payload_len = _parse_header(header_data)
+    if msg_type == 60:  # KEY_EXCHANGE_PUBKEY
+        if payload_len > 0:
+            _recv_full(sock, payload_len)
+    # else: not a pubkey — we'll just continue
+
+
+# ---------- Phase 9: Throttle & Transfer List ----------
+
+MSG_TYPE_THROTTLE_SET      = 70
+MSG_TYPE_THROTTLE_SET_RESP = 71
+MSG_TYPE_TRANSFER_LIST_REQ  = 72
+MSG_TYPE_TRANSFER_LIST_RESP = 73
+MSG_TYPE_VOICE_SESSION_LIST_REQ  = 84
+MSG_TYPE_VOICE_SESSION_LIST_RESP = 85
+
+
+def set_throttle(scope: str = "global", bytes_per_second: int = 0,
+                 user_id: int = 0, timeout: float = 3.0) -> dict:
+    """
+    Set transfer throttle on the Core server.
+
+    Args:
+        scope: "global" or "user"
+        bytes_per_second: rate limit (0 = unlimited)
+        user_id: target user (only when scope="user")
+
+    Returns:
+        {"ok": bool, "bps": int}
+    """
+    sock = None
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(timeout)
+        sock.connect((CORE_TCP_HOST, CORE_TCP_PORT))
+
+        _consume_key_exchange_pubkey(sock)
+
+        # Build payload: u8 scope + [u64 user_id] + u64 bps
+        payload = bytearray()
+        scope_byte = 0 if scope == "global" else 1
+        payload.append(scope_byte)
+        if scope_byte == 1:
+            payload.extend(struct.pack(">Q", user_id))
+        payload.extend(struct.pack(">Q", bytes_per_second))
+
+        header = _make_header(MSG_TYPE_THROTTLE_SET, len(payload))
+        sock.sendall(header + bytes(payload))
+
+        # Read response
+        resp_header = _recv_full(sock, HEADER_SIZE)
+        resp_type, resp_len = _parse_header(resp_header)
+        if resp_type != MSG_TYPE_THROTTLE_SET_RESP:
+            raise CoreProtocolError(f"Expected THROTTLE_SET_RESP (71), got {resp_type}")
+        resp_payload = _recv_full(sock, resp_len) if resp_len > 0 else b""
+
+        ok = resp_payload[0] == 1 if len(resp_payload) > 0 else False
+        bps = struct.unpack(">Q", resp_payload[1:9])[0] if len(resp_payload) >= 9 else 0
+
+        return {"ok": ok, "bps": bps}
+
+    except socket.timeout:
+        raise CoreConnectionError("Timeout connecting to Core")
+    except socket.error as e:
+        raise CoreConnectionError(f"Cannot connect to Core: {e}")
+    finally:
+        if sock:
+            sock.close()
+
+
+def get_transfer_list(timeout: float = 3.0) -> list:
+    """
+    Get list of active file transfers from Core server.
+
+    Returns:
+        List of dicts with keys: transfer_id, state, sender, receiver, filename,
+        file_size, bytes_received, speed
+    """
+    sock = None
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(timeout)
+        sock.connect((CORE_TCP_HOST, CORE_TCP_PORT))
+
+        _consume_key_exchange_pubkey(sock)
+
+        header = _make_header(MSG_TYPE_TRANSFER_LIST_REQ, 0)
+        sock.sendall(header)
+
+        resp_header = _recv_full(sock, HEADER_SIZE)
+        resp_type, resp_len = _parse_header(resp_header)
+        if resp_type != MSG_TYPE_TRANSFER_LIST_RESP:
+            raise CoreProtocolError(f"Expected TRANSFER_LIST_RESP (73), got {resp_type}")
+
+        payload = _recv_full(sock, resp_len) if resp_len > 0 else b""
+        if len(payload) < 2:
+            return []
+
+        pos = 0
+        count = struct.unpack(">H", payload[pos:pos+2])[0]; pos += 2
+
+        state_names = ["OFFERED", "ACCEPTED", "RECEIVING", "COMPLETED", "FAILED"]
+        transfers = []
+
+        for _ in range(count):
+            if pos + 8 > len(payload):
+                break
+            tid = struct.unpack(">Q", payload[pos:pos+8])[0]; pos += 8
+
+            if pos + 1 > len(payload):
+                break
+            state_val = payload[pos]; pos += 1
+            state_str = state_names[state_val] if state_val < len(state_names) else "UNKNOWN"
+
+            # sender
+            slen = struct.unpack(">H", payload[pos:pos+2])[0]; pos += 2
+            sender = payload[pos:pos+slen].decode("utf-8", errors="replace"); pos += slen
+
+            # receiver
+            rlen = struct.unpack(">H", payload[pos:pos+2])[0]; pos += 2
+            receiver = payload[pos:pos+rlen].decode("utf-8", errors="replace"); pos += rlen
+
+            # filename
+            flen = struct.unpack(">H", payload[pos:pos+2])[0]; pos += 2
+            filename = payload[pos:pos+flen].decode("utf-8", errors="replace"); pos += flen
+
+            # file_size, bytes_received, speed
+            file_size = struct.unpack(">Q", payload[pos:pos+8])[0]; pos += 8
+            bytes_rx  = struct.unpack(">Q", payload[pos:pos+8])[0]; pos += 8
+            speed     = struct.unpack(">Q", payload[pos:pos+8])[0]; pos += 8
+
+            progress = (bytes_rx / file_size * 100) if file_size > 0 else 0
+
+            transfers.append({
+                "transfer_id": tid,
+                "state": state_str,
+                "sender": sender,
+                "receiver": receiver,
+                "filename": filename,
+                "file_size": file_size,
+                "bytes_received": bytes_rx,
+                "progress": round(progress, 1),
+                "speed": speed,
+                "speed_kbs": round(speed / 1024, 1) if speed > 0 else 0,
+            })
+
+        return transfers
+
+    except socket.timeout:
+        raise CoreConnectionError("Timeout connecting to Core")
+    except socket.error as e:
+        raise CoreConnectionError(f"Cannot connect to Core: {e}")
+    finally:
+        if sock:
+            sock.close()
+
+
+def get_voice_sessions(timeout: float = 3.0) -> list:
+    """
+    Get list of active voice sessions from Core server.
+
+    Returns:
+        List of dicts with keys: session_id, caller, callee, frames_relayed
+    """
+    sock = None
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(timeout)
+        sock.connect((CORE_TCP_HOST, CORE_TCP_PORT))
+
+        _consume_key_exchange_pubkey(sock)
+
+        header = _make_header(MSG_TYPE_VOICE_SESSION_LIST_REQ, 0)
+        sock.sendall(header)
+
+        resp_header = _recv_full(sock, HEADER_SIZE)
+        resp_type, resp_len = _parse_header(resp_header)
+        if resp_type != MSG_TYPE_VOICE_SESSION_LIST_RESP:
+            raise CoreProtocolError(f"Expected VOICE_SESSION_LIST_RESP (85), got {resp_type}")
+
+        payload = _recv_full(sock, resp_len) if resp_len > 0 else b""
+        if len(payload) < 2:
+            return []
+
+        pos = 0
+        count = struct.unpack(">H", payload[pos:pos+2])[0]; pos += 2
+
+        sessions = []
+        for _ in range(count):
+            if pos + 4 > len(payload):
+                break
+            session_id = struct.unpack(">I", payload[pos:pos+4])[0]; pos += 4
+
+            # caller
+            clen = struct.unpack(">H", payload[pos:pos+2])[0]; pos += 2
+            caller = payload[pos:pos+clen].decode("utf-8", errors="replace"); pos += clen
+
+            # callee
+            elen = struct.unpack(">H", payload[pos:pos+2])[0]; pos += 2
+            callee = payload[pos:pos+elen].decode("utf-8", errors="replace"); pos += elen
+
+            # frames_relayed
+            frames = struct.unpack(">Q", payload[pos:pos+8])[0]; pos += 8
+
+            sessions.append({
+                "session_id": session_id,
+                "caller": caller,
+                "callee": callee,
+                "frames_relayed": frames,
+            })
+
+        return sessions
+
+    except socket.timeout:
+        raise CoreConnectionError("Timeout connecting to Core")
+    except socket.error as e:
+        raise CoreConnectionError(f"Cannot connect to Core: {e}")
+    finally:
+        if sock:
+            sock.close()
+
+
+def login_user(username: str, password: str, timeout: float = 8.0) -> dict:
     """
     Login a user.
     
@@ -313,6 +553,8 @@ def login_user(username: str, password: str, timeout: float = 2.0) -> dict:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.settimeout(timeout)
         sock.connect((CORE_TCP_HOST, CORE_TCP_PORT))
+
+        _consume_key_exchange_pubkey(sock)
         
         # Send LOGIN_REQ
         payload = _make_auth_payload(username, password)

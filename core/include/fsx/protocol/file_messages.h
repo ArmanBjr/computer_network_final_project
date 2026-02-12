@@ -291,31 +291,42 @@ struct FileChunk {
   }
 };
 
-// FILE_DONE payload format:
+// FILE_DONE payload format (Phase 7: optional file_sha256):
 // u64 transfer_id (network order)
 // u32 total_chunks (network order)
 // u64 file_size (network order, confirmation)
+// [Phase 7] optional: u8[32] file_sha256 (client-provided hash for server verification)
 
 struct FileDone {
   uint64_t transfer_id = 0;
   uint32_t total_chunks = 0;
   uint64_t file_size = 0;
+  std::vector<uint8_t> file_sha256;  // 32 bytes if sent by client; empty = not sent
+
+  static constexpr size_t FILE_DONE_MIN_SIZE = 20;  // 8+4+8
+  static constexpr size_t SHA256_SIZE = 32;
 
   static FileDone deserialize(const std::vector<uint8_t>& payload) {
-    if (payload.size() < 16) throw std::runtime_error("FILE_DONE: payload too short");
+    if (payload.size() < FILE_DONE_MIN_SIZE) throw std::runtime_error("FILE_DONE: payload too short");
     
     FileDone done;
-    done.transfer_id = be64toh(*reinterpret_cast<const uint64_t*>(payload.data()));
-    done.total_chunks = ntohl(*reinterpret_cast<const uint32_t*>(payload.data() + 8));
-    done.file_size = be64toh(*reinterpret_cast<const uint64_t*>(payload.data() + 12));
-    
+    size_t pos = 0;
+    done.transfer_id = be64toh_portable(*reinterpret_cast<const uint64_t*>(payload.data() + pos));
+    pos += 8;
+    done.total_chunks = ntohl(*reinterpret_cast<const uint32_t*>(payload.data() + pos));
+    pos += 4;
+    done.file_size = be64toh_portable(*reinterpret_cast<const uint64_t*>(payload.data() + pos));
+    pos += 8;
+    if (payload.size() >= pos + SHA256_SIZE) {
+      done.file_sha256.assign(payload.begin() + pos, payload.begin() + pos + SHA256_SIZE);
+    }
     return done;
   }
 
   std::vector<uint8_t> serialize() const {
     std::vector<uint8_t> payload;
     
-      uint64_t transfer_id_be = htobe64_portable(transfer_id);
+    uint64_t transfer_id_be = htobe64_portable(transfer_id);
     payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&transfer_id_be),
                    reinterpret_cast<const uint8_t*>(&transfer_id_be) + 8);
     
@@ -323,55 +334,719 @@ struct FileDone {
     payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&total_chunks_be),
                    reinterpret_cast<const uint8_t*>(&total_chunks_be) + 4);
     
-      uint64_t file_size_be = htobe64_portable(file_size);
+    uint64_t file_size_be = htobe64_portable(file_size);
     payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&file_size_be),
                    reinterpret_cast<const uint8_t*>(&file_size_be) + 8);
     
+    if (file_sha256.size() == SHA256_SIZE) {
+      payload.insert(payload.end(), file_sha256.begin(), file_sha256.end());
+    }
     return payload;
   }
 };
 
-// FILE_RESULT payload format:
+// FILE_RESULT payload format (Phase 7: optional sha256 for UI/log):
 // u64 transfer_id (network order)
 // u8 status (0=OK, 1=FAIL)
 // u16 path_len (network order, 0 if FAIL)
 // bytes saved_path (if OK) or error_reason (if FAIL)
+// [Phase 7] optional: u8 sha256_status (0=not_checked, 1=verified, 2=mismatch), then u8[32] computed_sha256
 
 struct FileResult {
   uint64_t transfer_id = 0;
   bool ok = false;
   std::string path_or_reason;  // saved path if OK, error reason if FAIL
+  // Phase 7: SHA-256 integrity for UI/log
+  int sha256_status = -1;  // -1 absent, 0 not_checked (client didn't send), 1 verified, 2 mismatch
+  std::vector<uint8_t> computed_sha256;  // 32 bytes when status is 1 or 2 (for UI display)
+
+  static constexpr size_t SHA256_SIZE = 32;
 
   static FileResult deserialize(const std::vector<uint8_t>& payload) {
     if (payload.size() < 9) throw std::runtime_error("FILE_RESULT: payload too short");
     
     FileResult result;
-    result.transfer_id = be64toh(*reinterpret_cast<const uint64_t*>(payload.data()));
-    result.ok = (payload[8] == 0);
-    
-    if (payload.size() >= 11) {
-      uint16_t path_len = ntohs(*reinterpret_cast<const uint16_t*>(payload.data() + 9));
-      if (11 + path_len <= payload.size()) {
-        result.path_or_reason = std::string(reinterpret_cast<const char*>(payload.data() + 11), path_len);
+    size_t pos = 0;
+    result.transfer_id = be64toh_portable(*reinterpret_cast<const uint64_t*>(payload.data() + pos));
+    pos += 8;
+    result.ok = (payload[pos] == 0);
+    pos += 1;
+    if (payload.size() >= pos + 2) {
+      uint16_t path_len = ntohs(*reinterpret_cast<const uint16_t*>(payload.data() + pos));
+      pos += 2;
+      if (pos + path_len <= payload.size()) {
+        result.path_or_reason = std::string(reinterpret_cast<const char*>(payload.data() + pos), path_len);
+        pos += path_len;
+      }
+      if (pos + 1 <= payload.size()) {
+        result.sha256_status = static_cast<int>(payload[pos]);
+        pos += 1;
+        if ((result.sha256_status == 1 || result.sha256_status == 2) && pos + SHA256_SIZE <= payload.size()) {
+          result.computed_sha256.assign(payload.begin() + pos, payload.begin() + pos + SHA256_SIZE);
+        }
       }
     }
-    
     return result;
   }
 
   std::vector<uint8_t> serialize() const {
     std::vector<uint8_t> payload;
     
-      uint64_t transfer_id_be = htobe64_portable(transfer_id);
+    uint64_t transfer_id_be = htobe64_portable(transfer_id);
     payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&transfer_id_be),
                    reinterpret_cast<const uint8_t*>(&transfer_id_be) + 8);
     
     payload.push_back(ok ? 0 : 1);
     
-    uint16_t path_len_be = htons((uint16_t)path_or_reason.size());
+    uint16_t path_len_be = htons(static_cast<uint16_t>(path_or_reason.size()));
     payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&path_len_be),
                    reinterpret_cast<const uint8_t*>(&path_len_be) + 2);
     payload.insert(payload.end(), path_or_reason.begin(), path_or_reason.end());
+    
+    if (sha256_status >= 0) {
+      payload.push_back(static_cast<uint8_t>(sha256_status));
+      if (computed_sha256.size() == SHA256_SIZE) {
+        payload.insert(payload.end(), computed_sha256.begin(), computed_sha256.end());
+      }
+    }
+    return payload;
+  }
+};
+
+// ============================================================================
+// Phase 4: Upload messages with CRC32
+// ============================================================================
+
+// FILE_UPLOAD_CHUNK payload format (Phase 4 + Phase 6 optional compression):
+// u64 transfer_id (network order)
+// u32 chunk_index (network order)
+// u32 data_size (network order) — size of data on wire (compressed or raw)
+// u32 crc32 (network order, CRC32 of *uncompressed* data only)
+// [Phase 6] u64 original_size (network order, optional) — if present and > 0, data is zlib-compressed
+// u8[data_size] data
+
+struct FileUploadChunk {
+  uint64_t transfer_id = 0;
+  uint32_t chunk_index = 0;
+  uint32_t data_size = 0;
+  uint32_t crc32 = 0;
+  uint64_t original_size = 0;  // Phase 6: uncompressed size; 0 = not compressed
+  std::vector<uint8_t> data;
+
+  static FileUploadChunk deserialize(const std::vector<uint8_t>& payload) {
+    if (payload.size() < 20) throw std::runtime_error("FILE_UPLOAD_CHUNK: payload too short");
+    
+    FileUploadChunk chunk;
+    size_t pos = 0;
+    
+    chunk.transfer_id = be64toh_portable(*reinterpret_cast<const uint64_t*>(payload.data() + pos));
+    pos += 8;
+    
+    chunk.chunk_index = ntohl(*reinterpret_cast<const uint32_t*>(payload.data() + pos));
+    pos += 4;
+    
+    chunk.data_size = ntohl(*reinterpret_cast<const uint32_t*>(payload.data() + pos));
+    pos += 4;
+    
+    chunk.crc32 = ntohl(*reinterpret_cast<const uint32_t*>(payload.data() + pos));
+    pos += 4;
+    
+    // Phase 6: optional original_size (backward compatible: old clients send 20-byte header)
+    if (payload.size() >= 28 + chunk.data_size) {
+      chunk.original_size = be64toh_portable(*reinterpret_cast<const uint64_t*>(payload.data() + pos));
+      pos += 8;
+    }
+    
+    if (payload.size() < pos + chunk.data_size) {
+      throw std::runtime_error("FILE_UPLOAD_CHUNK: payload size mismatch");
+    }
+    
+    chunk.data.assign(payload.begin() + pos, payload.begin() + pos + chunk.data_size);
+    
+    return chunk;
+  }
+
+  std::vector<uint8_t> serialize() const {
+    std::vector<uint8_t> payload;
+    
+    uint64_t transfer_id_be = htobe64_portable(transfer_id);
+    payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&transfer_id_be),
+                   reinterpret_cast<const uint8_t*>(&transfer_id_be) + 8);
+    
+    uint32_t chunk_index_be = htonl(chunk_index);
+    payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&chunk_index_be),
+                   reinterpret_cast<const uint8_t*>(&chunk_index_be) + 4);
+    
+    uint32_t data_size_be = htonl((uint32_t)data.size());
+    payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&data_size_be),
+                   reinterpret_cast<const uint8_t*>(&data_size_be) + 4);
+    
+    uint32_t crc32_be = htonl(crc32);
+    payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&crc32_be),
+                   reinterpret_cast<const uint8_t*>(&crc32_be) + 4);
+    
+    if (original_size > 0) {
+      uint64_t original_size_be = htobe64_portable(original_size);
+      payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&original_size_be),
+                     reinterpret_cast<const uint8_t*>(&original_size_be) + 8);
+    }
+    
+    payload.insert(payload.end(), data.begin(), data.end());
+    
+    return payload;
+  }
+};
+
+// FILE_UPLOAD_ACK payload format:
+// u64 transfer_id (network order)
+// u32 chunk_index (network order)
+
+struct FileUploadAck {
+  uint64_t transfer_id = 0;
+  uint32_t chunk_index = 0;
+
+  static FileUploadAck deserialize(const std::vector<uint8_t>& payload) {
+    if (payload.size() < 12) throw std::runtime_error("FILE_UPLOAD_ACK: payload too short");
+    
+    FileUploadAck ack;
+    ack.transfer_id = be64toh_portable(*reinterpret_cast<const uint64_t*>(payload.data()));
+    ack.chunk_index = ntohl(*reinterpret_cast<const uint32_t*>(payload.data() + 8));
+    
+    return ack;
+  }
+
+  std::vector<uint8_t> serialize() const {
+    std::vector<uint8_t> payload;
+    
+    uint64_t transfer_id_be = htobe64_portable(transfer_id);
+    payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&transfer_id_be),
+                   reinterpret_cast<const uint8_t*>(&transfer_id_be) + 8);
+    
+    uint32_t chunk_index_be = htonl(chunk_index);
+    payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&chunk_index_be),
+                   reinterpret_cast<const uint8_t*>(&chunk_index_be) + 4);
+    
+    return payload;
+  }
+};
+
+// FILE_UPLOAD_NAK payload format:
+// u64 transfer_id (network order)
+// u32 chunk_index (network order)
+// u32 expected_crc32 (network order, what we expected)
+// u32 got_crc32 (network order, what we got)
+
+struct FileUploadNak {
+  uint64_t transfer_id = 0;
+  uint32_t chunk_index = 0;
+  uint32_t expected_crc32 = 0;
+  uint32_t got_crc32 = 0;
+
+  static FileUploadNak deserialize(const std::vector<uint8_t>& payload) {
+    if (payload.size() < 20) throw std::runtime_error("FILE_UPLOAD_NAK: payload too short");
+    
+    FileUploadNak nak;
+    size_t pos = 0;
+    
+    nak.transfer_id = be64toh_portable(*reinterpret_cast<const uint64_t*>(payload.data() + pos));
+    pos += 8;
+    
+    nak.chunk_index = ntohl(*reinterpret_cast<const uint32_t*>(payload.data() + pos));
+    pos += 4;
+    
+    nak.expected_crc32 = ntohl(*reinterpret_cast<const uint32_t*>(payload.data() + pos));
+    pos += 4;
+    
+    nak.got_crc32 = ntohl(*reinterpret_cast<const uint32_t*>(payload.data() + pos));
+    
+    return nak;
+  }
+
+  std::vector<uint8_t> serialize() const {
+    std::vector<uint8_t> payload;
+    
+    uint64_t transfer_id_be = htobe64_portable(transfer_id);
+    payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&transfer_id_be),
+                   reinterpret_cast<const uint8_t*>(&transfer_id_be) + 8);
+    
+    uint32_t chunk_index_be = htonl(chunk_index);
+    payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&chunk_index_be),
+                   reinterpret_cast<const uint8_t*>(&chunk_index_be) + 4);
+    
+    uint32_t expected_crc32_be = htonl(expected_crc32);
+    payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&expected_crc32_be),
+                   reinterpret_cast<const uint8_t*>(&expected_crc32_be) + 4);
+    
+    uint32_t got_crc32_be = htonl(got_crc32);
+    payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&got_crc32_be),
+                   reinterpret_cast<const uint8_t*>(&got_crc32_be) + 4);
+    
+    return payload;
+  }
+};
+
+// ============================================================================
+// Phase 4: Download messages
+// ============================================================================
+
+// FILE_DOWNLOAD_REQ payload format:
+// u64 transfer_id (network order)
+
+struct FileDownloadReq {
+  uint64_t transfer_id = 0;
+
+  static FileDownloadReq deserialize(const std::vector<uint8_t>& payload) {
+    if (payload.size() < 8) throw std::runtime_error("FILE_DOWNLOAD_REQ: payload too short");
+    
+    FileDownloadReq req;
+    req.transfer_id = be64toh_portable(*reinterpret_cast<const uint64_t*>(payload.data()));
+    
+    return req;
+  }
+
+  std::vector<uint8_t> serialize() const {
+    std::vector<uint8_t> payload;
+    
+    uint64_t transfer_id_be = htobe64_portable(transfer_id);
+    payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&transfer_id_be),
+                   reinterpret_cast<const uint8_t*>(&transfer_id_be) + 8);
+    
+    return payload;
+  }
+};
+
+// FILE_DOWNLOAD_START payload format:
+// u8 status (0=OK, 1=FAIL)
+// u16 filename_len (network order)
+// bytes filename
+// u64 file_size (network order)
+// u32 chunk_size (network order)
+// u32 total_chunks (network order)
+// u16 reason_len (network order, 0 if OK)
+// bytes reason (if FAIL)
+
+struct FileDownloadStart {
+  bool ok = false;
+  std::string filename;
+  uint64_t file_size = 0;
+  uint32_t chunk_size = 0;
+  uint32_t total_chunks = 0;
+  std::string reason;
+
+  static FileDownloadStart deserialize(const std::vector<uint8_t>& payload) {
+    if (payload.size() < 1) throw std::runtime_error("FILE_DOWNLOAD_START: payload too short");
+    
+    FileDownloadStart start;
+    size_t pos = 0;
+    
+    start.ok = (payload[pos] == 0);
+    pos += 1;
+    
+    if (start.ok) {
+      if (payload.size() < pos + 2) throw std::runtime_error("FILE_DOWNLOAD_START: payload too short");
+      
+      uint16_t filename_len = ntohs(*reinterpret_cast<const uint16_t*>(payload.data() + pos));
+      pos += 2;
+      
+      if (payload.size() < pos + filename_len) throw std::runtime_error("FILE_DOWNLOAD_START: payload too short");
+      start.filename = std::string(reinterpret_cast<const char*>(payload.data() + pos), filename_len);
+      pos += filename_len;
+      
+      if (payload.size() < pos + 8) throw std::runtime_error("FILE_DOWNLOAD_START: payload too short");
+      start.file_size = be64toh_portable(*reinterpret_cast<const uint64_t*>(payload.data() + pos));
+      pos += 8;
+      
+      if (payload.size() < pos + 4) throw std::runtime_error("FILE_DOWNLOAD_START: payload too short");
+      start.chunk_size = ntohl(*reinterpret_cast<const uint32_t*>(payload.data() + pos));
+      pos += 4;
+      
+      if (payload.size() < pos + 4) throw std::runtime_error("FILE_DOWNLOAD_START: payload too short");
+      start.total_chunks = ntohl(*reinterpret_cast<const uint32_t*>(payload.data() + pos));
+      pos += 4;
+    } else {
+      if (payload.size() < pos + 2) throw std::runtime_error("FILE_DOWNLOAD_START: payload too short");
+      uint16_t reason_len = ntohs(*reinterpret_cast<const uint16_t*>(payload.data() + pos));
+      pos += 2;
+      if (payload.size() >= pos + reason_len) {
+        start.reason = std::string(reinterpret_cast<const char*>(payload.data() + pos), reason_len);
+      }
+    }
+    
+    return start;
+  }
+
+  std::vector<uint8_t> serialize() const {
+    std::vector<uint8_t> payload;
+    
+    payload.push_back(ok ? 0 : 1);
+    
+    if (ok) {
+      uint16_t filename_len_be = htons((uint16_t)filename.size());
+      payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&filename_len_be),
+                     reinterpret_cast<const uint8_t*>(&filename_len_be) + 2);
+      payload.insert(payload.end(), filename.begin(), filename.end());
+      
+      uint64_t file_size_be = htobe64_portable(file_size);
+      payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&file_size_be),
+                     reinterpret_cast<const uint8_t*>(&file_size_be) + 8);
+      
+      uint32_t chunk_size_be = htonl(chunk_size);
+      payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&chunk_size_be),
+                     reinterpret_cast<const uint8_t*>(&chunk_size_be) + 4);
+      
+      uint32_t total_chunks_be = htonl(total_chunks);
+      payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&total_chunks_be),
+                     reinterpret_cast<const uint8_t*>(&total_chunks_be) + 4);
+    } else {
+      uint16_t reason_len_be = htons((uint16_t)reason.size());
+      payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&reason_len_be),
+                     reinterpret_cast<const uint8_t*>(&reason_len_be) + 2);
+      payload.insert(payload.end(), reason.begin(), reason.end());
+    }
+    
+    return payload;
+  }
+};
+
+// FILE_DOWNLOAD_CHUNK payload format:
+// u64 transfer_id (network order)
+// u32 chunk_index (network order)
+// u32 data_size (network order)
+// u32 crc32 (network order, CRC32 of data only)
+// u8[data_size] data
+
+struct FileDownloadChunk {
+  uint64_t transfer_id = 0;
+  uint32_t chunk_index = 0;
+  uint32_t data_size = 0;
+  uint32_t crc32 = 0;
+  std::vector<uint8_t> data;
+
+  static FileDownloadChunk deserialize(const std::vector<uint8_t>& payload) {
+    if (payload.size() < 20) throw std::runtime_error("FILE_DOWNLOAD_CHUNK: payload too short");
+    
+    FileDownloadChunk chunk;
+    size_t pos = 0;
+    
+    chunk.transfer_id = be64toh_portable(*reinterpret_cast<const uint64_t*>(payload.data() + pos));
+    pos += 8;
+    
+    chunk.chunk_index = ntohl(*reinterpret_cast<const uint32_t*>(payload.data() + pos));
+    pos += 4;
+    
+    chunk.data_size = ntohl(*reinterpret_cast<const uint32_t*>(payload.data() + pos));
+    pos += 4;
+    
+    chunk.crc32 = ntohl(*reinterpret_cast<const uint32_t*>(payload.data() + pos));
+    pos += 4;
+    
+    if (payload.size() < pos + chunk.data_size) {
+      throw std::runtime_error("FILE_DOWNLOAD_CHUNK: payload size mismatch");
+    }
+    
+    chunk.data.assign(payload.begin() + pos, payload.begin() + pos + chunk.data_size);
+    
+    return chunk;
+  }
+
+  std::vector<uint8_t> serialize() const {
+    std::vector<uint8_t> payload;
+    
+    uint64_t transfer_id_be = htobe64_portable(transfer_id);
+    payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&transfer_id_be),
+                   reinterpret_cast<const uint8_t*>(&transfer_id_be) + 8);
+    
+    uint32_t chunk_index_be = htonl(chunk_index);
+    payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&chunk_index_be),
+                   reinterpret_cast<const uint8_t*>(&chunk_index_be) + 4);
+    
+    uint32_t data_size_be = htonl((uint32_t)data.size());
+    payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&data_size_be),
+                   reinterpret_cast<const uint8_t*>(&data_size_be) + 4);
+    
+    uint32_t crc32_be = htonl(crc32);
+    payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&crc32_be),
+                   reinterpret_cast<const uint8_t*>(&crc32_be) + 4);
+    
+    payload.insert(payload.end(), data.begin(), data.end());
+    
+    return payload;
+  }
+};
+
+// FILE_DOWNLOAD_ACK payload format:
+// u64 transfer_id (network order)
+// u32 chunk_index (network order)
+
+struct FileDownloadAck {
+  uint64_t transfer_id = 0;
+  uint32_t chunk_index = 0;
+
+  static FileDownloadAck deserialize(const std::vector<uint8_t>& payload) {
+    if (payload.size() < 12) throw std::runtime_error("FILE_DOWNLOAD_ACK: payload too short");
+    
+    FileDownloadAck ack;
+    ack.transfer_id = be64toh_portable(*reinterpret_cast<const uint64_t*>(payload.data()));
+    ack.chunk_index = ntohl(*reinterpret_cast<const uint32_t*>(payload.data() + 8));
+    
+    return ack;
+  }
+
+  std::vector<uint8_t> serialize() const {
+    std::vector<uint8_t> payload;
+    
+    uint64_t transfer_id_be = htobe64_portable(transfer_id);
+    payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&transfer_id_be),
+                   reinterpret_cast<const uint8_t*>(&transfer_id_be) + 8);
+    
+    uint32_t chunk_index_be = htonl(chunk_index);
+    payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&chunk_index_be),
+                   reinterpret_cast<const uint8_t*>(&chunk_index_be) + 4);
+    
+    return payload;
+  }
+};
+
+// FILE_DOWNLOAD_NAK payload format:
+// u64 transfer_id (network order)
+// u32 chunk_index (network order)
+// u32 expected_crc32 (network order, what we expected)
+// u32 got_crc32 (network order, what we got)
+
+struct FileDownloadNak {
+  uint64_t transfer_id = 0;
+  uint32_t chunk_index = 0;
+  uint32_t expected_crc32 = 0;
+  uint32_t got_crc32 = 0;
+
+  static FileDownloadNak deserialize(const std::vector<uint8_t>& payload) {
+    if (payload.size() < 20) throw std::runtime_error("FILE_DOWNLOAD_NAK: payload too short");
+    
+    FileDownloadNak nak;
+    size_t pos = 0;
+    
+    nak.transfer_id = be64toh_portable(*reinterpret_cast<const uint64_t*>(payload.data() + pos));
+    pos += 8;
+    
+    nak.chunk_index = ntohl(*reinterpret_cast<const uint32_t*>(payload.data() + pos));
+    pos += 4;
+    
+    nak.expected_crc32 = ntohl(*reinterpret_cast<const uint32_t*>(payload.data() + pos));
+    pos += 4;
+    
+    nak.got_crc32 = ntohl(*reinterpret_cast<const uint32_t*>(payload.data() + pos));
+    
+    return nak;
+  }
+
+  std::vector<uint8_t> serialize() const {
+    std::vector<uint8_t> payload;
+    
+    uint64_t transfer_id_be = htobe64_portable(transfer_id);
+    payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&transfer_id_be),
+                   reinterpret_cast<const uint8_t*>(&transfer_id_be) + 8);
+    
+    uint32_t chunk_index_be = htonl(chunk_index);
+    payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&chunk_index_be),
+                   reinterpret_cast<const uint8_t*>(&chunk_index_be) + 4);
+    
+    uint32_t expected_crc32_be = htonl(expected_crc32);
+    payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&expected_crc32_be),
+                   reinterpret_cast<const uint8_t*>(&expected_crc32_be) + 4);
+    
+    uint32_t got_crc32_be = htonl(got_crc32);
+    payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&got_crc32_be),
+                   reinterpret_cast<const uint8_t*>(&got_crc32_be) + 4);
+    
+    return payload;
+  }
+};
+
+// FILE_DOWNLOAD_DONE payload format:
+// u64 transfer_id (network order)
+// u8 status (0=OK, 1=FAIL)
+// u16 reason_len (network order, 0 if OK)
+// bytes reason (if FAIL)
+
+struct FileDownloadDone {
+  uint64_t transfer_id = 0;
+  bool ok = false;
+  std::string reason;
+
+  static FileDownloadDone deserialize(const std::vector<uint8_t>& payload) {
+    if (payload.size() < 9) throw std::runtime_error("FILE_DOWNLOAD_DONE: payload too short");
+    
+    FileDownloadDone done;
+    done.transfer_id = be64toh_portable(*reinterpret_cast<const uint64_t*>(payload.data()));
+    done.ok = (payload[8] == 0);
+    
+    if (!done.ok && payload.size() >= 11) {
+      uint16_t reason_len = ntohs(*reinterpret_cast<const uint16_t*>(payload.data() + 9));
+      if (11 + reason_len <= payload.size()) {
+        done.reason = std::string(reinterpret_cast<const char*>(payload.data() + 11), reason_len);
+      }
+    }
+    
+    return done;
+  }
+
+  std::vector<uint8_t> serialize() const {
+    std::vector<uint8_t> payload;
+    
+    uint64_t transfer_id_be = htobe64_portable(transfer_id);
+    payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&transfer_id_be),
+                   reinterpret_cast<const uint8_t*>(&transfer_id_be) + 8);
+    
+    payload.push_back(ok ? 0 : 1);
+    
+    if (!ok) {
+      uint16_t reason_len_be = htons((uint16_t)reason.size());
+      payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&reason_len_be),
+                     reinterpret_cast<const uint8_t*>(&reason_len_be) + 2);
+      payload.insert(payload.end(), reason.begin(), reason.end());
+    }
+    
+    return payload;
+  }
+};
+
+// ============================================================================
+// Phase 5: Resume messages
+// ============================================================================
+
+// RESUME_QUERY payload format:
+// u64 transfer_id (network order)
+struct ResumeQuery {
+  uint64_t transfer_id = 0;
+  
+  static ResumeQuery deserialize(const std::vector<uint8_t>& payload) {
+    if (payload.size() < 8) throw std::runtime_error("RESUME_QUERY: payload too short");
+    
+    ResumeQuery query;
+    query.transfer_id = be64toh_portable(*reinterpret_cast<const uint64_t*>(payload.data()));
+    
+    return query;
+  }
+  
+  std::vector<uint8_t> serialize() const {
+    std::vector<uint8_t> payload;
+    
+    uint64_t transfer_id_be = htobe64_portable(transfer_id);
+    payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&transfer_id_be),
+                   reinterpret_cast<const uint8_t*>(&transfer_id_be) + 8);
+    
+    return payload;
+  }
+};
+
+// RESUME_REPLY payload format:
+// u8 can_resume (0=no, 1=yes)
+// u64 transfer_id (network order)
+// u16 filename_len (network order, 0 if can_resume=0)
+// bytes filename (if can_resume=1)
+// u64 file_size (network order, if can_resume=1)
+// u32 chunk_size (network order, if can_resume=1)
+// u32 last_acked_chunk_index (network order, if can_resume=1)
+// u64 bytes_received (network order, if can_resume=1)
+// u16 reason_len (network order, 0 if can_resume=1)
+// bytes reason (if can_resume=0)
+struct ResumeReply {
+  bool can_resume = false;
+  uint64_t transfer_id = 0;
+  std::string filename;
+  uint64_t file_size = 0;
+  uint32_t chunk_size = 0;
+  uint32_t last_acked_chunk_index = 0;
+  uint64_t bytes_received = 0;
+  std::string reason;  // Error reason if can_resume=false
+  
+  static ResumeReply deserialize(const std::vector<uint8_t>& payload) {
+    if (payload.size() < 9) throw std::runtime_error("RESUME_REPLY: payload too short");
+    
+    ResumeReply reply;
+    size_t pos = 0;
+    
+    reply.can_resume = (payload[pos] == 1);
+    pos += 1;
+    
+    reply.transfer_id = be64toh_portable(*reinterpret_cast<const uint64_t*>(payload.data() + pos));
+    pos += 8;
+    
+    if (reply.can_resume) {
+      // Parse resume info
+      if (payload.size() < pos + 2) throw std::runtime_error("RESUME_REPLY: missing filename_len");
+      uint16_t filename_len = ntohs(*reinterpret_cast<const uint16_t*>(payload.data() + pos));
+      pos += 2;
+      
+      if (payload.size() < pos + filename_len) throw std::runtime_error("RESUME_REPLY: invalid filename_len");
+      reply.filename = std::string(reinterpret_cast<const char*>(payload.data() + pos), filename_len);
+      pos += filename_len;
+      
+      if (payload.size() < pos + 8) throw std::runtime_error("RESUME_REPLY: missing file_size");
+      reply.file_size = be64toh_portable(*reinterpret_cast<const uint64_t*>(payload.data() + pos));
+      pos += 8;
+      
+      if (payload.size() < pos + 4) throw std::runtime_error("RESUME_REPLY: missing chunk_size");
+      reply.chunk_size = ntohl(*reinterpret_cast<const uint32_t*>(payload.data() + pos));
+      pos += 4;
+      
+      if (payload.size() < pos + 4) throw std::runtime_error("RESUME_REPLY: missing last_acked_chunk_index");
+      reply.last_acked_chunk_index = ntohl(*reinterpret_cast<const uint32_t*>(payload.data() + pos));
+      pos += 4;
+      
+      if (payload.size() < pos + 8) throw std::runtime_error("RESUME_REPLY: missing bytes_received");
+      reply.bytes_received = be64toh_portable(*reinterpret_cast<const uint64_t*>(payload.data() + pos));
+      pos += 8;
+    } else {
+      // Parse error reason
+      if (payload.size() >= pos + 2) {
+        uint16_t reason_len = ntohs(*reinterpret_cast<const uint16_t*>(payload.data() + pos));
+        pos += 2;
+        if (pos + reason_len <= payload.size()) {
+          reply.reason = std::string(reinterpret_cast<const char*>(payload.data() + pos), reason_len);
+        }
+      }
+    }
+    
+    return reply;
+  }
+  
+  std::vector<uint8_t> serialize() const {
+    std::vector<uint8_t> payload;
+    
+    payload.push_back(can_resume ? 1 : 0);
+    
+    uint64_t transfer_id_be = htobe64_portable(transfer_id);
+    payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&transfer_id_be),
+                   reinterpret_cast<const uint8_t*>(&transfer_id_be) + 8);
+    
+    if (can_resume) {
+      uint16_t filename_len_be = htons(static_cast<uint16_t>(filename.size()));
+      payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&filename_len_be),
+                     reinterpret_cast<const uint8_t*>(&filename_len_be) + 2);
+      payload.insert(payload.end(), filename.begin(), filename.end());
+      
+      uint64_t file_size_be = htobe64_portable(file_size);
+      payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&file_size_be),
+                     reinterpret_cast<const uint8_t*>(&file_size_be) + 8);
+      
+      uint32_t chunk_size_be = htonl(chunk_size);
+      payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&chunk_size_be),
+                     reinterpret_cast<const uint8_t*>(&chunk_size_be) + 4);
+      
+      uint32_t last_acked_chunk_index_be = htonl(last_acked_chunk_index);
+      payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&last_acked_chunk_index_be),
+                     reinterpret_cast<const uint8_t*>(&last_acked_chunk_index_be) + 4);
+      
+      uint64_t bytes_received_be = htobe64_portable(bytes_received);
+      payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&bytes_received_be),
+                     reinterpret_cast<const uint8_t*>(&bytes_received_be) + 8);
+    } else {
+      uint16_t reason_len_be = htons(static_cast<uint16_t>(reason.size()));
+      payload.insert(payload.end(), reinterpret_cast<const uint8_t*>(&reason_len_be),
+                     reinterpret_cast<const uint8_t*>(&reason_len_be) + 2);
+      payload.insert(payload.end(), reason.begin(), reason.end());
+    }
     
     return payload;
   }

@@ -197,6 +197,30 @@ CMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
+//Path to a library.
+OPENSSL_CRYPTO_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libcrypto.so
+
+//Path to a file.
+OPENSSL_INCLUDE_DIR:PATH=/usr/include
+
+//Path to a library.
+OPENSSL_SSL_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libssl.so
+
+//Arguments to supply to pkg-config
+PKG_CONFIG_ARGN:STRING=
+
+//pkg-config executable
+PKG_CONFIG_EXECUTABLE:FILEPATH=/usr/bin/pkg-config
+
+//Path to a file.
+ZLIB_INCLUDE_DIR:PATH=/usr/include
+
+//Path to a library.
+ZLIB_LIBRARY_DEBUG:FILEPATH=ZLIB_LIBRARY_DEBUG-NOTFOUND
+
+//Path to a library.
+ZLIB_LIBRARY_RELEASE:FILEPATH=/usr/lib/x86_64-linux-gnu/libz.so
+
 //The directory containing a CMake configuration file for boost_headers.
 boost_headers_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
 
@@ -211,6 +235,15 @@ fsx_client_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
 fsx_client_SOURCE_DIR:STATIC=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/client
+
+//Path to a library.
+pkgcfg_lib_OPUS_opus:FILEPATH=/usr/lib/x86_64-linux-gnu/libopus.so
+
+//Path to a library.
+pkgcfg_lib__OPENSSL_crypto:FILEPATH=/usr/lib/x86_64-linux-gnu/libcrypto.so
+
+//Path to a library.
+pkgcfg_lib__OPENSSL_ssl:FILEPATH=/usr/lib/x86_64-linux-gnu/libssl.so
 
 
 ########################
@@ -350,10 +383,113 @@ CMAKE_UNAME:INTERNAL=/usr/bin/uname
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Details about finding Boost
 FIND_PACKAGE_MESSAGE_DETAILS_Boost:INTERNAL=[/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0/BoostConfig.cmake][cfound components: system ][v1.83.0()]
+//Details about finding OpenSSL
+FIND_PACKAGE_MESSAGE_DETAILS_OpenSSL:INTERNAL=[/usr/lib/x86_64-linux-gnu/libcrypto.so][/usr/include][c ][v3.0.13()]
+//Details about finding PkgConfig
+FIND_PACKAGE_MESSAGE_DETAILS_PkgConfig:INTERNAL=[/usr/bin/pkg-config][v1.8.1()]
+//Details about finding ZLIB
+FIND_PACKAGE_MESSAGE_DETAILS_ZLIB:INTERNAL=[/usr/lib/x86_64-linux-gnu/libz.so][/usr/include][c ][v1.3()]
+//ADVANCED property for variable: OPENSSL_CRYPTO_LIBRARY
+OPENSSL_CRYPTO_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OPENSSL_INCLUDE_DIR
+OPENSSL_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OPENSSL_SSL_LIBRARY
+OPENSSL_SSL_LIBRARY-ADVANCED:INTERNAL=1
+OPUS_CFLAGS:INTERNAL=-I/usr/include/opus
+OPUS_CFLAGS_I:INTERNAL=
+OPUS_CFLAGS_OTHER:INTERNAL=
+OPUS_FOUND:INTERNAL=1
+OPUS_INCLUDEDIR:INTERNAL=/usr/include
+OPUS_INCLUDE_DIRS:INTERNAL=/usr/include/opus
+OPUS_LDFLAGS:INTERNAL=-L/usr/lib/x86_64-linux-gnu;-lopus
+OPUS_LDFLAGS_OTHER:INTERNAL=
+OPUS_LIBDIR:INTERNAL=/usr/lib/x86_64-linux-gnu
+OPUS_LIBRARIES:INTERNAL=opus
+OPUS_LIBRARY_DIRS:INTERNAL=/usr/lib/x86_64-linux-gnu
+OPUS_LIBS:INTERNAL=
+OPUS_LIBS_L:INTERNAL=
+OPUS_LIBS_OTHER:INTERNAL=
+OPUS_LIBS_PATHS:INTERNAL=
+OPUS_MODULE_NAME:INTERNAL=opus
+OPUS_PREFIX:INTERNAL=/usr
+OPUS_STATIC_CFLAGS:INTERNAL=-I/usr/include/opus
+OPUS_STATIC_CFLAGS_I:INTERNAL=
+OPUS_STATIC_CFLAGS_OTHER:INTERNAL=
+OPUS_STATIC_INCLUDE_DIRS:INTERNAL=/usr/include/opus
+OPUS_STATIC_LDFLAGS:INTERNAL=-L/usr/lib/x86_64-linux-gnu;-lopus;-lm
+OPUS_STATIC_LDFLAGS_OTHER:INTERNAL=
+OPUS_STATIC_LIBDIR:INTERNAL=
+OPUS_STATIC_LIBRARIES:INTERNAL=opus;m
+OPUS_STATIC_LIBRARY_DIRS:INTERNAL=/usr/lib/x86_64-linux-gnu
+OPUS_STATIC_LIBS:INTERNAL=
+OPUS_STATIC_LIBS_L:INTERNAL=
+OPUS_STATIC_LIBS_OTHER:INTERNAL=
+OPUS_STATIC_LIBS_PATHS:INTERNAL=
+OPUS_VERSION:INTERNAL=1.4
+OPUS_opus_INCLUDEDIR:INTERNAL=
+OPUS_opus_LIBDIR:INTERNAL=
+OPUS_opus_PREFIX:INTERNAL=
+OPUS_opus_VERSION:INTERNAL=
+//ADVANCED property for variable: PKG_CONFIG_ARGN
+PKG_CONFIG_ARGN-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
+PKG_CONFIG_EXECUTABLE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: ZLIB_INCLUDE_DIR
+ZLIB_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: ZLIB_LIBRARY_DEBUG
+ZLIB_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: ZLIB_LIBRARY_RELEASE
+ZLIB_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 //linker supports push/pop state
 _CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED:INTERNAL=TRUE
+_OPENSSL_CFLAGS:INTERNAL=-I/usr/include
+_OPENSSL_CFLAGS_I:INTERNAL=
+_OPENSSL_CFLAGS_OTHER:INTERNAL=
+_OPENSSL_FOUND:INTERNAL=1
+_OPENSSL_INCLUDEDIR:INTERNAL=/usr/include
+_OPENSSL_INCLUDE_DIRS:INTERNAL=/usr/include
+_OPENSSL_LDFLAGS:INTERNAL=-L/usr/lib/x86_64-linux-gnu;-lssl;-lcrypto
+_OPENSSL_LDFLAGS_OTHER:INTERNAL=
+_OPENSSL_LIBDIR:INTERNAL=/usr/lib/x86_64-linux-gnu
+_OPENSSL_LIBRARIES:INTERNAL=ssl;crypto
+_OPENSSL_LIBRARY_DIRS:INTERNAL=/usr/lib/x86_64-linux-gnu
+_OPENSSL_LIBS:INTERNAL=
+_OPENSSL_LIBS_L:INTERNAL=
+_OPENSSL_LIBS_OTHER:INTERNAL=
+_OPENSSL_LIBS_PATHS:INTERNAL=
+_OPENSSL_MODULE_NAME:INTERNAL=openssl
+_OPENSSL_PREFIX:INTERNAL=/usr
+_OPENSSL_STATIC_CFLAGS:INTERNAL=-I/usr/include
+_OPENSSL_STATIC_CFLAGS_I:INTERNAL=
+_OPENSSL_STATIC_CFLAGS_OTHER:INTERNAL=
+_OPENSSL_STATIC_INCLUDE_DIRS:INTERNAL=/usr/include
+_OPENSSL_STATIC_LDFLAGS:INTERNAL=-L/usr/lib/x86_64-linux-gnu;-lssl;-L/usr/lib/x86_64-linux-gnu;-ldl;-pthread;-lcrypto;-ldl;-pthread
+_OPENSSL_STATIC_LDFLAGS_OTHER:INTERNAL=-pthread;-pthread
+_OPENSSL_STATIC_LIBDIR:INTERNAL=
+_OPENSSL_STATIC_LIBRARIES:INTERNAL=ssl;dl;crypto;dl
+_OPENSSL_STATIC_LIBRARY_DIRS:INTERNAL=/usr/lib/x86_64-linux-gnu;/usr/lib/x86_64-linux-gnu
+_OPENSSL_STATIC_LIBS:INTERNAL=
+_OPENSSL_STATIC_LIBS_L:INTERNAL=
+_OPENSSL_STATIC_LIBS_OTHER:INTERNAL=
+_OPENSSL_STATIC_LIBS_PATHS:INTERNAL=
+_OPENSSL_VERSION:INTERNAL=3.0.13
+_OPENSSL_openssl_INCLUDEDIR:INTERNAL=
+_OPENSSL_openssl_LIBDIR:INTERNAL=
+_OPENSSL_openssl_PREFIX:INTERNAL=
+_OPENSSL_openssl_VERSION:INTERNAL=
+__pkg_config_arguments_OPUS:INTERNAL=REQUIRED;opus
+__pkg_config_arguments__OPENSSL:INTERNAL=QUIET;openssl
+__pkg_config_checked_OPUS:INTERNAL=1
+__pkg_config_checked__OPENSSL:INTERNAL=1
 //ADVANCED property for variable: boost_headers_DIR
 boost_headers_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: boost_system_DIR
 boost_system_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: pkgcfg_lib_OPUS_opus
+pkgcfg_lib_OPUS_opus-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: pkgcfg_lib__OPENSSL_crypto
+pkgcfg_lib__OPENSSL_crypto-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: pkgcfg_lib__OPENSSL_ssl
+pkgcfg_lib__OPENSSL_ssl-ADVANCED:INTERNAL=1
+prefix_result:INTERNAL=/usr/lib/x86_64-linux-gnu
 

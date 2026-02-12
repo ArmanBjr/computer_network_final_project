@@ -1254,7 +1254,17 @@ CMakeFiles/fsx_core.dir/src/net/tcp_server.cpp.o: \
  /usr/include/boost/asio/writable_pipe.hpp \
  /usr/include/boost/asio/write_at.hpp \
  /usr/include/boost/asio/impl/write_at.hpp \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/net/auth_handler.h \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/db/user_repository.h \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/db/db.h \
+ /usr/include/postgresql/libpq-fe.h \
+ /usr/include/postgresql/postgres_ext.h \
+ /usr/include/postgresql/pg_config_ext.h \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/db/session_repository.h \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/auth/password_hash.h \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/protocol/auth_messages.h \
  /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/net/tcp_session.h \
  /usr/include/c++/13/deque /usr/include/c++/13/bits/stl_deque.h \
  /usr/include/c++/13/bits/deque.tcc /usr/include/c++/13/iostream \
- /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/protocol/message.h
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/protocol/message.h \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/net/session_manager.h

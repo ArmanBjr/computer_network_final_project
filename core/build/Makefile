@@ -65,6 +65,16 @@ CMAKE_BINARY_DIR = /mnt/e/University/University_Subjects/5th/Computer_Networks/P
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+.PHONY : test/fast
+
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "No interactive CMake dialog available..."
@@ -129,6 +139,211 @@ fsx_core/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/build
 .PHONY : fsx_core/fast
 
+#=============================================================================
+# Target rules for targets named test_integrity
+
+# Build rule for target.
+test_integrity: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_integrity
+.PHONY : test_integrity
+
+# fast build rule for target.
+test_integrity/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_integrity.dir/build.make CMakeFiles/test_integrity.dir/build
+.PHONY : test_integrity/fast
+
+#=============================================================================
+# Target rules for targets named test_zlib_codec
+
+# Build rule for target.
+test_zlib_codec: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_zlib_codec
+.PHONY : test_zlib_codec
+
+# fast build rule for target.
+test_zlib_codec/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_zlib_codec.dir/build.make CMakeFiles/test_zlib_codec.dir/build
+.PHONY : test_zlib_codec/fast
+
+#=============================================================================
+# Target rules for targets named test_aes_gcm
+
+# Build rule for target.
+test_aes_gcm: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_aes_gcm
+.PHONY : test_aes_gcm
+
+# fast build rule for target.
+test_aes_gcm/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_aes_gcm.dir/build.make CMakeFiles/test_aes_gcm.dir/build
+.PHONY : test_aes_gcm/fast
+
+#=============================================================================
+# Target rules for targets named test_rsa
+
+# Build rule for target.
+test_rsa: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_rsa
+.PHONY : test_rsa
+
+# fast build rule for target.
+test_rsa/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_rsa.dir/build.make CMakeFiles/test_rsa.dir/build
+.PHONY : test_rsa/fast
+
+src/auth/password_hash.o: src/auth/password_hash.cpp.o
+.PHONY : src/auth/password_hash.o
+
+# target to build an object file
+src/auth/password_hash.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/auth/password_hash.cpp.o
+.PHONY : src/auth/password_hash.cpp.o
+
+src/auth/password_hash.i: src/auth/password_hash.cpp.i
+.PHONY : src/auth/password_hash.i
+
+# target to preprocess a source file
+src/auth/password_hash.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/auth/password_hash.cpp.i
+.PHONY : src/auth/password_hash.cpp.i
+
+src/auth/password_hash.s: src/auth/password_hash.cpp.s
+.PHONY : src/auth/password_hash.s
+
+# target to generate assembly for a file
+src/auth/password_hash.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/auth/password_hash.cpp.s
+.PHONY : src/auth/password_hash.cpp.s
+
+src/crypto/aes_gcm.o: src/crypto/aes_gcm.cpp.o
+.PHONY : src/crypto/aes_gcm.o
+
+# target to build an object file
+src/crypto/aes_gcm.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/crypto/aes_gcm.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_aes_gcm.dir/build.make CMakeFiles/test_aes_gcm.dir/src/crypto/aes_gcm.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_rsa.dir/build.make CMakeFiles/test_rsa.dir/src/crypto/aes_gcm.cpp.o
+.PHONY : src/crypto/aes_gcm.cpp.o
+
+src/crypto/aes_gcm.i: src/crypto/aes_gcm.cpp.i
+.PHONY : src/crypto/aes_gcm.i
+
+# target to preprocess a source file
+src/crypto/aes_gcm.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/crypto/aes_gcm.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_aes_gcm.dir/build.make CMakeFiles/test_aes_gcm.dir/src/crypto/aes_gcm.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_rsa.dir/build.make CMakeFiles/test_rsa.dir/src/crypto/aes_gcm.cpp.i
+.PHONY : src/crypto/aes_gcm.cpp.i
+
+src/crypto/aes_gcm.s: src/crypto/aes_gcm.cpp.s
+.PHONY : src/crypto/aes_gcm.s
+
+# target to generate assembly for a file
+src/crypto/aes_gcm.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/crypto/aes_gcm.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_aes_gcm.dir/build.make CMakeFiles/test_aes_gcm.dir/src/crypto/aes_gcm.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_rsa.dir/build.make CMakeFiles/test_rsa.dir/src/crypto/aes_gcm.cpp.s
+.PHONY : src/crypto/aes_gcm.cpp.s
+
+src/crypto/rsa.o: src/crypto/rsa.cpp.o
+.PHONY : src/crypto/rsa.o
+
+# target to build an object file
+src/crypto/rsa.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/crypto/rsa.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_rsa.dir/build.make CMakeFiles/test_rsa.dir/src/crypto/rsa.cpp.o
+.PHONY : src/crypto/rsa.cpp.o
+
+src/crypto/rsa.i: src/crypto/rsa.cpp.i
+.PHONY : src/crypto/rsa.i
+
+# target to preprocess a source file
+src/crypto/rsa.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/crypto/rsa.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_rsa.dir/build.make CMakeFiles/test_rsa.dir/src/crypto/rsa.cpp.i
+.PHONY : src/crypto/rsa.cpp.i
+
+src/crypto/rsa.s: src/crypto/rsa.cpp.s
+.PHONY : src/crypto/rsa.s
+
+# target to generate assembly for a file
+src/crypto/rsa.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/crypto/rsa.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_rsa.dir/build.make CMakeFiles/test_rsa.dir/src/crypto/rsa.cpp.s
+.PHONY : src/crypto/rsa.cpp.s
+
+src/db/db.o: src/db/db.cpp.o
+.PHONY : src/db/db.o
+
+# target to build an object file
+src/db/db.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/db/db.cpp.o
+.PHONY : src/db/db.cpp.o
+
+src/db/db.i: src/db/db.cpp.i
+.PHONY : src/db/db.i
+
+# target to preprocess a source file
+src/db/db.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/db/db.cpp.i
+.PHONY : src/db/db.cpp.i
+
+src/db/db.s: src/db/db.cpp.s
+.PHONY : src/db/db.s
+
+# target to generate assembly for a file
+src/db/db.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/db/db.cpp.s
+.PHONY : src/db/db.cpp.s
+
+src/db/session_repository.o: src/db/session_repository.cpp.o
+.PHONY : src/db/session_repository.o
+
+# target to build an object file
+src/db/session_repository.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/db/session_repository.cpp.o
+.PHONY : src/db/session_repository.cpp.o
+
+src/db/session_repository.i: src/db/session_repository.cpp.i
+.PHONY : src/db/session_repository.i
+
+# target to preprocess a source file
+src/db/session_repository.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/db/session_repository.cpp.i
+.PHONY : src/db/session_repository.cpp.i
+
+src/db/session_repository.s: src/db/session_repository.cpp.s
+.PHONY : src/db/session_repository.s
+
+# target to generate assembly for a file
+src/db/session_repository.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/db/session_repository.cpp.s
+.PHONY : src/db/session_repository.cpp.s
+
+src/db/user_repository.o: src/db/user_repository.cpp.o
+.PHONY : src/db/user_repository.o
+
+# target to build an object file
+src/db/user_repository.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/db/user_repository.cpp.o
+.PHONY : src/db/user_repository.cpp.o
+
+src/db/user_repository.i: src/db/user_repository.cpp.i
+.PHONY : src/db/user_repository.i
+
+# target to preprocess a source file
+src/db/user_repository.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/db/user_repository.cpp.i
+.PHONY : src/db/user_repository.cpp.i
+
+src/db/user_repository.s: src/db/user_repository.cpp.s
+.PHONY : src/db/user_repository.s
+
+# target to generate assembly for a file
+src/db/user_repository.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/db/user_repository.cpp.s
+.PHONY : src/db/user_repository.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -152,6 +367,54 @@ src/main.s: src/main.cpp.s
 src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
+
+src/net/auth_handler.o: src/net/auth_handler.cpp.o
+.PHONY : src/net/auth_handler.o
+
+# target to build an object file
+src/net/auth_handler.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/net/auth_handler.cpp.o
+.PHONY : src/net/auth_handler.cpp.o
+
+src/net/auth_handler.i: src/net/auth_handler.cpp.i
+.PHONY : src/net/auth_handler.i
+
+# target to preprocess a source file
+src/net/auth_handler.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/net/auth_handler.cpp.i
+.PHONY : src/net/auth_handler.cpp.i
+
+src/net/auth_handler.s: src/net/auth_handler.cpp.s
+.PHONY : src/net/auth_handler.s
+
+# target to generate assembly for a file
+src/net/auth_handler.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/net/auth_handler.cpp.s
+.PHONY : src/net/auth_handler.cpp.s
+
+src/net/session_manager.o: src/net/session_manager.cpp.o
+.PHONY : src/net/session_manager.o
+
+# target to build an object file
+src/net/session_manager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/net/session_manager.cpp.o
+.PHONY : src/net/session_manager.cpp.o
+
+src/net/session_manager.i: src/net/session_manager.cpp.i
+.PHONY : src/net/session_manager.i
+
+# target to preprocess a source file
+src/net/session_manager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/net/session_manager.cpp.i
+.PHONY : src/net/session_manager.cpp.i
+
+src/net/session_manager.s: src/net/session_manager.cpp.s
+.PHONY : src/net/session_manager.s
+
+# target to generate assembly for a file
+src/net/session_manager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/net/session_manager.cpp.s
+.PHONY : src/net/session_manager.cpp.s
 
 src/net/tcp_server.o: src/net/tcp_server.cpp.o
 .PHONY : src/net/tcp_server.o
@@ -201,6 +464,396 @@ src/net/tcp_session.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/net/tcp_session.cpp.s
 .PHONY : src/net/tcp_session.cpp.s
 
+src/net/udp_voice_server.o: src/net/udp_voice_server.cpp.o
+.PHONY : src/net/udp_voice_server.o
+
+# target to build an object file
+src/net/udp_voice_server.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/net/udp_voice_server.cpp.o
+.PHONY : src/net/udp_voice_server.cpp.o
+
+src/net/udp_voice_server.i: src/net/udp_voice_server.cpp.i
+.PHONY : src/net/udp_voice_server.i
+
+# target to preprocess a source file
+src/net/udp_voice_server.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/net/udp_voice_server.cpp.i
+.PHONY : src/net/udp_voice_server.cpp.i
+
+src/net/udp_voice_server.s: src/net/udp_voice_server.cpp.s
+.PHONY : src/net/udp_voice_server.s
+
+# target to generate assembly for a file
+src/net/udp_voice_server.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/net/udp_voice_server.cpp.s
+.PHONY : src/net/udp_voice_server.cpp.s
+
+src/storage/db_client.o: src/storage/db_client.cpp.o
+.PHONY : src/storage/db_client.o
+
+# target to build an object file
+src/storage/db_client.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/storage/db_client.cpp.o
+.PHONY : src/storage/db_client.cpp.o
+
+src/storage/db_client.i: src/storage/db_client.cpp.i
+.PHONY : src/storage/db_client.i
+
+# target to preprocess a source file
+src/storage/db_client.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/storage/db_client.cpp.i
+.PHONY : src/storage/db_client.cpp.i
+
+src/storage/db_client.s: src/storage/db_client.cpp.s
+.PHONY : src/storage/db_client.s
+
+# target to generate assembly for a file
+src/storage/db_client.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/storage/db_client.cpp.s
+.PHONY : src/storage/db_client.cpp.s
+
+src/storage/db_config.o: src/storage/db_config.cpp.o
+.PHONY : src/storage/db_config.o
+
+# target to build an object file
+src/storage/db_config.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/storage/db_config.cpp.o
+.PHONY : src/storage/db_config.cpp.o
+
+src/storage/db_config.i: src/storage/db_config.cpp.i
+.PHONY : src/storage/db_config.i
+
+# target to preprocess a source file
+src/storage/db_config.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/storage/db_config.cpp.i
+.PHONY : src/storage/db_config.cpp.i
+
+src/storage/db_config.s: src/storage/db_config.cpp.s
+.PHONY : src/storage/db_config.s
+
+# target to generate assembly for a file
+src/storage/db_config.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/storage/db_config.cpp.s
+.PHONY : src/storage/db_config.cpp.s
+
+src/storage/file_store.o: src/storage/file_store.cpp.o
+.PHONY : src/storage/file_store.o
+
+# target to build an object file
+src/storage/file_store.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/storage/file_store.cpp.o
+.PHONY : src/storage/file_store.cpp.o
+
+src/storage/file_store.i: src/storage/file_store.cpp.i
+.PHONY : src/storage/file_store.i
+
+# target to preprocess a source file
+src/storage/file_store.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/storage/file_store.cpp.i
+.PHONY : src/storage/file_store.cpp.i
+
+src/storage/file_store.s: src/storage/file_store.cpp.s
+.PHONY : src/storage/file_store.s
+
+# target to generate assembly for a file
+src/storage/file_store.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/storage/file_store.cpp.s
+.PHONY : src/storage/file_store.cpp.s
+
+src/storage/resume_store.o: src/storage/resume_store.cpp.o
+.PHONY : src/storage/resume_store.o
+
+# target to build an object file
+src/storage/resume_store.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/storage/resume_store.cpp.o
+.PHONY : src/storage/resume_store.cpp.o
+
+src/storage/resume_store.i: src/storage/resume_store.cpp.i
+.PHONY : src/storage/resume_store.i
+
+# target to preprocess a source file
+src/storage/resume_store.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/storage/resume_store.cpp.i
+.PHONY : src/storage/resume_store.cpp.i
+
+src/storage/resume_store.s: src/storage/resume_store.cpp.s
+.PHONY : src/storage/resume_store.s
+
+# target to generate assembly for a file
+src/storage/resume_store.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/storage/resume_store.cpp.s
+.PHONY : src/storage/resume_store.cpp.s
+
+src/transfer/integrity.o: src/transfer/integrity.cpp.o
+.PHONY : src/transfer/integrity.o
+
+# target to build an object file
+src/transfer/integrity.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/transfer/integrity.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_integrity.dir/build.make CMakeFiles/test_integrity.dir/src/transfer/integrity.cpp.o
+.PHONY : src/transfer/integrity.cpp.o
+
+src/transfer/integrity.i: src/transfer/integrity.cpp.i
+.PHONY : src/transfer/integrity.i
+
+# target to preprocess a source file
+src/transfer/integrity.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/transfer/integrity.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_integrity.dir/build.make CMakeFiles/test_integrity.dir/src/transfer/integrity.cpp.i
+.PHONY : src/transfer/integrity.cpp.i
+
+src/transfer/integrity.s: src/transfer/integrity.cpp.s
+.PHONY : src/transfer/integrity.s
+
+# target to generate assembly for a file
+src/transfer/integrity.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/transfer/integrity.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_integrity.dir/build.make CMakeFiles/test_integrity.dir/src/transfer/integrity.cpp.s
+.PHONY : src/transfer/integrity.cpp.s
+
+src/transfer/throttler.o: src/transfer/throttler.cpp.o
+.PHONY : src/transfer/throttler.o
+
+# target to build an object file
+src/transfer/throttler.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/transfer/throttler.cpp.o
+.PHONY : src/transfer/throttler.cpp.o
+
+src/transfer/throttler.i: src/transfer/throttler.cpp.i
+.PHONY : src/transfer/throttler.i
+
+# target to preprocess a source file
+src/transfer/throttler.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/transfer/throttler.cpp.i
+.PHONY : src/transfer/throttler.cpp.i
+
+src/transfer/throttler.s: src/transfer/throttler.cpp.s
+.PHONY : src/transfer/throttler.s
+
+# target to generate assembly for a file
+src/transfer/throttler.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/transfer/throttler.cpp.s
+.PHONY : src/transfer/throttler.cpp.s
+
+src/transfer/transfer_manager.o: src/transfer/transfer_manager.cpp.o
+.PHONY : src/transfer/transfer_manager.o
+
+# target to build an object file
+src/transfer/transfer_manager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/transfer/transfer_manager.cpp.o
+.PHONY : src/transfer/transfer_manager.cpp.o
+
+src/transfer/transfer_manager.i: src/transfer/transfer_manager.cpp.i
+.PHONY : src/transfer/transfer_manager.i
+
+# target to preprocess a source file
+src/transfer/transfer_manager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/transfer/transfer_manager.cpp.i
+.PHONY : src/transfer/transfer_manager.cpp.i
+
+src/transfer/transfer_manager.s: src/transfer/transfer_manager.cpp.s
+.PHONY : src/transfer/transfer_manager.s
+
+# target to generate assembly for a file
+src/transfer/transfer_manager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/transfer/transfer_manager.cpp.s
+.PHONY : src/transfer/transfer_manager.cpp.s
+
+src/transfer/zlib_codec.o: src/transfer/zlib_codec.cpp.o
+.PHONY : src/transfer/zlib_codec.o
+
+# target to build an object file
+src/transfer/zlib_codec.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/transfer/zlib_codec.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_zlib_codec.dir/build.make CMakeFiles/test_zlib_codec.dir/src/transfer/zlib_codec.cpp.o
+.PHONY : src/transfer/zlib_codec.cpp.o
+
+src/transfer/zlib_codec.i: src/transfer/zlib_codec.cpp.i
+.PHONY : src/transfer/zlib_codec.i
+
+# target to preprocess a source file
+src/transfer/zlib_codec.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/transfer/zlib_codec.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_zlib_codec.dir/build.make CMakeFiles/test_zlib_codec.dir/src/transfer/zlib_codec.cpp.i
+.PHONY : src/transfer/zlib_codec.cpp.i
+
+src/transfer/zlib_codec.s: src/transfer/zlib_codec.cpp.s
+.PHONY : src/transfer/zlib_codec.s
+
+# target to generate assembly for a file
+src/transfer/zlib_codec.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/transfer/zlib_codec.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_zlib_codec.dir/build.make CMakeFiles/test_zlib_codec.dir/src/transfer/zlib_codec.cpp.s
+.PHONY : src/transfer/zlib_codec.cpp.s
+
+src/voice/jitter_buffer.o: src/voice/jitter_buffer.cpp.o
+.PHONY : src/voice/jitter_buffer.o
+
+# target to build an object file
+src/voice/jitter_buffer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/voice/jitter_buffer.cpp.o
+.PHONY : src/voice/jitter_buffer.cpp.o
+
+src/voice/jitter_buffer.i: src/voice/jitter_buffer.cpp.i
+.PHONY : src/voice/jitter_buffer.i
+
+# target to preprocess a source file
+src/voice/jitter_buffer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/voice/jitter_buffer.cpp.i
+.PHONY : src/voice/jitter_buffer.cpp.i
+
+src/voice/jitter_buffer.s: src/voice/jitter_buffer.cpp.s
+.PHONY : src/voice/jitter_buffer.s
+
+# target to generate assembly for a file
+src/voice/jitter_buffer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/voice/jitter_buffer.cpp.s
+.PHONY : src/voice/jitter_buffer.cpp.s
+
+src/voice/opus_codec.o: src/voice/opus_codec.cpp.o
+.PHONY : src/voice/opus_codec.o
+
+# target to build an object file
+src/voice/opus_codec.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/voice/opus_codec.cpp.o
+.PHONY : src/voice/opus_codec.cpp.o
+
+src/voice/opus_codec.i: src/voice/opus_codec.cpp.i
+.PHONY : src/voice/opus_codec.i
+
+# target to preprocess a source file
+src/voice/opus_codec.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/voice/opus_codec.cpp.i
+.PHONY : src/voice/opus_codec.cpp.i
+
+src/voice/opus_codec.s: src/voice/opus_codec.cpp.s
+.PHONY : src/voice/opus_codec.s
+
+# target to generate assembly for a file
+src/voice/opus_codec.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/voice/opus_codec.cpp.s
+.PHONY : src/voice/opus_codec.cpp.s
+
+src/voice/voice_manager.o: src/voice/voice_manager.cpp.o
+.PHONY : src/voice/voice_manager.o
+
+# target to build an object file
+src/voice/voice_manager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/voice/voice_manager.cpp.o
+.PHONY : src/voice/voice_manager.cpp.o
+
+src/voice/voice_manager.i: src/voice/voice_manager.cpp.i
+.PHONY : src/voice/voice_manager.i
+
+# target to preprocess a source file
+src/voice/voice_manager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/voice/voice_manager.cpp.i
+.PHONY : src/voice/voice_manager.cpp.i
+
+src/voice/voice_manager.s: src/voice/voice_manager.cpp.s
+.PHONY : src/voice/voice_manager.s
+
+# target to generate assembly for a file
+src/voice/voice_manager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fsx_core.dir/build.make CMakeFiles/fsx_core.dir/src/voice/voice_manager.cpp.s
+.PHONY : src/voice/voice_manager.cpp.s
+
+tests/test_aes_gcm.o: tests/test_aes_gcm.cpp.o
+.PHONY : tests/test_aes_gcm.o
+
+# target to build an object file
+tests/test_aes_gcm.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_aes_gcm.dir/build.make CMakeFiles/test_aes_gcm.dir/tests/test_aes_gcm.cpp.o
+.PHONY : tests/test_aes_gcm.cpp.o
+
+tests/test_aes_gcm.i: tests/test_aes_gcm.cpp.i
+.PHONY : tests/test_aes_gcm.i
+
+# target to preprocess a source file
+tests/test_aes_gcm.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_aes_gcm.dir/build.make CMakeFiles/test_aes_gcm.dir/tests/test_aes_gcm.cpp.i
+.PHONY : tests/test_aes_gcm.cpp.i
+
+tests/test_aes_gcm.s: tests/test_aes_gcm.cpp.s
+.PHONY : tests/test_aes_gcm.s
+
+# target to generate assembly for a file
+tests/test_aes_gcm.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_aes_gcm.dir/build.make CMakeFiles/test_aes_gcm.dir/tests/test_aes_gcm.cpp.s
+.PHONY : tests/test_aes_gcm.cpp.s
+
+tests/test_integrity.o: tests/test_integrity.cpp.o
+.PHONY : tests/test_integrity.o
+
+# target to build an object file
+tests/test_integrity.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_integrity.dir/build.make CMakeFiles/test_integrity.dir/tests/test_integrity.cpp.o
+.PHONY : tests/test_integrity.cpp.o
+
+tests/test_integrity.i: tests/test_integrity.cpp.i
+.PHONY : tests/test_integrity.i
+
+# target to preprocess a source file
+tests/test_integrity.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_integrity.dir/build.make CMakeFiles/test_integrity.dir/tests/test_integrity.cpp.i
+.PHONY : tests/test_integrity.cpp.i
+
+tests/test_integrity.s: tests/test_integrity.cpp.s
+.PHONY : tests/test_integrity.s
+
+# target to generate assembly for a file
+tests/test_integrity.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_integrity.dir/build.make CMakeFiles/test_integrity.dir/tests/test_integrity.cpp.s
+.PHONY : tests/test_integrity.cpp.s
+
+tests/test_rsa.o: tests/test_rsa.cpp.o
+.PHONY : tests/test_rsa.o
+
+# target to build an object file
+tests/test_rsa.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_rsa.dir/build.make CMakeFiles/test_rsa.dir/tests/test_rsa.cpp.o
+.PHONY : tests/test_rsa.cpp.o
+
+tests/test_rsa.i: tests/test_rsa.cpp.i
+.PHONY : tests/test_rsa.i
+
+# target to preprocess a source file
+tests/test_rsa.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_rsa.dir/build.make CMakeFiles/test_rsa.dir/tests/test_rsa.cpp.i
+.PHONY : tests/test_rsa.cpp.i
+
+tests/test_rsa.s: tests/test_rsa.cpp.s
+.PHONY : tests/test_rsa.s
+
+# target to generate assembly for a file
+tests/test_rsa.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_rsa.dir/build.make CMakeFiles/test_rsa.dir/tests/test_rsa.cpp.s
+.PHONY : tests/test_rsa.cpp.s
+
+tests/test_zlib_codec.o: tests/test_zlib_codec.cpp.o
+.PHONY : tests/test_zlib_codec.o
+
+# target to build an object file
+tests/test_zlib_codec.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_zlib_codec.dir/build.make CMakeFiles/test_zlib_codec.dir/tests/test_zlib_codec.cpp.o
+.PHONY : tests/test_zlib_codec.cpp.o
+
+tests/test_zlib_codec.i: tests/test_zlib_codec.cpp.i
+.PHONY : tests/test_zlib_codec.i
+
+# target to preprocess a source file
+tests/test_zlib_codec.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_zlib_codec.dir/build.make CMakeFiles/test_zlib_codec.dir/tests/test_zlib_codec.cpp.i
+.PHONY : tests/test_zlib_codec.cpp.i
+
+tests/test_zlib_codec.s: tests/test_zlib_codec.cpp.s
+.PHONY : tests/test_zlib_codec.s
+
+# target to generate assembly for a file
+tests/test_zlib_codec.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_zlib_codec.dir/build.make CMakeFiles/test_zlib_codec.dir/tests/test_zlib_codec.cpp.s
+.PHONY : tests/test_zlib_codec.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -209,16 +862,93 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... test"
 	@echo "... fsx_core"
+	@echo "... test_aes_gcm"
+	@echo "... test_integrity"
+	@echo "... test_rsa"
+	@echo "... test_zlib_codec"
+	@echo "... src/auth/password_hash.o"
+	@echo "... src/auth/password_hash.i"
+	@echo "... src/auth/password_hash.s"
+	@echo "... src/crypto/aes_gcm.o"
+	@echo "... src/crypto/aes_gcm.i"
+	@echo "... src/crypto/aes_gcm.s"
+	@echo "... src/crypto/rsa.o"
+	@echo "... src/crypto/rsa.i"
+	@echo "... src/crypto/rsa.s"
+	@echo "... src/db/db.o"
+	@echo "... src/db/db.i"
+	@echo "... src/db/db.s"
+	@echo "... src/db/session_repository.o"
+	@echo "... src/db/session_repository.i"
+	@echo "... src/db/session_repository.s"
+	@echo "... src/db/user_repository.o"
+	@echo "... src/db/user_repository.i"
+	@echo "... src/db/user_repository.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/net/auth_handler.o"
+	@echo "... src/net/auth_handler.i"
+	@echo "... src/net/auth_handler.s"
+	@echo "... src/net/session_manager.o"
+	@echo "... src/net/session_manager.i"
+	@echo "... src/net/session_manager.s"
 	@echo "... src/net/tcp_server.o"
 	@echo "... src/net/tcp_server.i"
 	@echo "... src/net/tcp_server.s"
 	@echo "... src/net/tcp_session.o"
 	@echo "... src/net/tcp_session.i"
 	@echo "... src/net/tcp_session.s"
+	@echo "... src/net/udp_voice_server.o"
+	@echo "... src/net/udp_voice_server.i"
+	@echo "... src/net/udp_voice_server.s"
+	@echo "... src/storage/db_client.o"
+	@echo "... src/storage/db_client.i"
+	@echo "... src/storage/db_client.s"
+	@echo "... src/storage/db_config.o"
+	@echo "... src/storage/db_config.i"
+	@echo "... src/storage/db_config.s"
+	@echo "... src/storage/file_store.o"
+	@echo "... src/storage/file_store.i"
+	@echo "... src/storage/file_store.s"
+	@echo "... src/storage/resume_store.o"
+	@echo "... src/storage/resume_store.i"
+	@echo "... src/storage/resume_store.s"
+	@echo "... src/transfer/integrity.o"
+	@echo "... src/transfer/integrity.i"
+	@echo "... src/transfer/integrity.s"
+	@echo "... src/transfer/throttler.o"
+	@echo "... src/transfer/throttler.i"
+	@echo "... src/transfer/throttler.s"
+	@echo "... src/transfer/transfer_manager.o"
+	@echo "... src/transfer/transfer_manager.i"
+	@echo "... src/transfer/transfer_manager.s"
+	@echo "... src/transfer/zlib_codec.o"
+	@echo "... src/transfer/zlib_codec.i"
+	@echo "... src/transfer/zlib_codec.s"
+	@echo "... src/voice/jitter_buffer.o"
+	@echo "... src/voice/jitter_buffer.i"
+	@echo "... src/voice/jitter_buffer.s"
+	@echo "... src/voice/opus_codec.o"
+	@echo "... src/voice/opus_codec.i"
+	@echo "... src/voice/opus_codec.s"
+	@echo "... src/voice/voice_manager.o"
+	@echo "... src/voice/voice_manager.i"
+	@echo "... src/voice/voice_manager.s"
+	@echo "... tests/test_aes_gcm.o"
+	@echo "... tests/test_aes_gcm.i"
+	@echo "... tests/test_aes_gcm.s"
+	@echo "... tests/test_integrity.o"
+	@echo "... tests/test_integrity.i"
+	@echo "... tests/test_integrity.s"
+	@echo "... tests/test_rsa.o"
+	@echo "... tests/test_rsa.i"
+	@echo "... tests/test_rsa.s"
+	@echo "... tests/test_zlib_codec.o"
+	@echo "... tests/test_zlib_codec.i"
+	@echo "... tests/test_zlib_codec.s"
 .PHONY : help
 
 

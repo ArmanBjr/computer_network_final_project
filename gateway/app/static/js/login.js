@@ -100,7 +100,7 @@ async function handleSignup() {
                 }
             }, 1000);
         } else {
-            showError('signup-error', data.msg || 'Registration failed');
+            showError('signup-error', data.msg || data.detail || 'Registration failed');
         }
     } catch (error) {
         showError('signup-error', 'Network error: ' + error.message);
@@ -152,7 +152,7 @@ async function handleSignin() {
             // Redirect to messenger
             window.location.href = '/messenger';
         } else {
-            showError('signin-error', data.msg || 'Login failed');
+            showError('signin-error', data.msg || data.detail || 'Login failed');
         }
     } catch (error) {
         showError('signin-error', 'Network error: ' + error.message);

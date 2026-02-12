@@ -8,49 +8,100 @@
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
-  <div class="messenger-container">
+  <div class="app">
     <!-- Sidebar -->
-    <div class="sidebar">
-      <div class="sidebar-header">
-        <h2>FileShareX</h2>
-        <div class="user-info">
-          <span id="current-username">User</span>
-          <button onclick="handleLogout()" class="logout-btn">
-            <i class='bx bx-log-out'></i> Logout
+    <aside class="side">
+      <div class="side-head">
+        <a href="/" class="brand"><i class='bx bx-share-alt'></i> FileShareX</a>
+        <div class="me-row">
+          <div class="avatar-sm" id="my-avatar">U</div>
+          <span class="me-name" id="my-name">User</span>
+          <button class="icon-btn" title="Logout" onclick="doLogout()"><i class='bx bx-log-out'></i></button>
+        </div>
+      </div>
+      <div class="search-box">
+        <i class='bx bx-search'></i>
+        <input type="text" placeholder="Search users..." id="search-input" oninput="filterUsers()">
+      </div>
+      <div class="side-section">
+        <div class="sec-title"><i class='bx bx-group'></i> Online Users <span class="badge-sm" id="user-badge">0</span></div>
+        <div id="user-list" class="user-list"><div class="empty-msg">Loading...</div></div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+      <!-- Placeholder (no user selected) -->
+      <div class="placeholder" id="placeholder">
+        <i class='bx bx-message-rounded-dots icon-big'></i>
+        <h2>Welcome to FileShareX</h2>
+        <p>Select a user from the sidebar to start chatting, sharing files, or sending voice messages</p>
+        <div class="feature-cards">
+          <div class="fcard"><i class='bx bx-chat'></i><span>Text Chat</span></div>
+          <div class="fcard"><i class='bx bx-microphone'></i><span>Voice Msg</span></div>
+          <div class="fcard"><i class='bx bx-file'></i><span>Send Files</span></div>
+          <div class="fcard"><i class='bx bx-shield-quarter'></i><span>Encrypted</span></div>
+        </div>
+      </div>
+
+      <!-- Chat Panel (hidden by default) -->
+      <div class="chat-panel" id="chat-panel" style="display:none">
+        <!-- Header -->
+        <div class="chat-head">
+          <div class="chat-user">
+            <div class="avatar-md" id="sel-avatar">?</div>
+            <div>
+              <h3 id="sel-name">Username</h3>
+              <span class="online-tag"><span class="dot-green"></span> Online</span>
+            </div>
+          </div>
+          <div class="chat-actions">
+            <button class="act-btn" id="btn-attach" title="Send File" onclick="document.getElementById('file-input').click()">
+              <i class='bx bx-paperclip'></i>
+            </button>
+            <button class="act-btn voice-call" title="Voice Call (C++ UDP)" onclick="startVoiceCall()">
+              <i class='bx bx-phone-call'></i>
+            </button>
+            <input type="file" id="file-input" style="display:none" onchange="handleFileAttach(event)">
+          </div>
+        </div>
+
+        <!-- Messages Area -->
+        <div class="chat-messages" id="chat-messages">
+          <div class="empty-msg">Start a conversation...</div>
+        </div>
+
+        <!-- Input Bar -->
+        <div class="chat-input">
+          <button class="input-btn" id="btn-voice-rec" title="Hold to record voice message"
+                  onmousedown="startRecording()" onmouseup="stopRecording()"
+                  ontouchstart="startRecording()" ontouchend="stopRecording()">
+            <i class='bx bx-microphone'></i>
+          </button>
+          <input type="text" id="msg-input" placeholder="Type a message..." 
+                 onkeypress="if(event.key==='Enter')sendTextMessage()">
+          <button class="input-btn send" onclick="sendTextMessage()">
+            <i class='bx bx-send'></i>
           </button>
         </div>
       </div>
-      
-      <div class="sidebar-content">
-        <div class="section">
-          <h3>Online Users</h3>
-          <div id="online-users-list" class="users-list">
-            <div class="empty-state">Loading...</div>
-          </div>
-        </div>
-        
-        <div class="section">
-          <h3>File Transfers</h3>
-          <div id="transfers-list" class="transfers-list">
-            <div class="empty-state">No active transfers</div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </main>
+  </div>
 
-    <!-- Main Content -->
-    <div class="main-content">
-      <div class="content-header">
-        <h1>Welcome to FileShareX</h1>
-        <p>Select a user to start chatting or sharing files</p>
-      </div>
-      
-      <div class="content-body">
-        <div class="welcome-message">
-          <i class='bx bx-message-rounded-dots' style="font-size: 4rem; color: #4EA685; margin-bottom: 1rem;"></i>
-          <h2>Get Started</h2>
-          <p>Choose a user from the sidebar to start a conversation</p>
-        </div>
+  <!-- Voice Call Overlay -->
+  <div class="call-overlay" id="call-overlay" style="display:none">
+    <div class="call-card">
+      <div class="call-avatar" id="call-avatar">?</div>
+      <h2 id="call-title">Calling...</h2>
+      <p id="call-subtitle" class="call-sub">Connecting...</p>
+      <div id="call-timer" class="call-timer" style="display:none">00:00</div>
+      <div class="call-btns">
+        <button class="call-btn accept" id="call-accept-btn" style="display:none" onclick="acceptCall()">
+          <i class='bx bx-phone'></i>
+        </button>
+        <button class="call-btn end" onclick="endCall()">
+          <i class='bx bx-phone-off'></i>
+        </button>
       </div>
     </div>
   </div>
@@ -58,4 +109,3 @@
   <script src="/static/js/messenger.js"></script>
 </body>
 </html>
-

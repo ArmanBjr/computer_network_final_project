@@ -87,8 +87,11 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-3.28/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake"
   "/usr/share/cmake-3.28/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake"
   "/usr/share/cmake-3.28/Modules/FindBoost.cmake"
+  "/usr/share/cmake-3.28/Modules/FindOpenSSL.cmake"
   "/usr/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake"
   "/usr/share/cmake-3.28/Modules/FindPackageMessage.cmake"
+  "/usr/share/cmake-3.28/Modules/FindPkgConfig.cmake"
+  "/usr/share/cmake-3.28/Modules/FindZLIB.cmake"
   "/usr/share/cmake-3.28/Modules/Internal/FeatureTesting.cmake"
   "/usr/share/cmake-3.28/Modules/Platform/Linux-Determine-CXX.cmake"
   "/usr/share/cmake-3.28/Modules/Platform/Linux-GNU-CXX.cmake"
@@ -96,6 +99,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-3.28/Modules/Platform/Linux-Initialize.cmake"
   "/usr/share/cmake-3.28/Modules/Platform/Linux.cmake"
   "/usr/share/cmake-3.28/Modules/Platform/UnixPaths.cmake"
+  "/usr/share/cmake-3.28/Modules/SelectLibraryConfigurations.cmake"
   )
 
 # The corresponding makefile is:
@@ -118,4 +122,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/test_auth.dir/DependInfo.cmake"
   "CMakeFiles/test_persistent.dir/DependInfo.cmake"
   "CMakeFiles/test_file_transfer.dir/DependInfo.cmake"
+  "CMakeFiles/test_voice.dir/DependInfo.cmake"
   )

@@ -71,5 +71,20 @@ std::shared_ptr<TcpSession> SessionManager::get_session(const std::string& token
   return nullptr;
 }
 
+std::shared_ptr<TcpSession> SessionManager::get_session_by_username(const std::string& username) const {
+  std::lock_guard<std::mutex> lock(mutex_);
+  for (auto it = sessions_.begin(); it != sessions_.end();) {
+    if (auto s = it->second.lock()) {
+      if (s->is_authenticated() && s->username() == username) {
+        return s;
+      }
+      ++it;
+    } else {
+      it = sessions_.erase(it);
+    }
+  }
+  return nullptr;
+}
+
 } // namespace fsx::net
 

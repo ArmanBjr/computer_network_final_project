@@ -9,6 +9,7 @@ from typing import Dict, Optional
 from app.core_client import (
     CORE_TCP_HOST, CORE_TCP_PORT, HEADER_SIZE,
     _make_header, _parse_header, _make_auth_payload, _parse_login_resp,
+    _consume_key_exchange_pubkey,
     MSG_TYPE_LOGIN_REQ, MSG_TYPE_LOGIN_RESP, MSG_TYPE_ONLINE_LIST_REQ, MSG_TYPE_ONLINE_LIST_RESP,
     MSG_TYPE_PING,
     CoreConnectionError, CoreProtocolError
@@ -90,6 +91,8 @@ class UserSessionManager:
                 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 sock.settimeout(5.0)
                 sock.connect((CORE_TCP_HOST, CORE_TCP_PORT))
+
+                _consume_key_exchange_pubkey(sock)
 
                 # Send LOGIN_REQ
                 payload = _make_auth_payload(username, password)

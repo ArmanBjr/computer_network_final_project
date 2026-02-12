@@ -1256,4 +1256,40 @@ CMakeFiles/fsx_core.dir/src/net/tcp_session.cpp.o: \
  /usr/include/boost/asio/impl/write_at.hpp /usr/include/c++/13/deque \
  /usr/include/c++/13/bits/stl_deque.h /usr/include/c++/13/bits/deque.tcc \
  /usr/include/c++/13/iostream \
- /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/protocol/message.h
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/protocol/message.h \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/net/auth_handler.h \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/db/user_repository.h \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/db/db.h \
+ /usr/include/postgresql/libpq-fe.h \
+ /usr/include/postgresql/postgres_ext.h \
+ /usr/include/postgresql/pg_config_ext.h \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/db/session_repository.h \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/auth/password_hash.h \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/protocol/auth_messages.h \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/net/session_manager.h \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/protocol/online_messages.h \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/protocol/file_messages.h \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/transfer/transfer_manager.h \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/transfer/throttler.h \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/transfer/integrity.h \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/transfer/zlib_codec.h \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/storage/file_store.h \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/storage/resume_store.h \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/crypto/rsa.h \
+ /usr/include/openssl/evp.h /usr/include/openssl/macros.h \
+ /usr/include/x86_64-linux-gnu/openssl/opensslconf.h \
+ /usr/include/x86_64-linux-gnu/openssl/configuration.h \
+ /usr/include/openssl/opensslv.h /usr/include/openssl/types.h \
+ /usr/include/openssl/e_os2.h /usr/include/openssl/safestack.h \
+ /usr/include/openssl/stack.h /usr/include/openssl/core.h \
+ /usr/include/openssl/core_dispatch.h /usr/include/openssl/symhacks.h \
+ /usr/include/openssl/bio.h /usr/include/openssl/crypto.h \
+ /usr/include/c++/13/stdlib.h /usr/include/openssl/cryptoerr.h \
+ /usr/include/openssl/cryptoerr_legacy.h /usr/include/openssl/bioerr.h \
+ /usr/include/openssl/evperr.h /usr/include/openssl/params.h \
+ /usr/include/openssl/bn.h /usr/include/openssl/bnerr.h \
+ /usr/include/openssl/objects.h /usr/include/openssl/obj_mac.h \
+ /usr/include/openssl/asn1.h /usr/include/openssl/asn1err.h \
+ /usr/include/openssl/objectserr.h \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/crypto/aes_gcm.h \
+ /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/include/fsx/voice/voice_manager.h

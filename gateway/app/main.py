@@ -7,6 +7,7 @@ from fastapi.templating import Jinja2Templates
 
 from app.api.routes_admin import router as admin_router
 from app.api.ws_dashboard import router as ws_router
+from app.api.ws_voice import router as voice_router
 
 BASE_DIR = Path(__file__).resolve().parent          # .../gateway/app
 TEMPLATES_DIR = BASE_DIR / "templates"
@@ -40,3 +41,4 @@ async def reset_password_page(request: Request):
 
 app.include_router(admin_router, prefix="/api")
 app.include_router(ws_router)
+app.include_router(voice_router)

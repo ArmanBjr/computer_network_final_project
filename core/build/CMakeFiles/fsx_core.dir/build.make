@@ -111,11 +111,311 @@ CMakeFiles/fsx_core.dir/src/net/tcp_session.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fsx_core.dir/src/net/tcp_session.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/net/tcp_session.cpp -o CMakeFiles/fsx_core.dir/src/net/tcp_session.cpp.s
 
+CMakeFiles/fsx_core.dir/src/net/auth_handler.cpp.o: CMakeFiles/fsx_core.dir/flags.make
+CMakeFiles/fsx_core.dir/src/net/auth_handler.cpp.o: /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/net/auth_handler.cpp
+CMakeFiles/fsx_core.dir/src/net/auth_handler.cpp.o: CMakeFiles/fsx_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/fsx_core.dir/src/net/auth_handler.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fsx_core.dir/src/net/auth_handler.cpp.o -MF CMakeFiles/fsx_core.dir/src/net/auth_handler.cpp.o.d -o CMakeFiles/fsx_core.dir/src/net/auth_handler.cpp.o -c /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/net/auth_handler.cpp
+
+CMakeFiles/fsx_core.dir/src/net/auth_handler.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fsx_core.dir/src/net/auth_handler.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/net/auth_handler.cpp > CMakeFiles/fsx_core.dir/src/net/auth_handler.cpp.i
+
+CMakeFiles/fsx_core.dir/src/net/auth_handler.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fsx_core.dir/src/net/auth_handler.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/net/auth_handler.cpp -o CMakeFiles/fsx_core.dir/src/net/auth_handler.cpp.s
+
+CMakeFiles/fsx_core.dir/src/net/session_manager.cpp.o: CMakeFiles/fsx_core.dir/flags.make
+CMakeFiles/fsx_core.dir/src/net/session_manager.cpp.o: /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/net/session_manager.cpp
+CMakeFiles/fsx_core.dir/src/net/session_manager.cpp.o: CMakeFiles/fsx_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/fsx_core.dir/src/net/session_manager.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fsx_core.dir/src/net/session_manager.cpp.o -MF CMakeFiles/fsx_core.dir/src/net/session_manager.cpp.o.d -o CMakeFiles/fsx_core.dir/src/net/session_manager.cpp.o -c /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/net/session_manager.cpp
+
+CMakeFiles/fsx_core.dir/src/net/session_manager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fsx_core.dir/src/net/session_manager.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/net/session_manager.cpp > CMakeFiles/fsx_core.dir/src/net/session_manager.cpp.i
+
+CMakeFiles/fsx_core.dir/src/net/session_manager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fsx_core.dir/src/net/session_manager.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/net/session_manager.cpp -o CMakeFiles/fsx_core.dir/src/net/session_manager.cpp.s
+
+CMakeFiles/fsx_core.dir/src/storage/db_client.cpp.o: CMakeFiles/fsx_core.dir/flags.make
+CMakeFiles/fsx_core.dir/src/storage/db_client.cpp.o: /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/storage/db_client.cpp
+CMakeFiles/fsx_core.dir/src/storage/db_client.cpp.o: CMakeFiles/fsx_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/fsx_core.dir/src/storage/db_client.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fsx_core.dir/src/storage/db_client.cpp.o -MF CMakeFiles/fsx_core.dir/src/storage/db_client.cpp.o.d -o CMakeFiles/fsx_core.dir/src/storage/db_client.cpp.o -c /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/storage/db_client.cpp
+
+CMakeFiles/fsx_core.dir/src/storage/db_client.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fsx_core.dir/src/storage/db_client.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/storage/db_client.cpp > CMakeFiles/fsx_core.dir/src/storage/db_client.cpp.i
+
+CMakeFiles/fsx_core.dir/src/storage/db_client.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fsx_core.dir/src/storage/db_client.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/storage/db_client.cpp -o CMakeFiles/fsx_core.dir/src/storage/db_client.cpp.s
+
+CMakeFiles/fsx_core.dir/src/storage/db_config.cpp.o: CMakeFiles/fsx_core.dir/flags.make
+CMakeFiles/fsx_core.dir/src/storage/db_config.cpp.o: /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/storage/db_config.cpp
+CMakeFiles/fsx_core.dir/src/storage/db_config.cpp.o: CMakeFiles/fsx_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/fsx_core.dir/src/storage/db_config.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fsx_core.dir/src/storage/db_config.cpp.o -MF CMakeFiles/fsx_core.dir/src/storage/db_config.cpp.o.d -o CMakeFiles/fsx_core.dir/src/storage/db_config.cpp.o -c /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/storage/db_config.cpp
+
+CMakeFiles/fsx_core.dir/src/storage/db_config.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fsx_core.dir/src/storage/db_config.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/storage/db_config.cpp > CMakeFiles/fsx_core.dir/src/storage/db_config.cpp.i
+
+CMakeFiles/fsx_core.dir/src/storage/db_config.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fsx_core.dir/src/storage/db_config.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/storage/db_config.cpp -o CMakeFiles/fsx_core.dir/src/storage/db_config.cpp.s
+
+CMakeFiles/fsx_core.dir/src/db/db.cpp.o: CMakeFiles/fsx_core.dir/flags.make
+CMakeFiles/fsx_core.dir/src/db/db.cpp.o: /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/db/db.cpp
+CMakeFiles/fsx_core.dir/src/db/db.cpp.o: CMakeFiles/fsx_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/fsx_core.dir/src/db/db.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fsx_core.dir/src/db/db.cpp.o -MF CMakeFiles/fsx_core.dir/src/db/db.cpp.o.d -o CMakeFiles/fsx_core.dir/src/db/db.cpp.o -c /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/db/db.cpp
+
+CMakeFiles/fsx_core.dir/src/db/db.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fsx_core.dir/src/db/db.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/db/db.cpp > CMakeFiles/fsx_core.dir/src/db/db.cpp.i
+
+CMakeFiles/fsx_core.dir/src/db/db.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fsx_core.dir/src/db/db.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/db/db.cpp -o CMakeFiles/fsx_core.dir/src/db/db.cpp.s
+
+CMakeFiles/fsx_core.dir/src/db/user_repository.cpp.o: CMakeFiles/fsx_core.dir/flags.make
+CMakeFiles/fsx_core.dir/src/db/user_repository.cpp.o: /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/db/user_repository.cpp
+CMakeFiles/fsx_core.dir/src/db/user_repository.cpp.o: CMakeFiles/fsx_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/fsx_core.dir/src/db/user_repository.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fsx_core.dir/src/db/user_repository.cpp.o -MF CMakeFiles/fsx_core.dir/src/db/user_repository.cpp.o.d -o CMakeFiles/fsx_core.dir/src/db/user_repository.cpp.o -c /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/db/user_repository.cpp
+
+CMakeFiles/fsx_core.dir/src/db/user_repository.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fsx_core.dir/src/db/user_repository.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/db/user_repository.cpp > CMakeFiles/fsx_core.dir/src/db/user_repository.cpp.i
+
+CMakeFiles/fsx_core.dir/src/db/user_repository.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fsx_core.dir/src/db/user_repository.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/db/user_repository.cpp -o CMakeFiles/fsx_core.dir/src/db/user_repository.cpp.s
+
+CMakeFiles/fsx_core.dir/src/db/session_repository.cpp.o: CMakeFiles/fsx_core.dir/flags.make
+CMakeFiles/fsx_core.dir/src/db/session_repository.cpp.o: /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/db/session_repository.cpp
+CMakeFiles/fsx_core.dir/src/db/session_repository.cpp.o: CMakeFiles/fsx_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/fsx_core.dir/src/db/session_repository.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fsx_core.dir/src/db/session_repository.cpp.o -MF CMakeFiles/fsx_core.dir/src/db/session_repository.cpp.o.d -o CMakeFiles/fsx_core.dir/src/db/session_repository.cpp.o -c /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/db/session_repository.cpp
+
+CMakeFiles/fsx_core.dir/src/db/session_repository.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fsx_core.dir/src/db/session_repository.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/db/session_repository.cpp > CMakeFiles/fsx_core.dir/src/db/session_repository.cpp.i
+
+CMakeFiles/fsx_core.dir/src/db/session_repository.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fsx_core.dir/src/db/session_repository.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/db/session_repository.cpp -o CMakeFiles/fsx_core.dir/src/db/session_repository.cpp.s
+
+CMakeFiles/fsx_core.dir/src/auth/password_hash.cpp.o: CMakeFiles/fsx_core.dir/flags.make
+CMakeFiles/fsx_core.dir/src/auth/password_hash.cpp.o: /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/auth/password_hash.cpp
+CMakeFiles/fsx_core.dir/src/auth/password_hash.cpp.o: CMakeFiles/fsx_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/fsx_core.dir/src/auth/password_hash.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fsx_core.dir/src/auth/password_hash.cpp.o -MF CMakeFiles/fsx_core.dir/src/auth/password_hash.cpp.o.d -o CMakeFiles/fsx_core.dir/src/auth/password_hash.cpp.o -c /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/auth/password_hash.cpp
+
+CMakeFiles/fsx_core.dir/src/auth/password_hash.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fsx_core.dir/src/auth/password_hash.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/auth/password_hash.cpp > CMakeFiles/fsx_core.dir/src/auth/password_hash.cpp.i
+
+CMakeFiles/fsx_core.dir/src/auth/password_hash.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fsx_core.dir/src/auth/password_hash.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/auth/password_hash.cpp -o CMakeFiles/fsx_core.dir/src/auth/password_hash.cpp.s
+
+CMakeFiles/fsx_core.dir/src/transfer/transfer_manager.cpp.o: CMakeFiles/fsx_core.dir/flags.make
+CMakeFiles/fsx_core.dir/src/transfer/transfer_manager.cpp.o: /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/transfer_manager.cpp
+CMakeFiles/fsx_core.dir/src/transfer/transfer_manager.cpp.o: CMakeFiles/fsx_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/fsx_core.dir/src/transfer/transfer_manager.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fsx_core.dir/src/transfer/transfer_manager.cpp.o -MF CMakeFiles/fsx_core.dir/src/transfer/transfer_manager.cpp.o.d -o CMakeFiles/fsx_core.dir/src/transfer/transfer_manager.cpp.o -c /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/transfer_manager.cpp
+
+CMakeFiles/fsx_core.dir/src/transfer/transfer_manager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fsx_core.dir/src/transfer/transfer_manager.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/transfer_manager.cpp > CMakeFiles/fsx_core.dir/src/transfer/transfer_manager.cpp.i
+
+CMakeFiles/fsx_core.dir/src/transfer/transfer_manager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fsx_core.dir/src/transfer/transfer_manager.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/transfer_manager.cpp -o CMakeFiles/fsx_core.dir/src/transfer/transfer_manager.cpp.s
+
+CMakeFiles/fsx_core.dir/src/storage/file_store.cpp.o: CMakeFiles/fsx_core.dir/flags.make
+CMakeFiles/fsx_core.dir/src/storage/file_store.cpp.o: /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/storage/file_store.cpp
+CMakeFiles/fsx_core.dir/src/storage/file_store.cpp.o: CMakeFiles/fsx_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/fsx_core.dir/src/storage/file_store.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fsx_core.dir/src/storage/file_store.cpp.o -MF CMakeFiles/fsx_core.dir/src/storage/file_store.cpp.o.d -o CMakeFiles/fsx_core.dir/src/storage/file_store.cpp.o -c /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/storage/file_store.cpp
+
+CMakeFiles/fsx_core.dir/src/storage/file_store.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fsx_core.dir/src/storage/file_store.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/storage/file_store.cpp > CMakeFiles/fsx_core.dir/src/storage/file_store.cpp.i
+
+CMakeFiles/fsx_core.dir/src/storage/file_store.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fsx_core.dir/src/storage/file_store.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/storage/file_store.cpp -o CMakeFiles/fsx_core.dir/src/storage/file_store.cpp.s
+
+CMakeFiles/fsx_core.dir/src/transfer/integrity.cpp.o: CMakeFiles/fsx_core.dir/flags.make
+CMakeFiles/fsx_core.dir/src/transfer/integrity.cpp.o: /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp
+CMakeFiles/fsx_core.dir/src/transfer/integrity.cpp.o: CMakeFiles/fsx_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/fsx_core.dir/src/transfer/integrity.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fsx_core.dir/src/transfer/integrity.cpp.o -MF CMakeFiles/fsx_core.dir/src/transfer/integrity.cpp.o.d -o CMakeFiles/fsx_core.dir/src/transfer/integrity.cpp.o -c /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp
+
+CMakeFiles/fsx_core.dir/src/transfer/integrity.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fsx_core.dir/src/transfer/integrity.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp > CMakeFiles/fsx_core.dir/src/transfer/integrity.cpp.i
+
+CMakeFiles/fsx_core.dir/src/transfer/integrity.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fsx_core.dir/src/transfer/integrity.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp -o CMakeFiles/fsx_core.dir/src/transfer/integrity.cpp.s
+
+CMakeFiles/fsx_core.dir/src/storage/resume_store.cpp.o: CMakeFiles/fsx_core.dir/flags.make
+CMakeFiles/fsx_core.dir/src/storage/resume_store.cpp.o: /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/storage/resume_store.cpp
+CMakeFiles/fsx_core.dir/src/storage/resume_store.cpp.o: CMakeFiles/fsx_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/fsx_core.dir/src/storage/resume_store.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fsx_core.dir/src/storage/resume_store.cpp.o -MF CMakeFiles/fsx_core.dir/src/storage/resume_store.cpp.o.d -o CMakeFiles/fsx_core.dir/src/storage/resume_store.cpp.o -c /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/storage/resume_store.cpp
+
+CMakeFiles/fsx_core.dir/src/storage/resume_store.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fsx_core.dir/src/storage/resume_store.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/storage/resume_store.cpp > CMakeFiles/fsx_core.dir/src/storage/resume_store.cpp.i
+
+CMakeFiles/fsx_core.dir/src/storage/resume_store.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fsx_core.dir/src/storage/resume_store.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/storage/resume_store.cpp -o CMakeFiles/fsx_core.dir/src/storage/resume_store.cpp.s
+
+CMakeFiles/fsx_core.dir/src/transfer/zlib_codec.cpp.o: CMakeFiles/fsx_core.dir/flags.make
+CMakeFiles/fsx_core.dir/src/transfer/zlib_codec.cpp.o: /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp
+CMakeFiles/fsx_core.dir/src/transfer/zlib_codec.cpp.o: CMakeFiles/fsx_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/fsx_core.dir/src/transfer/zlib_codec.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fsx_core.dir/src/transfer/zlib_codec.cpp.o -MF CMakeFiles/fsx_core.dir/src/transfer/zlib_codec.cpp.o.d -o CMakeFiles/fsx_core.dir/src/transfer/zlib_codec.cpp.o -c /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp
+
+CMakeFiles/fsx_core.dir/src/transfer/zlib_codec.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fsx_core.dir/src/transfer/zlib_codec.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp > CMakeFiles/fsx_core.dir/src/transfer/zlib_codec.cpp.i
+
+CMakeFiles/fsx_core.dir/src/transfer/zlib_codec.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fsx_core.dir/src/transfer/zlib_codec.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp -o CMakeFiles/fsx_core.dir/src/transfer/zlib_codec.cpp.s
+
+CMakeFiles/fsx_core.dir/src/crypto/aes_gcm.cpp.o: CMakeFiles/fsx_core.dir/flags.make
+CMakeFiles/fsx_core.dir/src/crypto/aes_gcm.cpp.o: /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp
+CMakeFiles/fsx_core.dir/src/crypto/aes_gcm.cpp.o: CMakeFiles/fsx_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/fsx_core.dir/src/crypto/aes_gcm.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fsx_core.dir/src/crypto/aes_gcm.cpp.o -MF CMakeFiles/fsx_core.dir/src/crypto/aes_gcm.cpp.o.d -o CMakeFiles/fsx_core.dir/src/crypto/aes_gcm.cpp.o -c /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp
+
+CMakeFiles/fsx_core.dir/src/crypto/aes_gcm.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fsx_core.dir/src/crypto/aes_gcm.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp > CMakeFiles/fsx_core.dir/src/crypto/aes_gcm.cpp.i
+
+CMakeFiles/fsx_core.dir/src/crypto/aes_gcm.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fsx_core.dir/src/crypto/aes_gcm.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp -o CMakeFiles/fsx_core.dir/src/crypto/aes_gcm.cpp.s
+
+CMakeFiles/fsx_core.dir/src/crypto/rsa.cpp.o: CMakeFiles/fsx_core.dir/flags.make
+CMakeFiles/fsx_core.dir/src/crypto/rsa.cpp.o: /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp
+CMakeFiles/fsx_core.dir/src/crypto/rsa.cpp.o: CMakeFiles/fsx_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/fsx_core.dir/src/crypto/rsa.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fsx_core.dir/src/crypto/rsa.cpp.o -MF CMakeFiles/fsx_core.dir/src/crypto/rsa.cpp.o.d -o CMakeFiles/fsx_core.dir/src/crypto/rsa.cpp.o -c /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp
+
+CMakeFiles/fsx_core.dir/src/crypto/rsa.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fsx_core.dir/src/crypto/rsa.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp > CMakeFiles/fsx_core.dir/src/crypto/rsa.cpp.i
+
+CMakeFiles/fsx_core.dir/src/crypto/rsa.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fsx_core.dir/src/crypto/rsa.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp -o CMakeFiles/fsx_core.dir/src/crypto/rsa.cpp.s
+
+CMakeFiles/fsx_core.dir/src/transfer/throttler.cpp.o: CMakeFiles/fsx_core.dir/flags.make
+CMakeFiles/fsx_core.dir/src/transfer/throttler.cpp.o: /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/throttler.cpp
+CMakeFiles/fsx_core.dir/src/transfer/throttler.cpp.o: CMakeFiles/fsx_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/fsx_core.dir/src/transfer/throttler.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fsx_core.dir/src/transfer/throttler.cpp.o -MF CMakeFiles/fsx_core.dir/src/transfer/throttler.cpp.o.d -o CMakeFiles/fsx_core.dir/src/transfer/throttler.cpp.o -c /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/throttler.cpp
+
+CMakeFiles/fsx_core.dir/src/transfer/throttler.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fsx_core.dir/src/transfer/throttler.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/throttler.cpp > CMakeFiles/fsx_core.dir/src/transfer/throttler.cpp.i
+
+CMakeFiles/fsx_core.dir/src/transfer/throttler.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fsx_core.dir/src/transfer/throttler.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/throttler.cpp -o CMakeFiles/fsx_core.dir/src/transfer/throttler.cpp.s
+
+CMakeFiles/fsx_core.dir/src/voice/opus_codec.cpp.o: CMakeFiles/fsx_core.dir/flags.make
+CMakeFiles/fsx_core.dir/src/voice/opus_codec.cpp.o: /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/voice/opus_codec.cpp
+CMakeFiles/fsx_core.dir/src/voice/opus_codec.cpp.o: CMakeFiles/fsx_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/fsx_core.dir/src/voice/opus_codec.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fsx_core.dir/src/voice/opus_codec.cpp.o -MF CMakeFiles/fsx_core.dir/src/voice/opus_codec.cpp.o.d -o CMakeFiles/fsx_core.dir/src/voice/opus_codec.cpp.o -c /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/voice/opus_codec.cpp
+
+CMakeFiles/fsx_core.dir/src/voice/opus_codec.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fsx_core.dir/src/voice/opus_codec.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/voice/opus_codec.cpp > CMakeFiles/fsx_core.dir/src/voice/opus_codec.cpp.i
+
+CMakeFiles/fsx_core.dir/src/voice/opus_codec.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fsx_core.dir/src/voice/opus_codec.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/voice/opus_codec.cpp -o CMakeFiles/fsx_core.dir/src/voice/opus_codec.cpp.s
+
+CMakeFiles/fsx_core.dir/src/voice/jitter_buffer.cpp.o: CMakeFiles/fsx_core.dir/flags.make
+CMakeFiles/fsx_core.dir/src/voice/jitter_buffer.cpp.o: /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/voice/jitter_buffer.cpp
+CMakeFiles/fsx_core.dir/src/voice/jitter_buffer.cpp.o: CMakeFiles/fsx_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/fsx_core.dir/src/voice/jitter_buffer.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fsx_core.dir/src/voice/jitter_buffer.cpp.o -MF CMakeFiles/fsx_core.dir/src/voice/jitter_buffer.cpp.o.d -o CMakeFiles/fsx_core.dir/src/voice/jitter_buffer.cpp.o -c /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/voice/jitter_buffer.cpp
+
+CMakeFiles/fsx_core.dir/src/voice/jitter_buffer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fsx_core.dir/src/voice/jitter_buffer.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/voice/jitter_buffer.cpp > CMakeFiles/fsx_core.dir/src/voice/jitter_buffer.cpp.i
+
+CMakeFiles/fsx_core.dir/src/voice/jitter_buffer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fsx_core.dir/src/voice/jitter_buffer.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/voice/jitter_buffer.cpp -o CMakeFiles/fsx_core.dir/src/voice/jitter_buffer.cpp.s
+
+CMakeFiles/fsx_core.dir/src/voice/voice_manager.cpp.o: CMakeFiles/fsx_core.dir/flags.make
+CMakeFiles/fsx_core.dir/src/voice/voice_manager.cpp.o: /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/voice/voice_manager.cpp
+CMakeFiles/fsx_core.dir/src/voice/voice_manager.cpp.o: CMakeFiles/fsx_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/fsx_core.dir/src/voice/voice_manager.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fsx_core.dir/src/voice/voice_manager.cpp.o -MF CMakeFiles/fsx_core.dir/src/voice/voice_manager.cpp.o.d -o CMakeFiles/fsx_core.dir/src/voice/voice_manager.cpp.o -c /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/voice/voice_manager.cpp
+
+CMakeFiles/fsx_core.dir/src/voice/voice_manager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fsx_core.dir/src/voice/voice_manager.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/voice/voice_manager.cpp > CMakeFiles/fsx_core.dir/src/voice/voice_manager.cpp.i
+
+CMakeFiles/fsx_core.dir/src/voice/voice_manager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fsx_core.dir/src/voice/voice_manager.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/voice/voice_manager.cpp -o CMakeFiles/fsx_core.dir/src/voice/voice_manager.cpp.s
+
+CMakeFiles/fsx_core.dir/src/net/udp_voice_server.cpp.o: CMakeFiles/fsx_core.dir/flags.make
+CMakeFiles/fsx_core.dir/src/net/udp_voice_server.cpp.o: /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/net/udp_voice_server.cpp
+CMakeFiles/fsx_core.dir/src/net/udp_voice_server.cpp.o: CMakeFiles/fsx_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/fsx_core.dir/src/net/udp_voice_server.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fsx_core.dir/src/net/udp_voice_server.cpp.o -MF CMakeFiles/fsx_core.dir/src/net/udp_voice_server.cpp.o.d -o CMakeFiles/fsx_core.dir/src/net/udp_voice_server.cpp.o -c /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/net/udp_voice_server.cpp
+
+CMakeFiles/fsx_core.dir/src/net/udp_voice_server.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fsx_core.dir/src/net/udp_voice_server.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/net/udp_voice_server.cpp > CMakeFiles/fsx_core.dir/src/net/udp_voice_server.cpp.i
+
+CMakeFiles/fsx_core.dir/src/net/udp_voice_server.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fsx_core.dir/src/net/udp_voice_server.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/net/udp_voice_server.cpp -o CMakeFiles/fsx_core.dir/src/net/udp_voice_server.cpp.s
+
 # Object files for target fsx_core
 fsx_core_OBJECTS = \
 "CMakeFiles/fsx_core.dir/src/main.cpp.o" \
 "CMakeFiles/fsx_core.dir/src/net/tcp_server.cpp.o" \
-"CMakeFiles/fsx_core.dir/src/net/tcp_session.cpp.o"
+"CMakeFiles/fsx_core.dir/src/net/tcp_session.cpp.o" \
+"CMakeFiles/fsx_core.dir/src/net/auth_handler.cpp.o" \
+"CMakeFiles/fsx_core.dir/src/net/session_manager.cpp.o" \
+"CMakeFiles/fsx_core.dir/src/storage/db_client.cpp.o" \
+"CMakeFiles/fsx_core.dir/src/storage/db_config.cpp.o" \
+"CMakeFiles/fsx_core.dir/src/db/db.cpp.o" \
+"CMakeFiles/fsx_core.dir/src/db/user_repository.cpp.o" \
+"CMakeFiles/fsx_core.dir/src/db/session_repository.cpp.o" \
+"CMakeFiles/fsx_core.dir/src/auth/password_hash.cpp.o" \
+"CMakeFiles/fsx_core.dir/src/transfer/transfer_manager.cpp.o" \
+"CMakeFiles/fsx_core.dir/src/storage/file_store.cpp.o" \
+"CMakeFiles/fsx_core.dir/src/transfer/integrity.cpp.o" \
+"CMakeFiles/fsx_core.dir/src/storage/resume_store.cpp.o" \
+"CMakeFiles/fsx_core.dir/src/transfer/zlib_codec.cpp.o" \
+"CMakeFiles/fsx_core.dir/src/crypto/aes_gcm.cpp.o" \
+"CMakeFiles/fsx_core.dir/src/crypto/rsa.cpp.o" \
+"CMakeFiles/fsx_core.dir/src/transfer/throttler.cpp.o" \
+"CMakeFiles/fsx_core.dir/src/voice/opus_codec.cpp.o" \
+"CMakeFiles/fsx_core.dir/src/voice/jitter_buffer.cpp.o" \
+"CMakeFiles/fsx_core.dir/src/voice/voice_manager.cpp.o" \
+"CMakeFiles/fsx_core.dir/src/net/udp_voice_server.cpp.o"
 
 # External object files for target fsx_core
 fsx_core_EXTERNAL_OBJECTS =
@@ -123,9 +423,35 @@ fsx_core_EXTERNAL_OBJECTS =
 fsx_core: CMakeFiles/fsx_core.dir/src/main.cpp.o
 fsx_core: CMakeFiles/fsx_core.dir/src/net/tcp_server.cpp.o
 fsx_core: CMakeFiles/fsx_core.dir/src/net/tcp_session.cpp.o
+fsx_core: CMakeFiles/fsx_core.dir/src/net/auth_handler.cpp.o
+fsx_core: CMakeFiles/fsx_core.dir/src/net/session_manager.cpp.o
+fsx_core: CMakeFiles/fsx_core.dir/src/storage/db_client.cpp.o
+fsx_core: CMakeFiles/fsx_core.dir/src/storage/db_config.cpp.o
+fsx_core: CMakeFiles/fsx_core.dir/src/db/db.cpp.o
+fsx_core: CMakeFiles/fsx_core.dir/src/db/user_repository.cpp.o
+fsx_core: CMakeFiles/fsx_core.dir/src/db/session_repository.cpp.o
+fsx_core: CMakeFiles/fsx_core.dir/src/auth/password_hash.cpp.o
+fsx_core: CMakeFiles/fsx_core.dir/src/transfer/transfer_manager.cpp.o
+fsx_core: CMakeFiles/fsx_core.dir/src/storage/file_store.cpp.o
+fsx_core: CMakeFiles/fsx_core.dir/src/transfer/integrity.cpp.o
+fsx_core: CMakeFiles/fsx_core.dir/src/storage/resume_store.cpp.o
+fsx_core: CMakeFiles/fsx_core.dir/src/transfer/zlib_codec.cpp.o
+fsx_core: CMakeFiles/fsx_core.dir/src/crypto/aes_gcm.cpp.o
+fsx_core: CMakeFiles/fsx_core.dir/src/crypto/rsa.cpp.o
+fsx_core: CMakeFiles/fsx_core.dir/src/transfer/throttler.cpp.o
+fsx_core: CMakeFiles/fsx_core.dir/src/voice/opus_codec.cpp.o
+fsx_core: CMakeFiles/fsx_core.dir/src/voice/jitter_buffer.cpp.o
+fsx_core: CMakeFiles/fsx_core.dir/src/voice/voice_manager.cpp.o
+fsx_core: CMakeFiles/fsx_core.dir/src/net/udp_voice_server.cpp.o
 fsx_core: CMakeFiles/fsx_core.dir/build.make
+fsx_core: /usr/lib/x86_64-linux-gnu/libboost_system.so.1.83.0
+fsx_core: /usr/lib/x86_64-linux-gnu/libboost_thread.so.1.83.0
+fsx_core: /usr/lib/x86_64-linux-gnu/libssl.so
+fsx_core: /usr/lib/x86_64-linux-gnu/libcrypto.so
+fsx_core: /usr/lib/x86_64-linux-gnu/libz.so
+fsx_core: /usr/lib/x86_64-linux-gnu/libboost_atomic.so.1.83.0
 fsx_core: CMakeFiles/fsx_core.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable fsx_core"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Linking CXX executable fsx_core"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/fsx_core.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

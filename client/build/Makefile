@@ -168,6 +168,115 @@ test_file_transfer/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_file_transfer.dir/build.make CMakeFiles/test_file_transfer.dir/build
 .PHONY : test_file_transfer/fast
 
+#=============================================================================
+# Target rules for targets named test_voice
+
+# Build rule for target.
+test_voice: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_voice
+.PHONY : test_voice
+
+# fast build rule for target.
+test_voice/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_voice.dir/build.make CMakeFiles/test_voice.dir/build
+.PHONY : test_voice/fast
+
+mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.o: mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.o
+.PHONY : mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.o
+
+# target to build an object file
+mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_file_transfer.dir/build.make CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.o
+.PHONY : mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.o
+
+mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.i: mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.i
+.PHONY : mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.i
+
+# target to preprocess a source file
+mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_file_transfer.dir/build.make CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.i
+.PHONY : mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.i
+
+mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.s: mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.s
+.PHONY : mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.s
+
+# target to generate assembly for a file
+mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_file_transfer.dir/build.make CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.s
+.PHONY : mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.cpp.s
+
+mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.o: mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.o
+.PHONY : mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.o
+
+# target to build an object file
+mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_file_transfer.dir/build.make CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.o
+.PHONY : mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.o
+
+mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.i: mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.i
+.PHONY : mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.i
+
+# target to preprocess a source file
+mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_file_transfer.dir/build.make CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.i
+.PHONY : mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.i
+
+mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.s: mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.s
+.PHONY : mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.s
+
+# target to generate assembly for a file
+mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_file_transfer.dir/build.make CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.s
+.PHONY : mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.cpp.s
+
+mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.o: mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.o
+.PHONY : mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.o
+
+# target to build an object file
+mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_file_transfer.dir/build.make CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.o
+.PHONY : mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.o
+
+mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.i: mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.i
+.PHONY : mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.i
+
+# target to preprocess a source file
+mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_file_transfer.dir/build.make CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.i
+.PHONY : mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.i
+
+mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.s: mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.s
+.PHONY : mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.s
+
+# target to generate assembly for a file
+mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_file_transfer.dir/build.make CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.s
+.PHONY : mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.cpp.s
+
+mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.o: mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.o
+.PHONY : mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.o
+
+# target to build an object file
+mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_file_transfer.dir/build.make CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.o
+.PHONY : mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.o
+
+mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.i: mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.i
+.PHONY : mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.i
+
+# target to preprocess a source file
+mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_file_transfer.dir/build.make CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.i
+.PHONY : mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.i
+
+mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.s: mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.s
+.PHONY : mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.s
+
+# target to generate assembly for a file
+mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_file_transfer.dir/build.make CMakeFiles/test_file_transfer.dir/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.s
+.PHONY : mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -264,6 +373,30 @@ src/test_persistent.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_persistent.dir/build.make CMakeFiles/test_persistent.dir/src/test_persistent.cpp.s
 .PHONY : src/test_persistent.cpp.s
 
+src/test_voice.o: src/test_voice.cpp.o
+.PHONY : src/test_voice.o
+
+# target to build an object file
+src/test_voice.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_voice.dir/build.make CMakeFiles/test_voice.dir/src/test_voice.cpp.o
+.PHONY : src/test_voice.cpp.o
+
+src/test_voice.i: src/test_voice.cpp.i
+.PHONY : src/test_voice.i
+
+# target to preprocess a source file
+src/test_voice.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_voice.dir/build.make CMakeFiles/test_voice.dir/src/test_voice.cpp.i
+.PHONY : src/test_voice.cpp.i
+
+src/test_voice.s: src/test_voice.cpp.s
+.PHONY : src/test_voice.s
+
+# target to generate assembly for a file
+src/test_voice.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_voice.dir/build.make CMakeFiles/test_voice.dir/src/test_voice.cpp.s
+.PHONY : src/test_voice.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -276,6 +409,19 @@ help:
 	@echo "... test_auth"
 	@echo "... test_file_transfer"
 	@echo "... test_persistent"
+	@echo "... test_voice"
+	@echo "... mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.o"
+	@echo "... mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.i"
+	@echo "... mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/aes_gcm.s"
+	@echo "... mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.o"
+	@echo "... mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.i"
+	@echo "... mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/crypto/rsa.s"
+	@echo "... mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.o"
+	@echo "... mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.i"
+	@echo "... mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/integrity.s"
+	@echo "... mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.o"
+	@echo "... mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.i"
+	@echo "... mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/src/transfer/zlib_codec.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
@@ -288,6 +434,9 @@ help:
 	@echo "... src/test_persistent.o"
 	@echo "... src/test_persistent.i"
 	@echo "... src/test_persistent.s"
+	@echo "... src/test_voice.o"
+	@echo "... src/test_voice.i"
+	@echo "... src/test_voice.s"
 .PHONY : help
 
 

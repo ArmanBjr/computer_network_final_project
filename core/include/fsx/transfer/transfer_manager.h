@@ -7,6 +7,8 @@
 #include <mutex>
 #include <atomic>
 #include <vector>
+#include <chrono>
+#include "fsx/transfer/throttler.h"
 
 namespace fsx::transfer {
 
@@ -36,6 +38,9 @@ struct TransferSession {
   
   // File handle (will be managed by FileStore)
   void* file_handle = nullptr;  // FILE* cast to void* for portability
+
+  // Phase 9: timing for speed measurement
+  std::chrono::steady_clock::time_point start_time{std::chrono::steady_clock::now()};
 };
 
 class TransferManager {
@@ -47,7 +52,6 @@ public:
   uint64_t generate_transfer_id();
 
   // Create a new transfer session (from FILE_OFFER)
-  // Returns transfer_id on success, 0 on failure
   uint64_t create_transfer(
     long long sender_user_id,
     const std::string& sender_username,
@@ -59,25 +63,48 @@ public:
     uint32_t chunk_size
   );
 
-  // Get transfer session (returns nullptr if not found)
   std::shared_ptr<TransferSession> get_transfer(uint64_t transfer_id);
-
-  // Update transfer state
   bool update_state(uint64_t transfer_id, TransferState new_state);
-
-  // Mark chunk as received (increment expected_chunk_index)
   bool mark_chunk_received(uint64_t transfer_id, uint32_t chunk_index, size_t chunk_bytes);
-
-  // Remove transfer (cleanup)
   bool remove_transfer(uint64_t transfer_id);
-
-  // Get all active transfers (for monitoring)
   std::vector<std::shared_ptr<TransferSession>> get_all_transfers();
+
+  // ---- Phase 9: Throttle API ----
+
+  /// Set global rate limit (0 = unlimited).
+  void set_global_throttle(uint64_t bytes_per_second);
+  uint64_t get_global_throttle() const;
+
+  /// Set per-user rate limit (0 = unlimited / remove).
+  void set_user_throttle(long long user_id, uint64_t bytes_per_second);
+  uint64_t get_user_throttle(long long user_id) const;
+
+  /**
+   * Consume `bytes` through the combined global + per-user throttle.
+   * @return delay (ms) the caller must wait before acking.
+   */
+  uint32_t get_throttle_delay(long long user_id, size_t bytes);
+
+  /// Record bytes for per-user speed measurement.
+  void record_transfer_bytes(long long user_id, size_t bytes);
+
+  /// Get measured speed for a user.
+  uint64_t get_user_speed(long long user_id) const;
+
+  /// Get all per-user throttle settings: {user_id, bps}.
+  std::vector<std::pair<long long, uint64_t>> get_all_user_throttles() const;
 
 private:
   std::atomic<uint64_t> next_transfer_id_{1};
   std::unordered_map<uint64_t, std::shared_ptr<TransferSession>> transfers_;
-  std::mutex mutex_;
+  mutable std::mutex mutex_;
+
+  // Phase 9: throttling
+  Throttler global_throttler_;
+  mutable std::mutex throttle_mutex_;
+  std::unordered_map<long long, std::shared_ptr<Throttler>> user_throttlers_;
+
+  std::shared_ptr<Throttler> get_or_create_user_throttler(long long user_id);
 };
 
 } // namespace fsx::transfer

@@ -11,14 +11,22 @@ TcpServer::TcpServer(boost::asio::io_context& io,
                      SessionManager& session_manager,
                      fsx::transfer::TransferManager& transfer_manager,
                      fsx::storage::FileStore& file_store,
-                     fsx::db::UserRepository& user_repository)
+                     fsx::storage::ResumeStore& resume_store,
+                     fsx::db::UserRepository& user_repository,
+                     fsx::crypto::RsaKeyPair& rsa_keypair,
+                     std::shared_ptr<fsx::voice::VoiceManager> voice_manager,
+                     uint16_t udp_voice_port)
   : io_(io),
     acceptor_(io, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)),
     auth_handler_(auth_handler),
     session_manager_(session_manager),
     transfer_manager_(transfer_manager),
     file_store_(file_store),
-    user_repository_(user_repository) {}
+    resume_store_(resume_store),
+    user_repository_(user_repository),
+    rsa_keypair_(rsa_keypair),
+    voice_manager_(std::move(voice_manager)),
+    udp_voice_port_(udp_voice_port) {}
 
 void TcpServer::start() {
   std::cout << "[core] listening on 0.0.0.0:" << acceptor_.local_endpoint().port() << "\n";
@@ -34,7 +42,11 @@ void TcpServer::do_accept() {
                                             session_manager_,
                                             transfer_manager_,
                                             file_store_,
-                                            user_repository_);
+                                            resume_store_,
+                                            user_repository_,
+                                            rsa_keypair_,
+                                            voice_manager_,
+                                            udp_voice_port_);
       s->start();
     } else {
       std::cout << "[core] accept error: " << ec.message() << "\n";

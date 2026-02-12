@@ -1,1 +1,46 @@
-*.md
+# Build artifacts
+build/
+*.o
+*.d
+*.a
+*.so
+*.dylib
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+CTestTestfile.cmake
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.env
+venv/
+.venv/
+
+# Docker volumes (local)
+fsx_pgdata/
+fsx_logs/
+
+# Test artifacts
+/test_phase*.txt
+/file.txt
+*.log
+
+# OS
+Thumbs.db
+desktop.ini
+
+# Binaries (built executables)
+core/build/
+client/build/
