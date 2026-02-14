@@ -171,12 +171,19 @@ function appendMyMessage(m) {
 }
 
 // ===================== SEND FILE =====================
+const MAX_FILE_SIZE = 1000 * 1024 * 1024; // 500 MB
+
 async function handleFileAttach(event) {
   const file = event.target.files[0];
   if (!file || !selectedUser) return;
   event.target.value = "";
 
-  showToast(`Sending "${file.name}"...`, "info");
+  if (file.size > MAX_FILE_SIZE) {
+    showToast(`File too large (${formatSize(file.size)}). Max is ${formatSize(MAX_FILE_SIZE)}.`, "error");
+    return;
+  }
+
+  showToast(`Sending "${file.name}" (${formatSize(file.size)})...`, "info");
 
   const fd = new FormData();
   fd.append("file", file);

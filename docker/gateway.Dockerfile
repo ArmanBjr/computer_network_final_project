@@ -3,8 +3,8 @@ FROM python:3.12-slim
 WORKDIR /app
 COPY gateway /app/gateway
 
-RUN pip install --no-cache-dir -U pip && \
-    pip install --no-cache-dir -e /app/gateway
+RUN pip install --no-cache-dir --timeout=300 --retries=10 setuptools && \
+    pip install --no-cache-dir --timeout=300 --retries=10 -e /app/gateway
 
 ENV PYTHONUNBUFFERED=1
 

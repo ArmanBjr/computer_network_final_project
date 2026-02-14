@@ -20,8 +20,9 @@ logger = logging.getLogger(__name__)
 
 class UserSession:
     """Represents a user's TCP connection to Core"""
-    def __init__(self, username: str, token: str, user_id: int, sock: socket.socket):
+    def __init__(self, username: str, password: str, token: str, user_id: int, sock: socket.socket):
         self.username = username
+        self.password = password  # stored for proxy file transfers
         self.token = token
         self.user_id = user_id
         self.sock = sock
@@ -121,6 +122,7 @@ class UserSessionManager:
                     # Create session
                     session = UserSession(
                         username=result["username"],
+                        password=password,
                         token=result["token"],
                         user_id=result["user_id"],
                         sock=sock
@@ -172,6 +174,15 @@ class UserSessionManager:
         """Check if user has an active session"""
         async with self._lock:
             return username in self.sessions and self.sessions[username].connected
+
+    async def get_credentials(self, username: str) -> Optional[tuple]:
+        """Get (username, password) for a user with an active session.
+        Returns None if no active session exists."""
+        async with self._lock:
+            if username in self.sessions and self.sessions[username].connected:
+                s = self.sessions[username]
+                return (s.username, s.password)
+            return None
 
 
 # Global session manager instance

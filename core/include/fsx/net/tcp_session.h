@@ -108,6 +108,9 @@ private:
   void send_upload_ack_throttled(uint64_t transfer_id, uint32_t chunk_index,
                                  size_t chunk_bytes);
 
+  // File download (for Gateway proxy)
+  void handle_file_download_req(const std::vector<uint8_t>& payload);
+
   // Phase 10: Voice chat signaling
   void handle_voice_call_req(const std::vector<uint8_t>& payload);
   void handle_voice_call_resp(const std::vector<uint8_t>& payload);

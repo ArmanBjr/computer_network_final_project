@@ -57,7 +57,7 @@ CREATE INDEX IF NOT EXISTS idx_transfer_resume_sender ON transfer_resume(sender_
 CREATE INDEX IF NOT EXISTS idx_transfer_resume_receiver ON transfer_resume(receiver_user_id);
 CREATE INDEX IF NOT EXISTS idx_transfer_resume_state ON transfer_resume(state);
 
--- Phase 11: Web file sharing (gateway-based uploads)
+-- Phase 11: Web file sharing (gateway-based uploads, proxied through C++ Core)
 CREATE TABLE IF NOT EXISTS shared_files (
   id BIGSERIAL PRIMARY KEY,
   sender_username TEXT NOT NULL,
@@ -66,6 +66,7 @@ CREATE TABLE IF NOT EXISTS shared_files (
   file_size BIGINT NOT NULL DEFAULT 0,
   storage_path TEXT NOT NULL,
   status TEXT NOT NULL DEFAULT 'pending',  -- pending, accepted, downloaded, expired
+  core_transfer_id BIGINT DEFAULT NULL,   -- links to C++ Core transfer_id
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 

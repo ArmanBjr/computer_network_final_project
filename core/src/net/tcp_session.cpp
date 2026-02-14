@@ -327,6 +327,12 @@ void TcpSession::handle_message(fsx::protocol::MsgType type, const std::vector<u
     return;
   }
   
+  // File download (for Gateway proxy)
+  if (type == fsx::protocol::MsgType::FILE_DOWNLOAD_REQ) {
+    handle_file_download_req(payload);
+    return;
+  }
+
   // Phase 5: Resume query
   if (type == fsx::protocol::MsgType::RESUME_QUERY) {
     handle_resume_query(payload);
@@ -1335,6 +1341,168 @@ void TcpSession::handle_voice_session_list_req(const std::vector<uint8_t>& /* pa
 
   send(fsx::protocol::MsgType::VOICE_SESSION_LIST_RESP, resp);
   log("VOICE_SESSION_LIST_RESP count=" + std::to_string(sessions.size()));
+}
+
+// -------- File download (for Gateway proxy) --------
+
+void TcpSession::handle_file_download_req(const std::vector<uint8_t>& payload) {
+  log("RECV FILE_DOWNLOAD_REQ from=" + get_remote_endpoint());
+
+  if (!is_authenticated()) {
+    log("FILE_DOWNLOAD_REQ rejected: not authenticated");
+    // Send error response: status=0 (fail), file_size=0, filename_len=0, no data
+    std::vector<uint8_t> resp;
+    resp.push_back(0); // status = fail
+    uint64_t zero64 = 0;
+    resp.insert(resp.end(), reinterpret_cast<const uint8_t*>(&zero64),
+                reinterpret_cast<const uint8_t*>(&zero64) + 8);
+    uint16_t zero16 = 0;
+    resp.insert(resp.end(), reinterpret_cast<const uint8_t*>(&zero16),
+                reinterpret_cast<const uint8_t*>(&zero16) + 2);
+    send(fsx::protocol::MsgType::FILE_DOWNLOAD_START, resp);
+    return;
+  }
+
+  try {
+    // Parse: u64 transfer_id
+    if (payload.size() < 8) {
+      log("FILE_DOWNLOAD_REQ: payload too short");
+      return;
+    }
+    uint64_t transfer_id = be64toh(*reinterpret_cast<const uint64_t*>(payload.data()));
+
+    log("FILE_DOWNLOAD_REQ transfer_id=" + std::to_string(transfer_id) + " user=" + username_);
+
+    // Look up the transfer
+    auto session = transfer_manager_.get_transfer(transfer_id);
+    if (!session) {
+      log("FILE_DOWNLOAD_REQ FAIL: transfer not found transfer_id=" + std::to_string(transfer_id));
+      std::vector<uint8_t> resp;
+      resp.push_back(0);
+      uint64_t zero64 = 0;
+      resp.insert(resp.end(), reinterpret_cast<const uint8_t*>(&zero64),
+                  reinterpret_cast<const uint8_t*>(&zero64) + 8);
+      uint16_t zero16 = 0;
+      resp.insert(resp.end(), reinterpret_cast<const uint8_t*>(&zero16),
+                  reinterpret_cast<const uint8_t*>(&zero16) + 2);
+      send(fsx::protocol::MsgType::FILE_DOWNLOAD_START, resp);
+      return;
+    }
+
+    // Validate: user must be sender or receiver
+    if (session->sender_user_id != user_id_ && session->receiver_user_id != user_id_) {
+      log("FILE_DOWNLOAD_REQ FAIL: unauthorized user_id=" + std::to_string(user_id_) +
+          " transfer_id=" + std::to_string(transfer_id));
+      std::vector<uint8_t> resp;
+      resp.push_back(0);
+      uint64_t zero64 = 0;
+      resp.insert(resp.end(), reinterpret_cast<const uint8_t*>(&zero64),
+                  reinterpret_cast<const uint8_t*>(&zero64) + 8);
+      uint16_t zero16 = 0;
+      resp.insert(resp.end(), reinterpret_cast<const uint8_t*>(&zero16),
+                  reinterpret_cast<const uint8_t*>(&zero16) + 2);
+      send(fsx::protocol::MsgType::FILE_DOWNLOAD_START, resp);
+      return;
+    }
+
+    // Check transfer is completed
+    if (session->state != fsx::transfer::TransferState::COMPLETED) {
+      log("FILE_DOWNLOAD_REQ FAIL: transfer not completed state=" +
+          std::to_string(static_cast<int>(session->state)));
+      std::vector<uint8_t> resp;
+      resp.push_back(0);
+      uint64_t zero64 = 0;
+      resp.insert(resp.end(), reinterpret_cast<const uint8_t*>(&zero64),
+                  reinterpret_cast<const uint8_t*>(&zero64) + 8);
+      uint16_t zero16 = 0;
+      resp.insert(resp.end(), reinterpret_cast<const uint8_t*>(&zero16),
+                  reinterpret_cast<const uint8_t*>(&zero16) + 2);
+      send(fsx::protocol::MsgType::FILE_DOWNLOAD_START, resp);
+      return;
+    }
+
+    // Read file from disk
+    std::string file_path = file_store_.get_file_path(transfer_id, session->filename);
+    FILE* f = fopen(file_path.c_str(), "rb");
+    if (!f) {
+      log("FILE_DOWNLOAD_REQ FAIL: cannot open file path=" + file_path);
+      std::vector<uint8_t> resp;
+      resp.push_back(0);
+      uint64_t zero64 = 0;
+      resp.insert(resp.end(), reinterpret_cast<const uint8_t*>(&zero64),
+                  reinterpret_cast<const uint8_t*>(&zero64) + 8);
+      uint16_t zero16 = 0;
+      resp.insert(resp.end(), reinterpret_cast<const uint8_t*>(&zero16),
+                  reinterpret_cast<const uint8_t*>(&zero16) + 2);
+      send(fsx::protocol::MsgType::FILE_DOWNLOAD_START, resp);
+      return;
+    }
+
+    // Get file size
+    fseek(f, 0, SEEK_END);
+    long file_size = ftell(f);
+    fseek(f, 0, SEEK_SET);
+
+    if (file_size < 0) {
+      fclose(f);
+      log("FILE_DOWNLOAD_REQ FAIL: cannot determine file size");
+      std::vector<uint8_t> resp;
+      resp.push_back(0);
+      uint64_t zero64 = 0;
+      resp.insert(resp.end(), reinterpret_cast<const uint8_t*>(&zero64),
+                  reinterpret_cast<const uint8_t*>(&zero64) + 8);
+      uint16_t zero16 = 0;
+      resp.insert(resp.end(), reinterpret_cast<const uint8_t*>(&zero16),
+                  reinterpret_cast<const uint8_t*>(&zero16) + 2);
+      send(fsx::protocol::MsgType::FILE_DOWNLOAD_START, resp);
+      return;
+    }
+
+    // Read file data
+    std::vector<uint8_t> file_data(static_cast<size_t>(file_size));
+    size_t bytes_read = fread(file_data.data(), 1, file_data.size(), f);
+    fclose(f);
+
+    if (bytes_read != static_cast<size_t>(file_size)) {
+      log("FILE_DOWNLOAD_REQ FAIL: incomplete read bytes_read=" + std::to_string(bytes_read) +
+          " expected=" + std::to_string(file_size));
+      std::vector<uint8_t> resp;
+      resp.push_back(0);
+      uint64_t zero64 = 0;
+      resp.insert(resp.end(), reinterpret_cast<const uint8_t*>(&zero64),
+                  reinterpret_cast<const uint8_t*>(&zero64) + 8);
+      uint16_t zero16 = 0;
+      resp.insert(resp.end(), reinterpret_cast<const uint8_t*>(&zero16),
+                  reinterpret_cast<const uint8_t*>(&zero16) + 2);
+      send(fsx::protocol::MsgType::FILE_DOWNLOAD_START, resp);
+      return;
+    }
+
+    // Build FILE_DOWNLOAD_START response:
+    // u8 status (1=ok) + u64 file_size + u16 filename_len + filename + file_data
+    std::vector<uint8_t> resp;
+    resp.push_back(1); // status = ok
+
+    uint64_t fs_be = htobe64(static_cast<uint64_t>(file_size));
+    resp.insert(resp.end(), reinterpret_cast<const uint8_t*>(&fs_be),
+                reinterpret_cast<const uint8_t*>(&fs_be) + 8);
+
+    uint16_t fn_len = htons(static_cast<uint16_t>(session->filename.size()));
+    resp.insert(resp.end(), reinterpret_cast<const uint8_t*>(&fn_len),
+                reinterpret_cast<const uint8_t*>(&fn_len) + 2);
+    resp.insert(resp.end(), session->filename.begin(), session->filename.end());
+
+    // Append file data
+    resp.insert(resp.end(), file_data.begin(), file_data.end());
+
+    send(fsx::protocol::MsgType::FILE_DOWNLOAD_START, resp);
+    log("FILE_DOWNLOAD_START sent transfer_id=" + std::to_string(transfer_id) +
+        " file_size=" + std::to_string(file_size) +
+        " filename=" + session->filename);
+
+  } catch (const std::exception& e) {
+    log("FILE_DOWNLOAD_REQ error: " + std::string(e.what()));
+  }
 }
 
 } // namespace fsx::net

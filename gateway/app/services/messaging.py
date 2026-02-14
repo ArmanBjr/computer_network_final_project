@@ -201,3 +201,59 @@ def get_new_messages_after(user_a: str, user_b: str, after_id: int) -> List[dict
     except Exception as e:
         logger.error(f"MSG_NEW_ERROR: {e}")
         return []
+
+
+def get_message_stats() -> dict:
+    """Get message statistics for admin dashboard."""
+    try:
+        conn = _get_conn()
+        cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        cur.execute("""
+            SELECT
+                COUNT(*) as total,
+                COUNT(CASE WHEN msg_type = 'text' THEN 1 END) as text_count,
+                COUNT(CASE WHEN msg_type = 'voice' THEN 1 END) as voice_count,
+                COUNT(CASE WHEN msg_type = 'file' THEN 1 END) as file_count
+            FROM messages
+        """)
+        row = cur.fetchone()
+        conn.close()
+        return dict(row) if row else {"total": 0, "text_count": 0, "voice_count": 0, "file_count": 0}
+    except Exception as e:
+        logger.error(f"MSG_STATS_ERROR: {e}")
+        return {"total": 0, "text_count": 0, "voice_count": 0, "file_count": 0}
+
+
+def get_recent_messages(limit: int = 50) -> List[dict]:
+    """Get recent messages across all users for admin dashboard."""
+    try:
+        conn = _get_conn()
+        cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        cur.execute(
+            """SELECT m.id, m.sender_username, m.receiver_username, m.msg_type,
+                      m.content, m.file_id, m.created_at AT TIME ZONE 'UTC' as created_at,
+                      sf.filename as file_name, sf.file_size as file_size
+               FROM messages m
+               LEFT JOIN shared_files sf ON m.file_id = sf.id
+               ORDER BY m.created_at DESC
+               LIMIT %s""",
+            (limit,)
+        )
+        rows = cur.fetchall()
+        conn.close()
+
+        return [{
+            "id": r["id"],
+            "sender": r["sender_username"],
+            "receiver": r["receiver_username"],
+            "type": r["msg_type"],
+            "content": r["content"][:100] if r["content"] else "",
+            "file_id": r["file_id"],
+            "file_name": r["file_name"],
+            "file_size": r["file_size"],
+            "created_at": str(r["created_at"]),
+        } for r in rows]
+
+    except Exception as e:
+        logger.error(f"MSG_RECENT_ERROR: {e}")
+        return []

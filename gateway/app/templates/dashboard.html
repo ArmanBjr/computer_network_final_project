@@ -28,13 +28,13 @@
       </div>
     </header>
 
-    <!-- Stat Cards Row -->
+    <!-- Stat Cards Row 1 — Live -->
     <section class="stats-row">
       <div class="stat-card">
         <div class="stat-icon users"><i class='bx bx-group'></i></div>
         <div class="stat-info">
-          <span class="stat-value" id="stat-users">0</span>
-          <span class="stat-label">Online Users</span>
+          <span class="stat-value" id="stat-online">0</span>
+          <span class="stat-label">Online Now</span>
         </div>
       </div>
       <div class="stat-card">
@@ -60,81 +60,267 @@
       </div>
     </section>
 
-    <!-- Grid: 2 columns -->
-    <section class="grid-2">
-      <!-- Online Users -->
-      <div class="panel">
+    <!-- Stat Cards Row 2 — Totals (DB) -->
+    <section class="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon" style="background:rgba(59,130,246,.15);color:var(--blue)"><i class='bx bx-user-plus'></i></div>
+        <div class="stat-info">
+          <span class="stat-value" id="stat-total-users">0</span>
+          <span class="stat-label">Registered Users</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:rgba(245,158,11,.15);color:var(--orange)"><i class='bx bx-message-rounded-detail'></i></div>
+        <div class="stat-info">
+          <span class="stat-value" id="stat-total-msgs">0</span>
+          <span class="stat-label">Total Messages</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:rgba(139,92,246,.15);color:var(--purple)"><i class='bx bx-folder'></i></div>
+        <div class="stat-info">
+          <span class="stat-value" id="stat-total-files">0</span>
+          <span class="stat-label">Files Shared</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:rgba(239,68,68,.15);color:var(--red)"><i class='bx bx-hdd'></i></div>
+        <div class="stat-info">
+          <span class="stat-value" id="stat-storage">0 B</span>
+          <span class="stat-label">Storage Used</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab Navigation -->
+    <div class="tab-bar">
+      <button class="tab active" data-tab="tab-overview" onclick="switchTab(this)"><i class='bx bx-grid-alt'></i> Overview</button>
+      <button class="tab" data-tab="tab-users" onclick="switchTab(this)"><i class='bx bx-group'></i> All Users</button>
+      <button class="tab" data-tab="tab-files" onclick="switchTab(this)"><i class='bx bx-file'></i> File History</button>
+      <button class="tab" data-tab="tab-messages" onclick="switchTab(this)"><i class='bx bx-message-detail'></i> Messages</button>
+      <button class="tab" data-tab="tab-core-transfers" onclick="switchTab(this)"><i class='bx bx-transfer'></i> Transfers</button>
+      <button class="tab" data-tab="tab-settings" onclick="switchTab(this)"><i class='bx bx-cog'></i> Throttle</button>
+    </div>
+
+    <!-- ======================== TAB: Overview ======================== -->
+    <div class="tab-content active" id="tab-overview">
+      <section class="grid-2">
+        <!-- Online Users -->
+        <div class="panel">
+          <div class="panel-header">
+            <h2><i class='bx bx-group'></i> Online Users</h2>
+            <span class="count-badge" id="user-count">0</span>
+          </div>
+          <div class="panel-body scroll-y" id="users-list">
+            <p class="empty">No users online</p>
+          </div>
+        </div>
+
+        <!-- Voice Sessions -->
+        <div class="panel">
+          <div class="panel-header">
+            <h2><i class='bx bx-phone-call'></i> Voice Sessions</h2>
+            <span class="count-badge" id="voice-count">0</span>
+          </div>
+          <div class="panel-body scroll-y" id="voice-list">
+            <p class="empty">No active voice calls</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recent File Shares (quick view) -->
+      <section class="panel">
         <div class="panel-header">
-          <h2><i class='bx bx-group'></i> Online Users</h2>
-          <span class="count-badge" id="user-count">0</span>
+          <h2><i class='bx bx-file'></i> Recent File Shares</h2>
+          <span class="count-badge" id="overview-files-count">0</span>
         </div>
-        <div class="panel-body scroll-y" id="users-list">
-          <p class="empty">No users online</p>
+        <div class="panel-body scroll-y" id="overview-files-list">
+          <p class="empty">No files shared yet</p>
         </div>
-      </div>
+      </section>
 
-      <!-- Voice Sessions -->
-      <div class="panel">
+      <!-- Message Breakdown -->
+      <section class="panel">
         <div class="panel-header">
-          <h2><i class='bx bx-phone-call'></i> Voice Sessions</h2>
-          <span class="count-badge" id="voice-count">0</span>
+          <h2><i class='bx bx-pie-chart-alt-2'></i> Message Breakdown</h2>
         </div>
-        <div class="panel-body scroll-y" id="voice-list">
-          <p class="empty">No active voice calls</p>
+        <div class="panel-body">
+          <div class="msg-breakdown">
+            <div class="breakdown-item">
+              <div class="breakdown-icon" style="background:rgba(78,166,133,.15);color:var(--accent)"><i class='bx bx-message-rounded'></i></div>
+              <div class="breakdown-info">
+                <span class="breakdown-val" id="bd-text">0</span>
+                <span class="breakdown-label">Text</span>
+              </div>
+            </div>
+            <div class="breakdown-item">
+              <div class="breakdown-icon" style="background:rgba(139,92,246,.15);color:var(--purple)"><i class='bx bx-microphone'></i></div>
+              <div class="breakdown-info">
+                <span class="breakdown-val" id="bd-voice">0</span>
+                <span class="breakdown-label">Voice</span>
+              </div>
+            </div>
+            <div class="breakdown-item">
+              <div class="breakdown-icon" style="background:rgba(59,130,246,.15);color:var(--blue)"><i class='bx bx-file'></i></div>
+              <div class="breakdown-info">
+                <span class="breakdown-val" id="bd-file">0</span>
+                <span class="breakdown-label">File</span>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
 
-    <!-- Throttle Control -->
-    <section class="panel">
-      <div class="panel-header">
-        <h2><i class='bx bx-tachometer'></i> Throttle Control</h2>
-      </div>
-      <div class="panel-body throttle-grid">
-        <div class="throttle-field">
-          <label>Scope</label>
-          <select id="throttle-scope">
-            <option value="global">Global (All Users)</option>
-            <option value="user">Specific User</option>
-          </select>
+    <!-- ======================== TAB: All Users ======================== -->
+    <div class="tab-content" id="tab-users">
+      <section class="panel">
+        <div class="panel-header">
+          <h2><i class='bx bx-group'></i> Registered Users</h2>
+          <span class="count-badge" id="all-users-count">0</span>
         </div>
-        <div class="throttle-field" id="uid-field" style="display:none">
-          <label>User ID</label>
-          <input type="number" id="throttle-uid" placeholder="User ID">
+        <div class="panel-body">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th><th>Username</th><th>Email</th><th>Registered</th>
+                <th>Messages Sent</th><th>Files Sent</th><th>Files Received</th>
+              </tr>
+            </thead>
+            <tbody id="all-users-body"></tbody>
+          </table>
+          <p class="empty" id="no-users-msg">No registered users</p>
         </div>
-        <div class="throttle-field wide">
-          <label>Rate Limit: <strong id="throttle-val">Unlimited</strong></label>
-          <input type="range" id="throttle-slider" min="0" max="10240" value="0" step="64">
-        </div>
-        <div class="throttle-actions">
-          <button class="btn btn-primary" id="throttle-btn"><i class='bx bx-check'></i> Apply</button>
-          <button class="btn btn-ghost" id="throttle-clear"><i class='bx bx-x'></i> Clear</button>
-          <span id="throttle-status" class="status-msg"></span>
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
 
-    <!-- Active Transfers -->
-    <section class="panel">
-      <div class="panel-header">
-        <h2><i class='bx bx-transfer'></i> Active Transfers</h2>
-        <span class="count-badge" id="transfer-count">0</span>
-      </div>
-      <div class="panel-body">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>ID</th><th>Sender</th><th>Receiver</th><th>File</th>
-              <th>Progress</th><th>Speed</th><th>State</th>
-            </tr>
-          </thead>
-          <tbody id="transfers-body"></tbody>
-        </table>
-        <p class="empty" id="no-transfers">No active transfers</p>
-      </div>
-    </section>
+    <!-- ======================== TAB: File History ======================== -->
+    <div class="tab-content" id="tab-files">
+      <section class="panel">
+        <div class="panel-header">
+          <h2><i class='bx bx-file'></i> File Sharing History</h2>
+          <span class="count-badge" id="all-files-count">0</span>
+        </div>
+        <div class="panel-body file-stats-bar" id="file-stats-bar">
+          <!-- filled by JS -->
+        </div>
+        <div class="panel-body">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th><th>Sender</th><th>Receiver</th><th>Filename</th>
+                <th>Size</th><th>Status</th><th>Route</th><th>Actions</th><th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="all-files-body"></tbody>
+          </table>
+          <p class="empty" id="no-files-msg">No files shared yet</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- ======================== TAB: Messages ======================== -->
+    <div class="tab-content" id="tab-messages">
+      <section class="panel">
+        <div class="panel-header">
+          <h2><i class='bx bx-message-detail'></i> Recent Messages (All Users)</h2>
+          <span class="count-badge" id="recent-msgs-count">0</span>
+        </div>
+        <div class="panel-body">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th><th>From</th><th>To</th><th>Type</th>
+                <th>Content / File</th><th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="recent-msgs-body"></tbody>
+          </table>
+          <p class="empty" id="no-msgs-msg">No messages yet</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- ======================== TAB: Transfers ======================== -->
+    <div class="tab-content" id="tab-core-transfers">
+      <!-- C++ Core Active Transfers (live via TCP) -->
+      <section class="panel">
+        <div class="panel-header">
+          <h2><i class='bx bx-transfer'></i> Active C++ Transfers (Live)</h2>
+          <span class="count-badge" id="transfer-count">0</span>
+        </div>
+        <div class="panel-body">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th><th>Sender</th><th>Receiver</th><th>File</th>
+                <th>Progress</th><th>Speed</th><th>State</th>
+              </tr>
+            </thead>
+            <tbody id="transfers-body"></tbody>
+          </table>
+          <p class="empty" id="no-transfers">No active C++ transfers</p>
+        </div>
+      </section>
+
+      <!-- C++ Core Transfer History (DB) -->
+      <section class="panel">
+        <div class="panel-header">
+          <h2><i class='bx bx-history'></i> C++ Transfer History (Database)</h2>
+          <span class="count-badge" id="history-transfers-count">0</span>
+        </div>
+        <div class="panel-body">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th><th>Sender</th><th>Receiver</th><th>Filename</th>
+                <th>Size</th><th>Progress</th><th>State</th><th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="history-transfers-body"></tbody>
+          </table>
+          <p class="empty" id="no-history-transfers-msg">No C++ transfer history</p>
+          <p class="empty" style="font-size:0.75rem;color:var(--text-muted);padding-top:0">
+            <i class='bx bx-info-circle'></i>
+            This tracks file transfers between C++ CLI clients using the binary protocol (TCP:9000).
+            Web file shares are shown in the <strong>File History</strong> tab.
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <!-- ======================== TAB: Throttle ======================== -->
+    <div class="tab-content" id="tab-settings">
+      <section class="panel">
+        <div class="panel-header">
+          <h2><i class='bx bx-tachometer'></i> Throttle Control</h2>
+        </div>
+        <div class="panel-body throttle-grid">
+          <div class="throttle-field">
+            <label>Scope</label>
+            <select id="throttle-scope">
+              <option value="global">Global (All Users)</option>
+              <option value="user">Specific User</option>
+            </select>
+          </div>
+          <div class="throttle-field" id="uid-field" style="display:none">
+            <label>User ID</label>
+            <input type="number" id="throttle-uid" placeholder="User ID">
+          </div>
+          <div class="throttle-field wide">
+            <label>Rate Limit: <strong id="throttle-val">Unlimited</strong></label>
+            <input type="range" id="throttle-slider" min="0" max="10240" value="0" step="64">
+          </div>
+          <div class="throttle-actions">
+            <button class="btn btn-primary" id="throttle-btn"><i class='bx bx-check'></i> Apply</button>
+            <button class="btn btn-ghost" id="throttle-clear"><i class='bx bx-x'></i> Clear</button>
+            <span id="throttle-status" class="status-msg"></span>
+          </div>
+        </div>
+      </section>
+    </div>
 
   </main>
 </div>
-<script src="/static/js/dashboard.js"></script>
+<script src="/static/js/dashboard.js?v=5"></script>
 {% endblock %}

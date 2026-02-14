@@ -16,6 +16,7 @@ from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Query
 import json
 import logging
 import asyncio
+import time
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -25,6 +26,29 @@ _voice_clients: dict[str, WebSocket] = {}
 
 # Active calls: username → partner_username
 _active_calls: dict[str, str] = {}
+
+# Call start times: frozenset({userA, userB}) → start_timestamp
+_call_start_times: dict[frozenset, float] = {}
+
+
+def get_active_browser_voice_calls() -> list[dict]:
+    """Return list of active browser voice calls for the admin dashboard."""
+    seen = set()
+    calls = []
+    for user, partner in _active_calls.items():
+        pair = frozenset({user, partner})
+        if pair in seen:
+            continue
+        seen.add(pair)
+        start_ts = _call_start_times.get(pair, time.time())
+        duration = int(time.time() - start_ts)
+        calls.append({
+            "caller": user,
+            "callee": partner,
+            "duration_seconds": duration,
+            "source": "browser",
+        })
+    return calls
 
 
 @router.websocket("/ws/voice")
@@ -81,6 +105,7 @@ async def ws_voice(ws: WebSocket, username: str = Query("")):
                         # Set up the call
                         _active_calls[username] = caller
                         _active_calls[caller] = username
+                        _call_start_times[frozenset({username, caller})] = time.time()
                         # Notify both
                         await _voice_clients[caller].send_text(json.dumps({
                             "type": "call_started",
@@ -105,6 +130,7 @@ async def ws_voice(ws: WebSocket, username: str = Query("")):
                     partner = _active_calls.pop(username, None)
                     if partner:
                         _active_calls.pop(partner, None)
+                        _call_start_times.pop(frozenset({username, partner}), None)
                         if partner in _voice_clients:
                             await _voice_clients[partner].send_text(json.dumps({
                                 "type": "call_ended",
@@ -119,6 +145,7 @@ async def ws_voice(ws: WebSocket, username: str = Query("")):
         partner = _active_calls.pop(username, None)
         if partner:
             _active_calls.pop(partner, None)
+            _call_start_times.pop(frozenset({username, partner}), None)
             if partner in _voice_clients:
                 try:
                     await _voice_clients[partner].send_text(json.dumps({
