@@ -1,8 +1,0 @@
-/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles/fsx_core.dir
-/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles/test_integrity.dir
-/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles/test_zlib_codec.dir
-/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles/test_aes_gcm.dir
-/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles/test_rsa.dir
-/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles/test.dir
-/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles/edit_cache.dir
-/mnt/e/University/University_Subjects/5th/Computer_Networks/Projects/finl_project/filesharex/core/build/CMakeFiles/rebuild_cache.dir

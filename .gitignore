@@ -1,5 +1,7 @@
 # Build artifacts
 build/
+core/build/
+client/build/
 *.o
 *.d
 *.a
@@ -36,6 +38,10 @@ fsx_logs/
 /test_phase*.txt
 /file.txt
 *.log
+*.pcap
+test_phase*.bin
+create_filesharex_structure.ps1
+.gitignore.txt
 
 # OS
 Thumbs.db

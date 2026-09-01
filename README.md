@@ -1,6 +1,8 @@
 # FileShareX
 
-A secure, real-time file sharing and communication platform built with C++ (Boost.Asio), Python (FastAPI), and PostgreSQL. Features encrypted file transfers, voice chat, text messaging, and a modern admin dashboard.
+Final project for the **Computer Networks** course at Ferdowsi University of Mashhad (FUM). A secure, real-time file sharing and communication platform built with C++ (Boost.Asio), Python (FastAPI), and PostgreSQL. Features encrypted file transfers, voice chat, text messaging, and a modern admin dashboard.
+
+> Course report: [`FinalProject_CN_1404_1.pdf`](FinalProject_CN_1404_1.pdf)
 
 ## Architecture
 
@@ -60,8 +62,11 @@ Voice: Browser WebSocket (Gateway) / UDP 9001 (C++ Opus)
 ### 1. Clone and start
 
 ```bash
-git clone <repo-url> filesharex
+git clone https://github.com/ArmanBjr/filesharex.git
 cd filesharex
+
+# Optional: enable password-reset email (see docs/email_setup.md)
+cp docker/.env.example docker/.env
 
 # Build and start all services
 docker compose -f docker/compose.yml up -d --build
@@ -303,3 +308,9 @@ bash scripts/wsl_test_phase10.sh     # Voice chat (UDP + Opus)
 - **Python 3.12** -- FastAPI, Uvicorn, Jinja2, psycopg2
 - **PostgreSQL 16** -- User data, sessions, messages, file metadata
 - **Docker** -- Multi-stage builds, Docker Compose orchestration
+
+## Authors & License
+
+**Arman Bijari** — [ArmanBjr](https://github.com/ArmanBjr)
+
+Released under the [MIT License](LICENSE).
